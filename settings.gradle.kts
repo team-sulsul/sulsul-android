@@ -15,5 +15,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "sulsul-android"
-include(":app")
- 
+include(
+    ":app",
+
+    ":core",
+    ":core:model"
+)
