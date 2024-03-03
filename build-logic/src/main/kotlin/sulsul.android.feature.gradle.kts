@@ -10,6 +10,10 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 configureHiltAndroid()
@@ -18,6 +22,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:domain"))
+    implementation(project(":core:common"))
 
     val libs = project.extensions.libs
     implementation(libs.findLibrary("hilt.navigation.compose").get())
