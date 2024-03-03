@@ -1,4 +1,4 @@
-package com.teamsulsul.sulsul.ui.theme
+package com.sulsul.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

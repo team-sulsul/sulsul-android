@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -14,5 +15,18 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "sulsul-android"
-include(":app")
- 
+include(
+    ":app",
+
+    ":core",
+    ":core:model",
+    ":core:database",
+    ":core:data",
+    ":core:datastore",
+    ":core:domain",
+    ":core:designsystem",
+    ":core:common",
+
+    ":feature",
+    ":feature:main"
+)

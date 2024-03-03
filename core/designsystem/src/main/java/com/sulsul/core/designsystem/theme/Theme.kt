@@ -1,4 +1,4 @@
-package com.teamsulsul.sulsul.ui.theme
+package com.sulsul.core.designsystem.theme
 
 import android.app.Activity
 import android.os.Build
@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun SulsulandroidTheme(
+fun LoginCleanArchitectureTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
