@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment<T: ViewBinding>: Fragment() {
-    private var _binding : T? = null
+abstract class BaseFragment<T : ViewBinding> : Fragment() {
+    private var _binding: T? = null
     val binding get() = _binding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ abstract class BaseFragment<T: ViewBinding>: Fragment() {
         return binding.root
     }
 
-    abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) : T
+    abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
     override fun onDestroyView() {
         super.onDestroyView()
