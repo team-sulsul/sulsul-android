@@ -21,5 +21,6 @@ include(
     ":core",
     ":core:model",
     ":core:database",
-    ":core:data"
+    ":core:data",
+    ":core:datastore"
 )
