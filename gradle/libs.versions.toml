@@ -7,7 +7,7 @@ androidx-app-compat = "1.6.1"
 androidx-lifecycle = "2.7.0"
 
 androidx-compose-bom = "2024.02.00"
-androidx-compose-compiler = "1.4.7"
+androidx-compose-compiler = "1.5.3"
 androidx-compose-navigation = "2.7.7"
 androidx-compose-material3 = "1.2.0"
 androidx-activity = "1.8.2"
@@ -25,7 +25,7 @@ okhttp = "4.11.0"
 retrofit = "2.9.0"
 retrofit-kotlinx-serialization-json = "1.0.0"
 
-kotlin = "1.9.22"
+kotlin = "1.9.10"
 kotlinx-coroutines = "1.7.3"
 kotlinx-serialization-json = "1.5.1"
 kotlinx-datetime = "0.2.1"
@@ -58,6 +58,7 @@ glance-experimental-tools = "0.2.2"
 junit = "1.1.5"
 material = "1.11.0"
 viewbinding = "8.3.0"
+constraintlayout = "2.1.4"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -155,6 +156,7 @@ glance-tools-appwidget-host = { group = "com.google.android.glance.tools", name 
 junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-viewbinding = { group = "androidx.databinding", name = "viewbinding", version.ref = "viewbinding" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [bundles]
 
