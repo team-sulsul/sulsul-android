@@ -23,5 +23,6 @@ include(
     ":core:database",
     ":core:data",
     ":core:datastore",
-    ":core:domain"
+    ":core:domain",
+    ":core:designsystem",
 )
