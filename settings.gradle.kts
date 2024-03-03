@@ -19,5 +19,6 @@ include(
     ":app",
 
     ":core",
-    ":core:model"
+    ":core:model",
+    ":core:database"
 )
