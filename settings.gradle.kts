@@ -25,6 +25,7 @@ include(
     ":core:datastore",
     ":core:domain",
     ":core:designsystem",
+    ":core:common",
 
     ":feature",
     ":feature:main"
