@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_r42"
+    android:minWidth="373dp"
+    android:padding="24dp"
+    tools:context=".view.dialog.TwoButtonDialog">
+
+    <TextView
+        android:id="@+id/tv_dialog2_title"
+        style="@style/Title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/tv_dialog2_subtitle"
+        style="@style/Body3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog2_title"
+        tools:text="Subtitle" />
+
+    <Button
+        android:id="@+id/btn_dialog2_left"
+        style="@style/SulsulGrayButtonStyle"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog2_subtitle"
+        tools:text="아니요" />
+
+    <Button
+        android:id="@+id/btn_dialog2_right"
+        style="@style/SulsulBlueButtonStyle"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog2_subtitle"
+        app:layout_constraintTop_toTopOf="@id/btn_dialog2_left"
+        tools:text="로그아웃 하기" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

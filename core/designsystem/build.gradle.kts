@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "com.sulsul.core.designsystem"
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
