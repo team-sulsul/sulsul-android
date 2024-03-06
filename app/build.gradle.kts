@@ -7,6 +7,7 @@ android {
     namespace = "com.teamsulsul.sulsul"
 
     defaultConfig {
+        targetSdk = 34
         applicationId = "com.teamsulsul.sulsul"
         versionCode = 1
         versionName = "1.0"
@@ -35,6 +36,7 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.core.designsystem)
 
     implementation(libs.timber)
 }
