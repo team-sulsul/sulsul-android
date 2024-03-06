@@ -8,6 +8,9 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.calendar)
+    implementation(projects.feature.report)
+    implementation(projects.feature.setting)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
