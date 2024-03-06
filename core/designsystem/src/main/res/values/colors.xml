@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Blue scale -->
+    <color name="blue_10">#f9faff</color>
+    <color name="blue_20">#f4f5ff</color>
+    <color name="blue_50">#dee1ff</color>
+    <color name="blue_100">#bac3ff</color>
+    <color name="blue_200">#7087ff</color>
+    <color name="blue_300">#284ce5</color>
+    <color name="blue_400">#00218d</color>
+    <color name="blue_500">#001159</color>
+
+    <!-- Gray Scale -->
+    <color name="gray_50">#f6f6f6</color>
+    <color name="gray_100">#edeef1</color>
+    <color name="gray_200">#d8dbdf</color>
+    <color name="gray_300">#b6bac3</color>
+    <color name="gray_400">#8e95a2</color>
+    <color name="gray_500">#292a2b</color>
+
+    <!-- Red Scale -->
+    <color name="red_50">#FF897D</color>
+    <color name="red_100">#FF5449</color>
+
+</resources>

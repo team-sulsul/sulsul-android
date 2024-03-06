@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Sulsul" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.Sulsul" parent="Theme.Material3.DayNight.NoActionBar">
+        <!--Primary Color -->
+        <item name="colorPrimary">@color/blue_300</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Neutral Key Color -->
+        <item name="android:colorBackground">@color/blue_10</item>
+        <!-- Status bar Color -->
+        <item name="android:statusBarColor">?android:colorBackground</item>
+    </style>
 
 </resources>
