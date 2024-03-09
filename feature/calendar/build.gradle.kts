@@ -4,18 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "com.sulsul.feature.main"
+    namespace = "com.sulsul.feature.calendar"
 }
 
 dependencies {
-    implementation(projects.feature.calendar)
-    implementation(projects.feature.report)
-    implementation(projects.feature.setting)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.constraintlayout)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

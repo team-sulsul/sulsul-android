@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_calendar_label">캘린더</string>
+    <string name="main_report_label">통계</string>
+    <string name="main_setting_label">설정</string>
+</resources>

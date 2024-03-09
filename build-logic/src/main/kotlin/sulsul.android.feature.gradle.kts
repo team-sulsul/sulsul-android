@@ -35,5 +35,8 @@ dependencies {
     implementation(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
     implementation(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
 
+    implementation(libs.findLibrary("androidx.navigation.fragment").get())
+    implementation(libs.findLibrary("androidx.navigation.ui").get())
+
     implementation(libs.findLibrary("material").get())
 }

@@ -28,5 +28,8 @@ include(
     ":core:common",
 
     ":feature",
-    ":feature:main"
+    ":feature:main",
+    ":feature:calendar",
+    ":feature:report",
+    ":feature:setting"
 )
