@@ -15,7 +15,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::i
     }
 
     private fun moveToCalendar() {
-        binding.tvLoginMoveCalendar.setOnClickListener{
+        binding.ivLoginKakao.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

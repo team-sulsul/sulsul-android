@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <string name="login_intro_title">건강한 술 생활의 시작</string>
+    <string name="login_intro_description">음주를 기록하고 음주 습관을 발견해요!</string>
+</resources>
