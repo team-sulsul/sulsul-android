@@ -3,52 +3,52 @@
     <!-- Text Style -->
     <style name="Headline1">
         <item name="android:textSize">28sp</item>
-        <item name="android:fontWeight">700</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="Headline2">
         <item name="android:textSize">24sp</item>
-        <item name="android:fontWeight">700</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="Title1">
         <item name="android:textSize">18sp</item>
-        <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
     <style name="Title2">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
     <style name="Title3">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
     <style name="Title4">
         <item name="android:textSize">12sp</item>
-        <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
     <style name="Body1">
         <item name="android:textSize">18sp</item>
-        <item name="android:fontWeight">500</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="Body2">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontWeight">400</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="Body3">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontWeight">400</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="Body4">
         <item name="android:textSize">12sp</item>
-        <item name="android:fontWeight">400</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <!-- Button style -->
