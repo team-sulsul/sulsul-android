@@ -1,12 +1,13 @@
 package com.sulsul.feature.calendar.main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
 
 class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
@@ -40,6 +41,10 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
     private fun initListener() {
         binding.btnCalendarBack.setOnClickListener {
 
+        }
+
+        binding.containerCalendarContent.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_calendarFragment_to_drinkFragment)
         }
     }
 }

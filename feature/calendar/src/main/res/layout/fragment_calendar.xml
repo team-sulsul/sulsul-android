@@ -62,12 +62,12 @@
         tools:listitem="@layout/item_date_with_image" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_calendar_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/bg_white_rt42"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_calendar"
-        app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="175dp">
 
         <TextView
