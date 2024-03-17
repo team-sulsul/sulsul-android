@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_white_r42"
-    android:minWidth="343dp"
+    android:minWidth="320dp"
     android:padding="24dp"
     tools:context=".view.dialog.TwoButtonDialog">
 
@@ -14,7 +14,7 @@
         style="@style/Title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
     <Button
         android:id="@+id/btn_dialog1"
         style="@style/SulsulBlueButtonStyle"
-        android:layout_width="319dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
