@@ -42,7 +42,14 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             Drink.SAKE
         )
 
-        drinkAdapter = DrinkAdapter(drinkList)
+        drinkAdapter = DrinkAdapter(drinkList) {
+            val dialog = DrinkDialog(
+                drink = it,
+                onCancelClicked = {},
+                onSaveClicked = {}
+            )
+            dialog.show(childFragmentManager, "DRINK_DIALOG")
+        }
         binding.rvDrink.apply {
             adapter = drinkAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)

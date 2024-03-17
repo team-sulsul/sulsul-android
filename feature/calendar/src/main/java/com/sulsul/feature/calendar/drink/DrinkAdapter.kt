@@ -5,7 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sulsul.feature.calendar.databinding.ItemDrinkBinding
 
-class DrinkAdapter(private val drinkList: List<Drink>) : RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>() {
+class DrinkAdapter(
+    private val drinkList: List<Drink>,
+    private val onClick: (drink: Drink) -> Unit
+) : RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrinkViewHolder {
         val binding =
@@ -25,12 +28,13 @@ class DrinkAdapter(private val drinkList: List<Drink>) : RecyclerView.Adapter<Dr
         fun bind(drink: Drink) {
             with(binding) {
                 containerDrinkItem.setBackgroundResource(drink.background)
-                ivDrinkItem.setBackgroundResource(drink.image)
+                ivDrinkItem.setBackgroundResource(drink.mainImage)
                 tvDrinkItem.setText(drink.title)
                 tvDrinkItem.setBackgroundResource(drink.buttonColor)
 
                 containerDrinkItem.setOnClickListener {
                     containerDrinkItem.isSelected = !containerDrinkItem.isSelected
+                    onClick(drink)
                 }
             }
         }
