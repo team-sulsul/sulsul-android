@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
 
 class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
@@ -59,6 +60,9 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     private fun initListener() {
         binding.btnDrinkBack.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
+        }
+        binding.tvDrinkNext.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_drinkFragment_to_drunkenStateFragment)
         }
     }
 }
