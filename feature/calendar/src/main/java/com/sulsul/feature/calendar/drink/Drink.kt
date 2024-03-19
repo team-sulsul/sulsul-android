@@ -64,7 +64,7 @@ enum class Drink(
         buttonColor = R.drawable.selector_cocktail_btn,
         mainImage = R.drawable.selector_cocktail_img,
         bottleImage = null,
-        glassImage = R.drawable.img_cocktail_selected
+        glassImage = R.drawable.img_cocktail_glass
     ),
     WHISKY(
         title = "위스키",

@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/iv_calendar_item_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:src="@drawable/ic_drunken_state_empty"
         app:layout_constraintEnd_toEndOf="@id/tv_calendar_item_small_date"
         app:layout_constraintStart_toStartOf="@id/tv_calendar_item_small_date"

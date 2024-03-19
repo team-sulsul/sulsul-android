@@ -58,8 +58,8 @@
 
         <ImageView
             android:id="@+id/iv_dialog_drink_bottle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="96dp"
             android:layout_weight="1"
             android:src="@drawable/img_soju_bottle" />
 
@@ -113,8 +113,8 @@
 
         <ImageView
             android:id="@+id/iv_dialog_drink_glass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="96dp"
             android:layout_weight="1"
             android:src="@drawable/img_soju_glass" />
 

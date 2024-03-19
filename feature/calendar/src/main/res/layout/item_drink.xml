@@ -11,11 +11,12 @@
 
     <ImageView
         android:id="@+id/iv_drink_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_drink_item"
         tools:ignore="ContentDescription"
         tools:src="@drawable/selector_soju_img" />
 
@@ -30,7 +31,7 @@
         android:textColor="@drawable/selector_drink_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_drink_item"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="소주" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

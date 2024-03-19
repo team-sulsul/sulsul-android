@@ -8,7 +8,7 @@ enum class DrunkenState(
 ) {
     DRUNKEN_DEFAULT(
         level = 0,
-        whale = R.drawable.img_drunken_whale_empty
+        whale = com.sulsul.core.designsystem.R.drawable.img_drunken_whale_empty
     ),
     DRUNKEN_LEVEL_1(
         level = 1,
