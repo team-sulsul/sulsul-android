@@ -4,16 +4,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
+import java.time.LocalDate
 
-class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
+class CalendarFragment(
+    private var pageIndex: Int
+) : BaseFragment<FragmentCalendarBinding>() {
 
     private lateinit var calendarAdapter: CalendarAdapter
-    private var curMonth= 2
+
+    // ========= dummy data =========
+    data class DrinkReport(
+        val date: LocalDate,
+        val state: Int,
+        val drink: List<DrinkEntry>,
+    )
+
+    data class DrinkEntry(
+        val drinkType: String,
+        val totalAmount: Int,
+    )
+
+    var dummy = mutableListOf(
+        DrinkReport(date = LocalDate.of(2024, 3, 1), state = 1, drink = listOf(DrinkEntry(drinkType = "소주", totalAmount = 2))),
+        DrinkReport(date = LocalDate.of(2024, 3, 3), state = 2, drink = listOf(DrinkEntry(drinkType = "소주", totalAmount = 2))),
+        DrinkReport(date = LocalDate.of(2024, 3, 5), state = 2, drink = listOf(DrinkEntry(drinkType = "소주", totalAmount = 2))),
+    )
+    //================================
+
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -25,26 +46,17 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initCalendar()
-        binding.tvCalendarMonth.text = "${curMonth}월"
-        binding.tvCalendarYear.text = "2024"
-        initListener()
     }
 
     private fun initCalendar() {
-        calendarAdapter = CalendarAdapter()
+        val dayOfWeeks = resources.getStringArray(R.array.calendar_day_of_weeks).toList()
+        pageIndex -= (Int.MAX_VALUE / 2)
+        calendarAdapter = CalendarAdapter(dayOfWeeks, dummy)
+        calendarAdapter.calendarManager.setSelectedMonth(pageIndex)
+
         binding.rvCalendar.apply {
-            adapter = calendarAdapter
-            layoutManager = GridLayoutManager(requireContext(), 7)
-        }
-    }
-
-    private fun initListener() {
-        binding.btnCalendarBack.setOnClickListener {
-
-        }
-
-        binding.containerCalendarContent.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_calendarFragment_to_drinkFragment)
+            this.adapter = calendarAdapter
+            this.layoutManager = GridLayoutManager(requireContext(), 7)
         }
     }
 }

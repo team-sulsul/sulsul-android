@@ -1,0 +1,17 @@
+<resources>
+    <string name="main_month">%d월</string>
+    <string name="main_record">기록하기</string>
+    <string name="main_edit">수정하기</string>
+    <string name="main_today_label">오늘 마신 술</string>
+    <string name="main_today_label_empty">음주 기록이 없어요! 기록을 추가해볼까요?</string>
+
+    <string-array name="calendar_day_of_weeks">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+</resources>
