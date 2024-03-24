@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_item_drink_rank"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_marginHorizontal="6dp"
+    android:background="@drawable/bg_white_r10"
+    app:layout_constraintStart_toStartOf="@id/tv_calendar_today_label"
+    app:layout_constraintTop_toBottomOf="@id/tv_calendar_today_label">
+
+    <TextView
+        android:id="@+id/tv_calendar_item_drink_rank_label"
+        style="@style/Body4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/gray_400"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1위" />
+
+    <ImageView
+        android:id="@+id/iv_calendar_item_drink_rank"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/img_beer_selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_calendar_item_drink_rank">
+
+        <TextView
+            android:id="@+id/tv_calendar_item_drink_rank_type"
+            style="@style/Title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            tools:text="소주" />
+
+        <TextView
+            android:id="@+id/tv_calendar_item_drink_rank_amount"
+            style="@style/Title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_500"
+            tools:text="1병 1잔" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.calendar.R
@@ -16,6 +17,28 @@ import java.util.Locale
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val viewModel: CalenderViewModel by viewModels()
+
+    // ========= dummy data =========
+    data class DrinksRank(
+        val title: String,
+        val image: Int,
+        val amount: String,
+    )
+
+    var dummy = mutableListOf(
+        DrinksRank(
+            title = "소주",
+            image = R.drawable.img_soju_selected,
+            amount = "1병 2잔"
+        ),
+        DrinksRank(
+            title = "소맥",
+            image = R.drawable.img_sojubeer_selected,
+            amount = "5잔"
+        ),
+    )
+    //================================
+
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -27,6 +50,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initPagerCalendar()
+        initDrinkRank()
         initObserver()
         initListener()
         setSelectedContent()
@@ -38,6 +62,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.pagerCalendar.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         calendarPagerAdapter.apply {
             binding.pagerCalendar.setCurrentItem(this.initialPosition, false)
+        }
+    }
+
+    private fun initDrinkRank() {
+        binding.ivCalendarDrinkRankEmpty.visibility = View.GONE
+        binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label)
+        val rankList = resources.getStringArray(R.array.main_top_rank).toList()
+        val drinkRankAdapter = DrinkRankAdapter(rankList, dummy)
+        binding.rvCalendarDrinkRank.apply {
+            this.adapter = drinkRankAdapter
+            this.layoutManager = GridLayoutManager(context, 3)
         }
     }
 

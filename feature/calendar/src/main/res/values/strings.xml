@@ -4,6 +4,15 @@
     <string name="main_edit">수정하기</string>
     <string name="main_today_label">오늘 마신 술</string>
     <string name="main_today_label_empty">음주 기록이 없어요! 기록을 추가해볼까요?</string>
+    <string name="main_drink_rank_1">1위</string>
+    <string name="main_drink_rank_2">2위</string>
+    <string name="main_drink_rank_3">3위</string>
+
+    <string-array name="main_top_rank">
+        <item>1위</item>
+        <item>2위</item>
+        <item>3위</item>
+    </string-array>
 
     <string-array name="calendar_day_of_weeks">
         <item>월</item>
