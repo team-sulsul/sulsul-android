@@ -28,12 +28,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     var dummy = mutableListOf(
         DrinksRank(
             title = "소주",
-            image = R.drawable.img_soju_selected,
+            image = R.drawable.img_soju_normal,
             amount = "1병 2잔"
         ),
         DrinksRank(
             title = "소맥",
-            image = R.drawable.img_sojubeer_selected,
+            image = R.drawable.img_sojubeer_normal,
             amount = "5잔"
         ),
     )
