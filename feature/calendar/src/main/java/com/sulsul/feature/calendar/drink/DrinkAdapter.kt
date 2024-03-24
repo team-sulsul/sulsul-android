@@ -7,6 +7,7 @@ import com.sulsul.feature.calendar.databinding.ItemDrinkBinding
 
 class DrinkAdapter(
     private val drinkList: List<Drink>,
+    private val drinkInfoList: List<DrinkInfo>,
     private val onClick: (drink: Drink) -> Unit
 ) : RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>() {
 
@@ -28,12 +29,19 @@ class DrinkAdapter(
         fun bind(drink: Drink) {
             with(binding) {
                 containerDrinkItem.setBackgroundResource(drink.background)
+                containerDrinkItem.isSelected = drink.isSelected
                 ivDrinkItem.setBackgroundResource(drink.mainImage)
-                tvDrinkItem.setText(drink.title)
                 tvDrinkItem.setBackgroundResource(drink.buttonColor)
+                tvDrinkItem.text = drink.title
+
+                drinkInfoList.map {
+                    if (it.title == drink.title) {
+                        containerDrinkItem.isSelected = true
+                        tvDrinkItem.text = it.title + " ${it.bottleCnt}병 ${it.glassCnt}잔"
+                    }
+                }
 
                 containerDrinkItem.setOnClickListener {
-                    containerDrinkItem.isSelected = !containerDrinkItem.isSelected
                     onClick(drink)
                 }
             }

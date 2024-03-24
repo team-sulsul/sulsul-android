@@ -4,7 +4,10 @@ import com.sulsul.feature.calendar.R
 
 // TODO: 술계산기
 enum class Drink(
-    val title: String,
+    var title: String,
+    var isSelected: Boolean,
+    var bottleCnt: Int,
+    var glassCnt: Int,
     val mainColor: Int,
     val background: Int,
     val buttonColor: Int,
@@ -14,6 +17,9 @@ enum class Drink(
 ) {
     SOJU(
         title = "소주",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.green_soju,
         background = R.drawable.selector_soju_bg,
         buttonColor = R.drawable.selector_soju_btn,
@@ -23,6 +29,9 @@ enum class Drink(
     ),
     BEER(
         title = "맥주",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.yellow_beer,
         background = R.drawable.selector_beer_bg,
         buttonColor = R.drawable.selector_beer_btn,
@@ -32,15 +41,21 @@ enum class Drink(
     ),
     SOJUBEER(
         title = "소맥",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.yellow_beer,
         background = R.drawable.selector_beer_bg,
         buttonColor = R.drawable.selector_beer_btn,
         mainImage = R.drawable.selector_sojubeer_img,
         bottleImage = null,
-        glassImage = R.drawable.img_sojubeer_selected
+        glassImage = R.drawable.img_sojubeer_glass
     ),
     WINE(
         title = "와인",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.purple_wine,
         background = R.drawable.selector_wine_bg,
         buttonColor = R.drawable.selector_wine_btn,
@@ -50,6 +65,9 @@ enum class Drink(
     ),
     RICE_WINE(
         title = "막걸리",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.beige_rice_wine,
         background = R.drawable.selector_rice_wine_bg,
         buttonColor = R.drawable.selector_rice_wine_btn,
@@ -59,6 +77,9 @@ enum class Drink(
     ),
     COCKTAIL(
         title = "칵테일",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.red_cocktail,
         background = R.drawable.selector_cocktail_bg,
         buttonColor = R.drawable.selector_cocktail_btn,
@@ -68,6 +89,9 @@ enum class Drink(
     ),
     WHISKY(
         title = "위스키",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.brown_whisky,
         background = R.drawable.selector_whisky_bg,
         buttonColor = R.drawable.selector_whisky_btn,
@@ -77,6 +101,9 @@ enum class Drink(
     ),
     VODKA(
         title = "보드카",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.blue_vodka,
         background = R.drawable.selector_vodka_bg,
         buttonColor = R.drawable.selector_vodka_btn,
@@ -86,6 +113,9 @@ enum class Drink(
     ),
     SAKE(
         title = "사케",
+        isSelected = false,
+        bottleCnt = 0,
+        glassCnt = 0,
         mainColor = com.sulsul.core.designsystem.R.color.green_sake,
         background = R.drawable.selector_sake_bg,
         buttonColor = R.drawable.selector_sake_btn,
