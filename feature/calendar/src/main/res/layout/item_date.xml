@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tv_calendar_item_large_date"
-        style="@style/Body1"
+        style="@style/Title1"
         android:layout_width="36dp"
         android:layout_height="48dp"
         android:gravity="center"
