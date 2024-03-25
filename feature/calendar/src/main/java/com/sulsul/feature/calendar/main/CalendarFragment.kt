@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
+import com.sulsul.feature.calendar.main.CalendarAdapter.Companion.DAY_OF_WEEKS
 import java.time.LocalDate
 
 class CalendarFragment(
-    private var pageIndex: Int
+    private var pageIndex: Int,
 ) : BaseFragment<FragmentCalendarBinding>() {
 
     private lateinit var calendarAdapter: CalendarAdapter
@@ -33,11 +34,11 @@ class CalendarFragment(
         DrinkReport(date = LocalDate.of(2024, 3, 3), state = 2, drink = listOf(DrinkEntry(drinkType = "소주", totalAmount = 2))),
         DrinkReport(date = LocalDate.of(2024, 3, 5), state = 2, drink = listOf(DrinkEntry(drinkType = "소주", totalAmount = 2))),
     )
-    //================================
+    // ================================
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ): FragmentCalendarBinding {
         return FragmentCalendarBinding.inflate(inflater, container, false)
     }
@@ -56,7 +57,7 @@ class CalendarFragment(
 
         binding.rvCalendar.apply {
             this.adapter = calendarAdapter
-            this.layoutManager = GridLayoutManager(requireContext(), 7)
+            this.layoutManager = GridLayoutManager(requireContext(), DAY_OF_WEEKS)
         }
     }
 }

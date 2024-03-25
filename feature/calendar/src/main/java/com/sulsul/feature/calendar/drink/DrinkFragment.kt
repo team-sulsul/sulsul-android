@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
+import com.sulsul.feature.calendar.main.DrinkRankAdapter.Companion.TOP_RANK
 
 class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     private lateinit var drinkAdapter: DrinkAdapter
@@ -77,7 +78,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
 
         binding.rvDrink.apply {
             this.adapter = drinkAdapter
-            this.layoutManager = GridLayoutManager(requireContext(), 3)
+            this.layoutManager = GridLayoutManager(requireContext(), TOP_RANK)
         }
     }
 

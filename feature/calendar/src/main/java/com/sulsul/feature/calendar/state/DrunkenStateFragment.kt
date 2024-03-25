@@ -1,13 +1,11 @@
 package com.sulsul.feature.calendar.state
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.sulsul.core.common.base.BaseFragment
-import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrunkenStateBinding
 
 class DrunkenStateFragment : BaseFragment<FragmentDrunkenStateBinding>() {

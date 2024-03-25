@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentMainBinding
+import com.sulsul.feature.calendar.main.DrinkRankAdapter.Companion.TOP_RANK
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -37,7 +38,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             amount = "5잔"
         ),
     )
-    //================================
+    // ================================
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -72,7 +73,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val drinkRankAdapter = DrinkRankAdapter(rankList, dummy)
         binding.rvCalendarDrinkRank.apply {
             this.adapter = drinkRankAdapter
-            this.layoutManager = GridLayoutManager(context, 3)
+            this.layoutManager = GridLayoutManager(context, TOP_RANK)
         }
     }
 

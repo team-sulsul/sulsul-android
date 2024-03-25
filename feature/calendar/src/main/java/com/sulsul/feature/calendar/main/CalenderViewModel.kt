@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.time.LocalDate
 
-class CalenderViewModel: ViewModel() {
+class CalenderViewModel : ViewModel() {
 
     val initDate = LocalDate.now()
 

@@ -12,7 +12,7 @@ import java.time.LocalDate
 
 class CalendarAdapter(
     private val dayOfWeeks: List<String>,
-    private val drinkReportList: List<CalendarFragment.DrinkReport>
+    private val drinkReportList: List<CalendarFragment.DrinkReport>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val curDate = LocalDate.now()
@@ -46,6 +46,7 @@ class CalendarAdapter(
                     VIEW_TYPE_DATE
                 }
             }
+
             else -> VIEW_TYPE_DATE_WITH_IMAGE
         }
     }
@@ -78,20 +79,17 @@ class CalendarAdapter(
     }
 
     override fun getItemCount(): Int {
-        return calendarManager.dateList.size + 7
+        return calendarManager.dateList.size + DAY_OF_WEEKS
     }
-
 
     inner class DayViewHolder(private val binding: ItemDayOfWeeksBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(dayOfWeeks: String) {
             binding.tvCalendarItemDayOfWeeks.text = dayOfWeeks
         }
-
     }
 
     inner class DateWithImageViewHolder(private val binding: ItemDateWithImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(date: Int, drink: List<CalendarFragment.DrinkReport>) {
-
             if (date == 0) {
                 binding.containerCalendarItem.visibility = View.INVISIBLE
             } else {

@@ -17,7 +17,7 @@ class DrinkDialog(
     private val onSaveClicked: (Int, Int) -> Unit
 ) : DialogFragment() {
 
-    private lateinit var binding:DialogDrinkBinding
+    private lateinit var binding: DialogDrinkBinding
     private var bottleCnt = 0
     private var glassCnt = 0
 
@@ -68,22 +68,22 @@ class DrinkDialog(
 
     private fun initListener() {
         binding.ivDialogDrinkBottlePlus.setOnClickListener {
-            bottleCnt ++
+            bottleCnt++
             binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottleCnt)
         }
         binding.ivDialogDrinkBottleMinus.setOnClickListener {
             if (bottleCnt > 0) {
-                bottleCnt --
+                bottleCnt--
                 binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottleCnt)
             }
         }
         binding.ivDialogDrinkGlassPlus.setOnClickListener {
-            glassCnt ++
+            glassCnt++
             binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glassCnt)
         }
         binding.ivDialogDrinkGlassMinus.setOnClickListener {
             if (glassCnt > 0) {
-                glassCnt --
+                glassCnt--
                 binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glassCnt)
             }
         }
