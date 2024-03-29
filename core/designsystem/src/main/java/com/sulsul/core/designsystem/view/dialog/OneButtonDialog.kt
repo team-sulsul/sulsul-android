@@ -26,7 +26,6 @@ class OneButtonDialog(
         binding = DialogOneButtonBinding.inflate(inflater, container, false)
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         init()
 

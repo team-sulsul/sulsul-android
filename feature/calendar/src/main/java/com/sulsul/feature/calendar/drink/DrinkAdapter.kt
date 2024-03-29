@@ -34,7 +34,7 @@ class DrinkAdapter(
                 tvDrinkItem.setBackgroundResource(drink.buttonColor)
                 tvDrinkItem.text = drink.title
 
-                drinkInfoList.map {
+                drinkInfoList.forEach {
                     if (it.title == drink.title) {
                         containerDrinkItem.isSelected = true
                         tvDrinkItem.text = it.title + " ${it.bottleCnt}병 ${it.glassCnt}잔"
