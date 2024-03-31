@@ -2,6 +2,7 @@ package com.sulsul.core.database.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import com.sulsul.core.model.DrinkInfo
 
 @Entity(
@@ -16,6 +17,8 @@ import com.sulsul.core.model.DrinkInfo
     ]
 )
 data class DrinkInfoEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val recordId: Int,
     val drinkType: String,
     val quantity: Int
@@ -27,7 +30,7 @@ fun DrinkInfoEntity.asExternalModel() = DrinkInfo(
     quantity = quantity
 )
 
-fun DrinkInfo.asEntity() = DrinkInfoEntity(
+fun DrinkInfo.asEntity(recordId: Int) = DrinkInfoEntity(
     recordId = recordId,
     drinkType = drinkType,
     quantity = quantity

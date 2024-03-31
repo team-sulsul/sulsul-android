@@ -12,5 +12,5 @@ interface DrinkRecordDao {
     fun getRecordAll(): Flow<List<DrinkRecordEntity>>
 
     @Insert
-    fun insertRecord(record: DrinkRecordEntity)
+    fun insertRecord(record: DrinkRecordEntity): Long
 }
