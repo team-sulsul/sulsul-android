@@ -21,3 +21,10 @@ fun DrinkRecordEntity.asExternalModel() = DrinkRecord(
     drunkennessLevel = drunkennessLevel,
     drinks = drinks
 )
+
+fun DrinkRecord.asEntity() = DrinkRecordEntity(
+    id = id,
+    recordedAt = recordedAt,
+    drunkennessLevel = drunkennessLevel,
+    drinks = drinks
+)

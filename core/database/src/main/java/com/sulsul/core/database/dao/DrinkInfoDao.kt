@@ -4,13 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.sulsul.core.database.model.DrinkInfoEntity
-import com.sulsul.core.model.DrinkInfo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DrinkInfoDao {
     @Query("SELECT * FROM record_drink WHERE recordId = :recordId")
-    fun getDrinkInfoByRecordId(recordId: Int): List<DrinkInfoEntity>
+    fun getDrinkInfoListByRecordId(recordId: Int): Flow<List<DrinkInfoEntity>>
 
     @Insert
-    fun insertDrinkInfo(drinkInfo: DrinkInfo)
+    fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
 }
