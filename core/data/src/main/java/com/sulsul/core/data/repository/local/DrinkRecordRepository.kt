@@ -1,5 +1,6 @@
 package com.sulsul.core.data.repository.local
 
+import android.util.Log
 import com.sulsul.core.database.dao.DrinkInfoDao
 import com.sulsul.core.database.dao.DrinkRecordDao
 import com.sulsul.core.database.model.asExternalModel
@@ -31,14 +32,17 @@ class DrinkRecordRepository @Inject constructor(
             }
         }
 
-    suspend fun addDrinkRecord(record: DrinkRecord) {
-        recordDao.insertRecord(record = record.asEntity())
-        addDrinkInfo(record.drinks)
+    suspend fun addDrinkRecordWithDrinkInfo(record: DrinkRecord) {
+        val recordId = recordDao.insertRecord(record = record.asEntity()) // 외래키 id 생성
+        addDrinkInfo(recordId, record.drinks)
+
     }
 
-    private suspend fun addDrinkInfo(drinkInfoList: List<DrinkInfo>) {
+    private suspend fun addDrinkInfo(recordId: Long, drinkInfoList: List<DrinkInfo>) {
         drinkInfoList.forEach { info ->
-            drinkInfoDao.insertDrinkInfo(drinkInfo = info.asEntity())
+            val drinkInfoEntity = info.asEntity(recordId.toInt()) // 외래키 설정하여 DrinkInfoEntity 반환
+            drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity) // DrinkInfoEntity 삽입
+            Log.d("술 데이터 저장" , "$recordId, $drinkInfoEntity")
         }
     }
 }
