@@ -2,7 +2,7 @@ package com.sulsul.core.database.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
+import com.sulsul.core.database.SulsulDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,11 +15,11 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Singleton
     @Provides
-    fun provideRoomDataBase(
+    fun provideSulsulDataBase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
         context,
-        RoomDatabase::class.java,
+        SulsulDatabase::class.java,
         "sulsul-database"
     ).build()
 }
