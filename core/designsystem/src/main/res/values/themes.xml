@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/blue_300</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Neutral Key Color -->
-        <item name="android:colorBackground">@color/blue_10</item>
+        <item name="android:colorBackground">@color/blue_20</item>
         <!-- Status bar Color -->
         <item name="android:statusBarColor">?android:colorBackground</item>
     </style>

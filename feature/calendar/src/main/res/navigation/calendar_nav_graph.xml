@@ -3,12 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/calendar_nav_graph"
-    app:startDestination="@id/calendarFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/calendarFragment"
-        android:name="com.sulsul.feature.calendar.CalendarFragment"
+        android:id="@+id/mainFragment"
+        android:name="com.sulsul.feature.calendar.main.MainFragment"
         android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_drinkFragment"
+            app:destination="@id/drinkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/drinkFragment"
+        android:name="com.sulsul.feature.calendar.drink.DrinkFragment"
+        android:label="fragment_drink"
+        tools:layout="@layout/fragment_drink" >
+        <action
+            android:id="@+id/action_drinkFragment_to_drunkenStateFragment"
+            app:destination="@id/drunkenStateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/drunkenStateFragment"
+        android:name="com.sulsul.feature.calendar.state.DrunkenStateFragment"
+        android:label="fragment_drunken_state"
+        tools:layout="@layout/fragment_drunken_state" />
 
 </navigation>

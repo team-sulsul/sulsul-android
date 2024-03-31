@@ -3,7 +3,7 @@
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
 
-    <!-- Blue scale -->
+    <!-- Blue Scale -->
     <color name="blue_10">#f9faff</color>
     <color name="blue_20">#f4f5ff</color>
     <color name="blue_50">#dee1ff</color>
@@ -24,5 +24,22 @@
     <!-- Red Scale -->
     <color name="red_50">#FF897D</color>
     <color name="red_100">#FF5449</color>
+
+    <!-- Drunken State -->
+    <color name="drunken_state_1">#91E36B</color>
+    <color name="drunken_state_2">#FFEC44</color>
+    <color name="drunken_state_3">#FFAED0</color>
+    <color name="drunken_state_4">#FF9791</color>
+    <color name="drunken_state_5">#D4A9FF</color>
+
+    <!-- Drink Color -->
+    <color name="green_soju">#37711D</color>
+    <color name="yellow_beer">#FFAE3A</color>
+    <color name="purple_wine">#6520BD</color>
+    <color name="beige_rice_wine">#D8C4AB</color>
+    <color name="red_cocktail">#FF6A4D</color>
+    <color name="brown_whisky">#CA7206</color>
+    <color name="blue_vodka">#A2BAFF</color>
+    <color name="green_sake">#ABB87F</color>
 
 </resources>
