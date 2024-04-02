@@ -1,4 +1,4 @@
-package com.sulsul.feature.calendar.drink
+package com.sulsul.feature.calendar.enums
 
 import com.sulsul.feature.calendar.R
 
