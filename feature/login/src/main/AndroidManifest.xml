@@ -3,15 +3,18 @@
 
     <application>
         <activity
-            android:name=".LoginActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:configChanges="uiMode">
-
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="uiMode"
+            android:exported="false"/>
     </application>
 
 </manifest>
