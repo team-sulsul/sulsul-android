@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.ItemDateBinding
@@ -16,7 +15,7 @@ import java.time.LocalDate
 class CalendarAdapter(
     private val dayOfWeeks: List<String>,
     private val drinkRecordList: List<DrinkRecord>,
-    private val onClicked: (LocalDate, List<DrinkInfo>) -> Unit
+    private val onClicked: (LocalDate, DrinkRecord) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val curDate = LocalDate.now()
@@ -120,9 +119,11 @@ class CalendarAdapter(
             }
 
             binding.ivCalendarItemState.setOnClickListener {
+                val selectedDate = calendarManager.getSelectedDate(date)
+
                 onClicked(
-                    calendarManager.getSelectedDate(date),
-                    record?.drinks ?: emptyList()
+                    selectedDate,
+                    record ?: DrinkRecord(recordedAt = selectedDate)
                 )
             }
         }

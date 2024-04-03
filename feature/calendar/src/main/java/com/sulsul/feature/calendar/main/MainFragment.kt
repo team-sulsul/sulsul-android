@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.sulsul.core.common.base.BaseFragment
@@ -68,7 +68,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
 
         binding.containerCalendarContent.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_drinkFragment)
+            val drinkRecord = viewModel.drinkRecord.value
+            val action = MainFragmentDirections.actionMainFragmentToDrinkFragment(drinkRecord)
+            findNavController().navigate(action)
         }
 
         binding.pagerCalendar.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -95,12 +97,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.drinkInfoList.collect { infoList ->
-                if (infoList.isNotEmpty()) {
+            viewModel.drinkRecord.collect { record ->
+                if (record.drinks.isNotEmpty()) {
                     binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label)
                     binding.ivCalendarDrinkRankEmpty.visibility = View.GONE
                     binding.rvCalendarDrinkRank.visibility = View.VISIBLE
-                    initDrinkRank(infoList)
+                    initDrinkRank(record.drinks)
                 } else  {
                     binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label_empty)
                     binding.ivCalendarDrinkRankEmpty.visibility = View.VISIBLE

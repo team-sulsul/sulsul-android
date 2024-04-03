@@ -1,7 +1,5 @@
 package com.sulsul.feature.calendar.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sulsul.core.data.repository.local.DrinkRecordRepository
@@ -33,8 +31,8 @@ class CalenderViewModel @Inject constructor(
     private val _drinkRecordList = MutableStateFlow<List<DrinkRecord>>(emptyList())
     val drinkRecordList: StateFlow<List<DrinkRecord>> = _drinkRecordList
 
-    private val _drinkInfoList = MutableStateFlow<List<DrinkInfo>>(emptyList())
-    val drinkInfoList: StateFlow<List<DrinkInfo>> = _drinkInfoList
+    private val _drinkRecord = MutableStateFlow<DrinkRecord>(DrinkRecord())
+    val drinkRecord: StateFlow<DrinkRecord> = _drinkRecord
 
     init {
         getDrinkRecords()
@@ -76,17 +74,17 @@ class CalenderViewModel @Inject constructor(
                     )
                 ),
                 DrinkRecord(
-                    id = 1,
+                    id = 2,
                     recordedAt = LocalDate.of(2024, 4, 2),
                     drunkennessLevel = "DRUNKEN_LEVEL_3",
                     drinks = listOf(
                         DrinkInfo(
-                            recordId = 1,
+                            recordId = 2,
                             drinkType = "SAKE",
                             quantity = 22
                         ),
                         DrinkInfo(
-                            recordId = 1,
+                            recordId = 2,
                             drinkType = "SOJUBEER",
                             quantity = 10
                         )
@@ -98,8 +96,8 @@ class CalenderViewModel @Inject constructor(
         }
     }
 
-    fun setDrinkInfoList(drinkInfoList: List<DrinkInfo>) {
-        _drinkInfoList.value = drinkInfoList
+    fun setDrinkInfoList(drinkRecord: DrinkRecord) {
+        _drinkRecord.value = drinkRecord
     }
 
     fun setDate(selectedDate: LocalDate) {
