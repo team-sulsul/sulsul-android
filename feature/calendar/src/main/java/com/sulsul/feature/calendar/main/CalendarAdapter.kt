@@ -4,15 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sulsul.core.model.DrinkInfo
+import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.ItemDateBinding
 import com.sulsul.feature.calendar.databinding.ItemDateWithImageBinding
 import com.sulsul.feature.calendar.databinding.ItemDayOfWeeksBinding
+import com.sulsul.feature.calendar.utils.getDrunkenStateTheme
 import java.time.LocalDate
 
 class CalendarAdapter(
     private val dayOfWeeks: List<String>,
-    private val drinkReportList: List<CalendarFragment.DrinkReport>,
+    private val drinkRecordList: List<DrinkRecord>,
+    private val onClicked: (LocalDate, List<DrinkInfo>) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val curDate = LocalDate.now()
@@ -46,7 +50,6 @@ class CalendarAdapter(
                     VIEW_TYPE_DATE
                 }
             }
-
             else -> VIEW_TYPE_DATE_WITH_IMAGE
         }
     }
@@ -73,7 +76,7 @@ class CalendarAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is DayViewHolder -> holder.bind(dayOfWeeks[position])
-            is DateWithImageViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS], drinkReportList)
+            is DateWithImageViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS], drinkRecordList)
             is DateViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS])
         }
     }
@@ -89,30 +92,38 @@ class CalendarAdapter(
     }
 
     inner class DateWithImageViewHolder(private val binding: ItemDateWithImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(date: Int, drink: List<CalendarFragment.DrinkReport>) {
+        fun bind(date: Int, records: List<DrinkRecord>) {
             if (date == 0) {
                 binding.containerCalendarItem.visibility = View.INVISIBLE
-            } else {
-                // 날짜
-                binding.tvCalendarItemSmallDate.apply {
-                    if (isSameDate(curDate, date)) {
-                        setBackgroundResource(R.drawable.bg_blue300_circle)
-                        setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.white))
-                    }
-                    this.text = date.toString()
-                }
-                // 상태 이미지
-                binding.ivCalendarItemState.apply {
-                    drink.forEach {
-                        if (isSameDate(it.date, date)) {
-                            this.setImageResource(com.sulsul.core.designsystem.R.drawable.ic_drunken_state_1)
-                        }
-                    }
+                return
+            }
 
-                    this.setOnClickListener {
-                        // TODO: 선택한 날짜의 데이터를 MainFragment에 전달
-                    }
+            bindDate(date)
+            bindStateImage(date, records)
+        }
+
+        private fun bindDate(date: Int) {
+            binding.tvCalendarItemSmallDate.apply {
+                if (isToday(date)) {
+                    setBackgroundResource(R.drawable.bg_blue300_circle)
+                    setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.white))
                 }
+                text = date.toString()
+            }
+        }
+
+        private fun bindStateImage(date: Int, records: List<DrinkRecord>) {
+            val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
+            record?.let {
+                val icon = getDrunkenStateTheme(it.drunkennessLevel).icon
+                binding.ivCalendarItemState.setImageResource(icon)
+            }
+
+            binding.ivCalendarItemState.setOnClickListener {
+                onClicked(
+                    calendarManager.getSelectedDate(date),
+                    record?.drinks ?: emptyList()
+                )
             }
         }
     }
@@ -131,5 +142,11 @@ class CalendarAdapter(
         return (date.year == calendarManager.getSelectedYear()) &&
             (date.month == calendarManager.getSelectedMonth()) &&
             (date.dayOfMonth == itemDate)
+    }
+
+    private fun isToday(date: Int): Boolean {
+        return (curYear == calendarManager.getSelectedYear()) &&
+            (curMonth == calendarManager.getSelectedMonth()) &&
+            (curDate.dayOfMonth == date)
     }
 }

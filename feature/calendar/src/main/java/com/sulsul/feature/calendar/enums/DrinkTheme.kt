@@ -8,6 +8,7 @@ enum class DrinkTheme(
     val backgroundColor: Int,
     val buttonColor: Int,
     val mainImage: Int,
+    val selectorImage: Int,
     val bottleImage: Int?,
     val glassImage: Int,
 ) {
@@ -16,7 +17,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.green_soju,
         backgroundColor = R.drawable.selector_soju_bg,
         buttonColor = R.drawable.selector_soju_btn,
-        mainImage = R.drawable.selector_soju_img,
+        mainImage = R.drawable.img_soju_normal,
+        selectorImage = R.drawable.selector_soju_img,
         bottleImage = R.drawable.img_soju_bottle,
         glassImage = R.drawable.img_soju_glass
     ),
@@ -25,7 +27,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.yellow_beer,
         backgroundColor = R.drawable.selector_beer_bg,
         buttonColor = R.drawable.selector_beer_btn,
-        mainImage = R.drawable.selector_beer_img,
+        mainImage = R.drawable.img_beer_normal,
+        selectorImage = R.drawable.selector_beer_img,
         bottleImage = R.drawable.img_beer_bottle,
         glassImage = R.drawable.img_beer_glass
     ),
@@ -34,7 +37,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.yellow_beer,
         backgroundColor = R.drawable.selector_beer_bg,
         buttonColor = R.drawable.selector_beer_btn,
-        mainImage = R.drawable.selector_sojubeer_img,
+        mainImage = R.drawable.img_sojubeer_normal,
+        selectorImage = R.drawable.selector_sojubeer_img,
         bottleImage = null,
         glassImage = R.drawable.img_sojubeer_glass
     ),
@@ -43,7 +47,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.purple_wine,
         backgroundColor = R.drawable.selector_wine_bg,
         buttonColor = R.drawable.selector_wine_btn,
-        mainImage = R.drawable.selector_wine_img,
+        mainImage = R.drawable.img_wine_normal,
+        selectorImage = R.drawable.selector_wine_img,
         bottleImage = R.drawable.img_wine_bottle,
         glassImage = R.drawable.img_wine_glass
     ),
@@ -52,7 +57,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.beige_rice_wine,
         backgroundColor = R.drawable.selector_rice_wine_bg,
         buttonColor = R.drawable.selector_rice_wine_btn,
-        mainImage = R.drawable.selector_rice_wine_img,
+        mainImage = R.drawable.img_rice_wine_normal,
+        selectorImage = R.drawable.selector_rice_wine_img,
         bottleImage = R.drawable.img_rice_wine_bottle,
         glassImage = R.drawable.img_rice_wine_glass
     ),
@@ -61,7 +67,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.red_cocktail,
         backgroundColor = R.drawable.selector_cocktail_bg,
         buttonColor = R.drawable.selector_cocktail_btn,
-        mainImage = R.drawable.selector_cocktail_img,
+        mainImage = R.drawable.img_cocktail_normal,
+        selectorImage = R.drawable.selector_cocktail_img,
         bottleImage = null,
         glassImage = R.drawable.img_cocktail_glass
     ),
@@ -70,7 +77,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.brown_whisky,
         backgroundColor = R.drawable.selector_whisky_bg,
         buttonColor = R.drawable.selector_whisky_btn,
-        mainImage = R.drawable.selector_whisky_img,
+        mainImage = R.drawable.img_whisky_normal,
+        selectorImage = R.drawable.selector_whisky_img,
         bottleImage = R.drawable.img_whisky_bottle,
         glassImage = R.drawable.img_whisky_glass
     ),
@@ -79,7 +87,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.blue_vodka,
         backgroundColor = R.drawable.selector_vodka_bg,
         buttonColor = R.drawable.selector_vodka_btn,
-        mainImage = R.drawable.selector_vodka_img,
+        mainImage = R.drawable.img_vodka_normal,
+        selectorImage = R.drawable.selector_vodka_img,
         bottleImage = R.drawable.img_vodka_bottle,
         glassImage = R.drawable.img_vodka_glass
     ),
@@ -88,7 +97,8 @@ enum class DrinkTheme(
         textColor = com.sulsul.core.designsystem.R.color.green_sake,
         backgroundColor = R.drawable.selector_sake_bg,
         buttonColor = R.drawable.selector_sake_btn,
-        mainImage = R.drawable.selector_sake_img,
+        mainImage = R.drawable.img_sake_normal,
+        selectorImage = R.drawable.selector_sake_img,
         bottleImage = R.drawable.img_sake_bottle,
         glassImage = R.drawable.img_sake_glass
     )
