@@ -1,5 +1,6 @@
 package com.sulsul.feature.calendar.main
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
@@ -12,6 +13,12 @@ class CalendarPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
     }
 
     override fun createFragment(position: Int): Fragment {
-        return CalendarFragment(position)
+        val bundle = Bundle().apply {
+            putInt("pageIndex", position)
+        }
+        val calendarFragment = CalendarFragment()
+        calendarFragment.arguments = bundle
+
+        return calendarFragment
     }
 }

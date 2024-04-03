@@ -17,16 +17,19 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CalendarFragment(
-    private var pageIndex: Int,
 ) : BaseFragment<FragmentCalendarBinding>() {
 
     private lateinit var calendarAdapter: CalendarAdapter
     private val viewModel: CalenderViewModel by activityViewModels()
+    private var pageIndex: Int = 0
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
     ): FragmentCalendarBinding {
+        arguments?.let {
+            pageIndex = it.getInt("pageIndex", 0)
+        }
         return FragmentCalendarBinding.inflate(inflater, container, false)
     }
 
