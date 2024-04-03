@@ -1,8 +1,9 @@
-package com.sulsul.feature.calendar.main
+package com.sulsul.feature.calendar.main.adapter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.sulsul.feature.calendar.main.CalendarFragment
 
 class CalendarPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

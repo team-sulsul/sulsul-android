@@ -1,4 +1,4 @@
-package com.sulsul.feature.calendar.main
+package com.sulsul.feature.calendar.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

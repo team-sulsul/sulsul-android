@@ -11,7 +11,8 @@ import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
-import com.sulsul.feature.calendar.main.CalendarAdapter.Companion.DAY_OF_WEEKS
+import com.sulsul.feature.calendar.main.adapter.CalendarAdapter
+import com.sulsul.feature.calendar.main.adapter.CalendarAdapter.Companion.DAY_OF_WEEKS
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

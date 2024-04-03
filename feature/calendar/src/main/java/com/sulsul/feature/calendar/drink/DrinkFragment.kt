@@ -15,7 +15,8 @@ import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
-import com.sulsul.feature.calendar.main.DrinkRankAdapter.Companion.TOP_RANK
+import com.sulsul.feature.calendar.drink.adapter.DrinkAdapter
+import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter.Companion.TOP_RANK
 import com.sulsul.feature.calendar.utils.calculateQuantity
 import com.sulsul.feature.calendar.utils.formatDateToString
 import com.sulsul.feature.calendar.utils.splitQuantity

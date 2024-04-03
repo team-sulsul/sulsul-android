@@ -1,4 +1,4 @@
-package com.sulsul.feature.calendar.drink
+package com.sulsul.feature.calendar.drink.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
