@@ -13,6 +13,7 @@
     <string name="dialog_drink_save">저장</string>
     <string name="dialog_drink_bottle_cnt">%d병</string>
     <string name="dialog_drink_glass_cnt">%d잔</string>
+    <string name="dialog_drink_info">*술 계산기: %s 1병은 약 %d잔입니다</string>
 
     <string-array name="main_top_rank">
         <item>1위</item>
