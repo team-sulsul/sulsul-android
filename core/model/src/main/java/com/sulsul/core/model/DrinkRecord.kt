@@ -8,6 +8,6 @@ import java.time.LocalDate
 data class DrinkRecord(
     val id: Int = 0,
     val recordedAt: LocalDate = LocalDate.now(),
-    val drunkennessLevel: String = "",
+    val drunkennessLevel: String = "DRUNKEN_DEFAULT",
     val drinks: List<DrinkInfo> = emptyList()
 ) : Parcelable
