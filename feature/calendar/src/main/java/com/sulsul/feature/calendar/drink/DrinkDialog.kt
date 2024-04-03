@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.DialogDrinkBinding
@@ -47,7 +48,7 @@ class DrinkDialog(
 
     private fun setTitle() {
         binding.tvDialogDrinkTitle.text = theme.drinkName
-        binding.tvDialogDrinkTitle.setTextColor(theme.textColor)
+        binding.tvDialogDrinkTitle.setTextColor(ContextCompat.getColor(binding.root.context, theme.textColor))
     }
 
     private fun setDrinkImage() {
