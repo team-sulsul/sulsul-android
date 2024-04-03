@@ -52,7 +52,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val drinkRankAdapter = DrinkRankAdapter(rankList, drinkInfoList)
         binding.rvCalendarDrinkRank.apply {
             this.adapter = drinkRankAdapter
-            this.layoutManager = GridLayoutManager(context, TOP_RANK)
+            this.layoutManager = GridLayoutManager(requireContext(), TOP_RANK)
         }
     }
 
