@@ -70,7 +70,7 @@ class DrinkDialog(
         if (ratio != null) {
             binding.tvDialogDrinkInfo.visibility = View.VISIBLE
             binding.tvDialogDrinkInfo.text = getString(R.string.dialog_drink_info, theme.drinkName, ratio)
-        } else  {
+        } else {
             binding.tvDialogDrinkInfo.visibility = View.GONE
         }
     }

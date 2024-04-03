@@ -35,14 +35,13 @@ class DrinkRecordRepository @Inject constructor(
     suspend fun addDrinkRecordWithDrinkInfo(record: DrinkRecord) {
         val recordId = recordDao.insertRecord(record = record.asEntity()) // 외래키 id 생성
         addDrinkInfo(recordId, record.drinks)
-
     }
 
     private suspend fun addDrinkInfo(recordId: Long, drinkInfoList: List<DrinkInfo>) {
         drinkInfoList.forEach { info ->
             val drinkInfoEntity = info.asEntity(recordId.toInt()) // 외래키 설정하여 DrinkInfoEntity 반환
             drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity) // DrinkInfoEntity 삽입
-            Log.d("술 데이터 저장" , "$recordId, $drinkInfoEntity")
+            Log.d("술 데이터 저장", "$recordId, $drinkInfoEntity")
         }
     }
 }

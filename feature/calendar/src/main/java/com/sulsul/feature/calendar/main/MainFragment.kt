@@ -105,7 +105,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     binding.ivCalendarDrinkRankEmpty.visibility = View.GONE
                     binding.rvCalendarDrinkRank.visibility = View.VISIBLE
                     initDrinkRank(record.drinks)
-                } else  {
+                } else {
                     binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label_empty)
                     binding.ivCalendarDrinkRankEmpty.visibility = View.VISIBLE
                     binding.rvCalendarDrinkRank.visibility = View.GONE

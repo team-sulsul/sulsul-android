@@ -17,8 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CalendarFragment(
-) : BaseFragment<FragmentCalendarBinding>() {
+class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
 
     private lateinit var calendarAdapter: CalendarAdapter
     private val viewModel: CalenderViewModel by activityViewModels()

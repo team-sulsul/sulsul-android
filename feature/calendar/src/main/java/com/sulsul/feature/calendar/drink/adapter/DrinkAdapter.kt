@@ -15,7 +15,6 @@ class DrinkAdapter(
     private val onClicked: (drinkTheme: DrinkTheme, bottles: Int, glasses: Int) -> Unit
 ) : RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrinkViewHolder {
         val binding =
             ItemDrinkBinding.inflate(LayoutInflater.from(parent.context), parent, false)

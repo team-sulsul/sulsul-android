@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
     private val repository: DrinkRecordRepository
-): ViewModel() {
+) : ViewModel() {
 
     val drinkThemeList = listOf(
         DrinkTheme.SOJU,

@@ -1,6 +1,5 @@
 package com.sulsul.core.database.di
 
-import androidx.room.RoomDatabase
 import com.sulsul.core.database.SulsulDatabase
 import com.sulsul.core.database.dao.DrinkInfoDao
 import com.sulsul.core.database.dao.DrinkRecordDao
