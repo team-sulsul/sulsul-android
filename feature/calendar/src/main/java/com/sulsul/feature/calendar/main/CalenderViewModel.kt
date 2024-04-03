@@ -1,6 +1,5 @@
 package com.sulsul.feature.calendar.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,34 +19,31 @@ class CalenderViewModel @Inject constructor(
     private val repository: DrinkRecordRepository,
 ) : ViewModel() {
 
-    private val _initDate = MutableStateFlow<LocalDate>(LocalDate.now())
-    val initDate: StateFlow<LocalDate> = _initDate
+    private val calendarDate = LocalDate.now()
 
+    private val _calendarYear = MutableStateFlow<Int>(calendarDate.year)
+    val calendarYear: StateFlow<Int> = _calendarYear
 
-    private val _selectedYear = MutableLiveData<Int>()
-    val selectedYear: LiveData<Int> = _selectedYear
+    private val _calendarMonth = MutableStateFlow<Int>(calendarDate.monthValue)
+    val calendarMonth: StateFlow<Int> = _calendarMonth
 
-    private val _selectedMonth = MutableLiveData<Int>()
-    val selectedMonth: LiveData<Int> = _selectedMonth
+    private val _selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
+    val selectedDate: StateFlow<LocalDate> = _selectedDate
 
     private val _drinkRecordList = MutableStateFlow<List<DrinkRecord>>(emptyList())
-    val drinkRecordList: StateFlow<List<DrinkRecord>> get() = _drinkRecordList
+    val drinkRecordList: StateFlow<List<DrinkRecord>> = _drinkRecordList
 
     private val _drinkInfoList = MutableStateFlow<List<DrinkInfo>>(emptyList())
-    val drinkInfoList: StateFlow<List<DrinkInfo>> get() = _drinkInfoList
+    val drinkInfoList: StateFlow<List<DrinkInfo>> = _drinkInfoList
 
     init {
-        _selectedMonth.value = _initDate.value.monthValue
-        _selectedYear.value = _initDate.value.year
-        Log.d("###", "캘린더 뷰모델 초기화 $initDate")
-
         getDrinkRecords()
     }
 
-    fun setSelectedMonth(index: Int) {
-        val selectedDate = _initDate.value.plusMonths(index.toLong())
-        _selectedMonth.value = selectedDate.monthValue
-        _selectedYear.value = selectedDate.year
+    fun setCalendarDate(index: Int) {
+        val currentDate = calendarDate.plusMonths(index.toLong())
+        _calendarYear.value = currentDate.year
+        _calendarMonth.value = currentDate.monthValue
     }
 
     fun getDrinkRecords() {
@@ -107,6 +103,6 @@ class CalenderViewModel @Inject constructor(
     }
 
     fun setDate(selectedDate: LocalDate) {
-        _initDate.value = selectedDate
+        _selectedDate.value = selectedDate
     }
 }

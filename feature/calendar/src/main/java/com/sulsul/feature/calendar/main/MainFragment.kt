@@ -76,18 +76,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 
                 val adjustedPosition = position - (Int.MAX_VALUE / 2)
-                viewModel.setSelectedMonth(adjustedPosition)
+                viewModel.setCalendarDate(adjustedPosition)
             }
         })
     }
 
     private fun initObserver() {
-        viewModel.selectedMonth.observe(viewLifecycleOwner) {
-            binding.tvCalendarMonth.text = getString(R.string.main_month, it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.calendarYear.collect { year ->
+                binding.tvCalendarYear.text = year.toString()
+            }
         }
 
-        viewModel.selectedYear.observe(viewLifecycleOwner) {
-            binding.tvCalendarYear.text = it.toString()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.calendarMonth.collect { month ->
+                binding.tvCalendarMonth.text = getString(R.string.main_month, month)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -106,7 +110,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.initDate.collect { date ->
+            viewModel.selectedDate.collect { date ->
                 binding.tvCalendarDateLabel.text = formatDateToString(date)
             }
         }
