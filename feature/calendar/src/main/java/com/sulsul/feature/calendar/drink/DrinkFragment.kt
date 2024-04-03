@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
@@ -87,7 +88,8 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             Navigation.findNavController(it).navigateUp()
         }
         binding.tvDrinkNext.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_drinkFragment_to_drunkenStateFragment)
+            val action = DrinkFragmentDirections.actionDrinkFragmentToDrunkenStateFragment(args.drinkRecord)
+            findNavController().navigate(action)
         }
     }
 
