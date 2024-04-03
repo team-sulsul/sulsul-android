@@ -18,6 +18,7 @@ import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
 import com.sulsul.feature.calendar.main.DrinkRankAdapter.Companion.TOP_RANK
 import com.sulsul.feature.calendar.utils.calculateQuantity
 import com.sulsul.feature.calendar.utils.formatDateToString
+import com.sulsul.feature.calendar.utils.splitQuantity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -38,8 +39,8 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvDrinkTotalLabel.text = "이날 마신 술 0병 0잔"
         setToolbarTitle()
+        setTotalDrinkQuantityForDay()
         initDrink()
         initListener()
     }
@@ -95,5 +96,18 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
 
     private fun setToolbarTitle() {
         binding.tvDrinkDate.text = formatDateToString(args.drinkRecord.recordedAt)
+    }
+
+    private fun setTotalDrinkQuantityForDay() {
+        var bottles = 0
+        var glasses = 0
+
+        args.drinkRecord.drinks.forEach {
+            val (b, g) = splitQuantity(it.drinkType, it.quantity)
+            bottles += b
+            glasses += g
+        }
+
+        binding.tvDrinkTotalLabel.text = getString(R.string.drink_total_quantity, bottles, glasses)
     }
 }
