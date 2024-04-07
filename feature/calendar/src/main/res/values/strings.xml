@@ -1,0 +1,34 @@
+<resources>
+    <string name="main_month">%d월</string>
+    <string name="main_record">기록하기</string>
+    <string name="main_edit">수정하기</string>
+    <string name="main_today_label">오늘 마신 술</string>
+    <string name="main_today_label_empty">음주 기록이 없어요! 기록을 추가해볼까요?</string>
+
+    <string name="drink_delete">삭제</string>
+    <string name="drink_total_quantity">이날 마신 술 %d병 %d잔</string>
+    <string name="drink_how_drunk">얼마나 취했나요?</string>
+
+    <string name="dialog_drink_subtitle">얼마나 마셨나요?</string>
+    <string name="dialog_drink_cancel">취소</string>
+    <string name="dialog_drink_save">저장</string>
+    <string name="dialog_drink_bottle_cnt">%d병</string>
+    <string name="dialog_drink_glass_cnt">%d잔</string>
+    <string name="dialog_drink_info">*술 계산기: %s 1병은 약 %d잔입니다</string>
+
+    <string-array name="main_top_rank">
+        <item>1위</item>
+        <item>2위</item>
+        <item>3위</item>
+    </string-array>
+
+    <string-array name="calendar_day_of_weeks">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+</resources>

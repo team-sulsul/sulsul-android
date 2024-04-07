@@ -6,7 +6,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sulsul.core.common.base.BaseActivity
 import com.sulsul.feature.main.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val navController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                com.sulsul.feature.calendar.R.id.calendarFragment -> {
+                com.sulsul.feature.calendar.R.id.mainFragment -> {
                     binding.bnvMain.isVisible = true
                 }
                 com.sulsul.feature.report.R.id.reportFragment -> {

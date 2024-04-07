@@ -2,6 +2,7 @@
 plugins {
     id("sulsul.android.library")
     id("kotlinx-serialization")
+    id("kotlin-parcelize")
     id("org.jetbrains.kotlin.android")
 }
 

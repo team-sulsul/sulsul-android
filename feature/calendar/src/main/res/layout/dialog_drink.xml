@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_r42"
+    android:minWidth="320dp"
+    tools:context=".drink.DrinkDialog">
+
+    <TextView
+        android:id="@+id/tv_dialog_drink_title"
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="소주" />
+
+    <TextView
+        android:id="@+id/tv_dialog_drink_subtitle"
+        style="@style/Title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/dialog_drink_subtitle"
+        android:textColor="@color/gray_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_drink_title" />
+
+    <TextView
+        android:id="@+id/tv_dialog_drink_info"
+        style="@style/Body4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/gray_400"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_drink_subtitle"
+        tools:text="술 계산기: 소주 1병은 약 7잔입니다" />
+
+    <LinearLayout
+        android:id="@+id/container_dialog_drink_bottle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_drink_info">
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_bottle"
+            android:layout_width="48dp"
+            android:layout_height="96dp"
+            android:layout_weight="1"
+            android:src="@drawable/img_soju_bottle"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_bottle_minus"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_btn_minus"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_dialog_drink_bottle_count"
+            style="@style/Headline1"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/gray_500"
+            tools:text="10병"/>
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_bottle_plus"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_btn_plus" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_dialog_drink"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/gray_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_dialog_drink_bottle" />
+
+    <LinearLayout
+        android:id="@+id/container_dialog_drink_glass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_dialog_drink">
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_glass"
+            android:layout_width="48dp"
+            android:layout_height="96dp"
+            android:layout_weight="1"
+            android:src="@drawable/img_soju_glass" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_glass_minus"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_btn_minus" />
+
+        <TextView
+            android:id="@+id/tv_dialog_drink_glass_count"
+            style="@style/Headline1"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/gray_500"
+            tools:text="10잔"/>
+
+        <ImageView
+            android:id="@+id/iv_dialog_drink_glass_plus"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_btn_plus" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_dialog_drink_glass">
+
+        <TextView
+            android:id="@+id/tv_dialog_drink_cancel"
+            style="@style/Title2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:text="@string/dialog_drink_cancel"
+            android:textColor="@color/gray_400" />
+
+        <TextView
+            android:id="@+id/tv_dialog_drink_save"
+            style="@style/Title2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|end"
+            android:text="@string/dialog_drink_save"
+            android:textColor="@color/blue_300" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
