@@ -4,7 +4,7 @@ enum class DrunkenStateTheme(
     val icon: Int,
     val whale: Int,
 ) {
-    DRUNKEN_DEFAULT(
+    DRUNKEN_LEVEL_DEFAULT(
         icon = com.sulsul.core.designsystem.R.drawable.ic_drunken_state_default,
         whale = com.sulsul.core.designsystem.R.drawable.img_drunken_whale_empty
     ),
