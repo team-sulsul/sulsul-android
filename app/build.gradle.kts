@@ -39,4 +39,5 @@ dependencies {
     implementation(projects.core.designsystem)
 
     implementation(libs.timber)
+    implementation(libs.kakao)
 }

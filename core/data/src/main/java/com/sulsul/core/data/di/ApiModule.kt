@@ -23,7 +23,7 @@ import javax.inject.Singleton
 object ApiModule {
 
     private val TAG = "Retrofit"
-    private const val BASE_URL = "http://ec2-52-78-29-203.ap-northeast-2.compute.amazonaws.com"
+    private const val BASE_URL = "http://ec2-52-78-29-203.ap-northeast-2.compute.amazonaws.com:9090"
 
     @Provides
     @Singleton
