@@ -28,6 +28,7 @@ include(
     ":core:common",
 
     ":feature",
+    ":feature:login",
     ":feature:main",
     ":feature:calendar",
     ":feature:report",

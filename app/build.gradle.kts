@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.main)
+    implementation(projects.feature.login)
     implementation(projects.core.designsystem)
 
     implementation(libs.timber)

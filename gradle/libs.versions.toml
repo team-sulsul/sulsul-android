@@ -20,6 +20,7 @@ hilt-navigation-compose = "1.2.0"
 timber = "5.0.1"
 firebase = "32.7.3"
 glide = "4.14.2"
+splash-screen = "1.0.1"
 
 okhttp = "4.11.0"
 retrofit = "2.9.0"
@@ -136,6 +137,8 @@ google-firebase-analytics = { group = "com.google.firebase", name = "firebase-an
 
 glide ={module="com.github.bumptech.glide:glide",version.ref ="glide"}
 glide-compiler ={module="com.github.bumptech.glide:compiler",version.ref ="glide"}
+
+splash-screen ={module="androidx.core:core-splashscreen",version.ref ="splash-screen"}
 
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
