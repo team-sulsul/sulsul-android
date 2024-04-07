@@ -19,13 +19,12 @@ import com.sulsul.core.model.DrinkInfo
 data class DrinkInfoEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val recordId: Int,
+    val recordId: Int = 0,
     val drinkType: String,
     val quantity: Int
 )
 
 fun DrinkInfoEntity.asExternalModel() = DrinkInfo(
-    recordId = recordId,
     drinkType = drinkType,
     quantity = quantity
 )

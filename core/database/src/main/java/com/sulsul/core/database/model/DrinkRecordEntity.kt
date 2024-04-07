@@ -10,17 +10,17 @@ data class DrinkRecordEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val recordedAt: LocalDate,
-    val drunkennessLevel: String
+    var drunkennessLevel: String
 )
 
 fun DrinkRecordEntity.asExternalModel() = DrinkRecord(
-    id = id,
     recordedAt = recordedAt,
     drunkennessLevel = drunkennessLevel,
     drinks = emptyList()
 )
 
 fun DrinkRecord.asEntity() = DrinkRecordEntity(
+    id = id,
     recordedAt = recordedAt,
     drunkennessLevel = drunkennessLevel,
 )
