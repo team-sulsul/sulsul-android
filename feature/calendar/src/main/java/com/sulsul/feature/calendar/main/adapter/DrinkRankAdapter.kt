@@ -1,14 +1,18 @@
-package com.sulsul.feature.calendar.main
+package com.sulsul.feature.calendar.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.sulsul.core.model.DrinkInfo
 import com.sulsul.feature.calendar.databinding.ItemDrinkRankBinding
 import com.sulsul.feature.calendar.databinding.ItemDrinkRankEmptyBinding
+import com.sulsul.feature.calendar.utils.buildQuantityText
+import com.sulsul.feature.calendar.utils.getDrinkTheme
 
 class DrinkRankAdapter(
     private val rankList: List<String>,
-    private val rankData: List<MainFragment.DrinksRank>
+    private val rankData: List<DrinkInfo>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,11 +55,13 @@ class DrinkRankAdapter(
     }
 
     inner class RankViewHolder(private val binding: ItemDrinkRankBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(rank: String, drink: MainFragment.DrinksRank) {
+        fun bind(rank: String, drink: DrinkInfo) {
+            val theme = getDrinkTheme(drink.drinkType)
             binding.tvCalendarItemDrinkRankLabel.text = rank
-            binding.ivCalendarItemDrinkRank.setImageResource(drink.image)
-            binding.tvCalendarItemDrinkRankType.text = drink.title
-            binding.tvCalendarItemDrinkRankAmount.text = drink.amount
+            binding.ivCalendarItemDrinkRank.setImageResource(theme.mainImage)
+            binding.tvCalendarItemDrinkRankType.text = theme.drinkName
+            binding.tvCalendarItemDrinkRankType.setTextColor(ContextCompat.getColor(binding.root.context, theme.textColor))
+            binding.tvCalendarItemDrinkRankAmount.text = buildQuantityText(theme.name, drink.quantity)
         }
     }
 

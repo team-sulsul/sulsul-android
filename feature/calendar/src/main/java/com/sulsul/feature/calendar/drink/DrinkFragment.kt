@@ -5,17 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.model.DrinkInfo
+import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
-import com.sulsul.feature.calendar.main.DrinkRankAdapter.Companion.TOP_RANK
+import com.sulsul.feature.calendar.drink.adapter.DrinkAdapter
+import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter.Companion.TOP_RANK
+import com.sulsul.feature.calendar.utils.calculateQuantity
+import com.sulsul.feature.calendar.utils.formatDateToString
+import com.sulsul.feature.calendar.utils.splitQuantity
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
+@AndroidEntryPoint
 class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
-    private lateinit var drinkAdapter: DrinkAdapter
 
-    val dummy = listOf(DrinkInfo(title = "소주", bottleCnt = 1, glassCnt = 1))
+    private lateinit var drinkAdapter: DrinkAdapter
+    private val viewModel: DrinkViewModel by viewModels()
+    private val args: DrinkFragmentArgs by navArgs()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -27,48 +40,38 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvDrinkDate.text = "2024년 3월 4일"
-        binding.tvDrinkTotalLabel.text = "이날 마신 술 0병 0잔"
-
+        setToolbarTitle()
+        setTotalDrinkQuantityForDay()
         initDrink()
         initListener()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initDrink() {
-        val drinkList = listOf<Drink>(
-            Drink.SOJU,
-            Drink.BEER,
-            Drink.SOJUBEER,
-            Drink.WINE,
-            Drink.RICE_WINE,
-            Drink.COCKTAIL,
-            Drink.WHISKY,
-            Drink.VODKA,
-            Drink.SAKE
-        )
+        val drinkThemeList = viewModel.drinkThemeList
 
-        drinkAdapter = DrinkAdapter(drinkList, dummy) {
+        drinkAdapter = DrinkAdapter(drinkThemeList, args.drinkRecord.drinks) { theme, bottles, glasses ->
             val dialog = DrinkDialog(
-                drink = it,
+                theme = theme,
+                bottles = bottles,
+                glasses = glasses,
                 onCancelClicked = {},
-                onSaveClicked = { bottle, glass ->
-                    it.bottleCnt = bottle
-                    it.glassCnt = glass
-                    it.title = it.title
-
-                    if (bottle != 0 && glass != 0) {
-                        it.title += " ${bottle}병 ${glass}잔"
-                        it.isSelected = true
-                    } else if (bottle != 0 && glass == 0) {
-                        it.title += " ${bottle}병"
-                        it.isSelected = true
-                    } else if (bottle == 0 && glass != 0) {
-                        it.title += " ${glass}잔"
-                        it.isSelected = true
-                    } else {
-                        it.isSelected = false
+                onSaveClicked = { bottles, glasses ->
+                    if (bottles == 0 && glasses == 0) {
+                        // TODO: 삭제를 의미한다
                     }
+                    val data = DrinkInfo(
+                        drinkType = theme.name,
+                        quantity = calculateQuantity(theme.name, bottles, glasses)
+                    )
+
+                    viewModel.addDrinkRecord(
+                        DrinkRecord(
+                            recordedAt = LocalDate.now(),
+                            drunkennessLevel = "DRUNKEN_DEFAULT",
+                            drinks = listOf(data)
+                        )
+                    )
 
                     drinkAdapter.notifyDataSetChanged()
                 }
@@ -87,7 +90,25 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             Navigation.findNavController(it).navigateUp()
         }
         binding.tvDrinkNext.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_drinkFragment_to_drunkenStateFragment)
+            val action = DrinkFragmentDirections.actionDrinkFragmentToDrunkenStateFragment(args.drinkRecord)
+            findNavController().navigate(action)
         }
+    }
+
+    private fun setToolbarTitle() {
+        binding.tvDrinkDate.text = formatDateToString(args.drinkRecord.recordedAt)
+    }
+
+    private fun setTotalDrinkQuantityForDay() {
+        var bottles = 0
+        var glasses = 0
+
+        args.drinkRecord.drinks.forEach {
+            val (b, g) = splitQuantity(it.drinkType, it.quantity)
+            bottles += b
+            glasses += g
+        }
+
+        binding.tvDrinkTotalLabel.text = getString(R.string.drink_total_quantity, bottles, glasses)
     }
 }

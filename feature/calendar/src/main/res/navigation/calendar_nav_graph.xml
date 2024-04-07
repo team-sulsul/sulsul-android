@@ -22,11 +22,18 @@
         <action
             android:id="@+id/action_drinkFragment_to_drunkenStateFragment"
             app:destination="@id/drunkenStateFragment" />
+        <argument
+            android:name="drinkRecord"
+            app:argType="com.sulsul.core.model.DrinkRecord" />
     </fragment>
     <fragment
         android:id="@+id/drunkenStateFragment"
         android:name="com.sulsul.feature.calendar.state.DrunkenStateFragment"
         android:label="fragment_drunken_state"
-        tools:layout="@layout/fragment_drunken_state" />
+        tools:layout="@layout/fragment_drunken_state" >
+        <argument
+            android:name="drinkRecord"
+            app:argType="com.sulsul.core.model.DrinkRecord" />
+    </fragment>
 
 </navigation>

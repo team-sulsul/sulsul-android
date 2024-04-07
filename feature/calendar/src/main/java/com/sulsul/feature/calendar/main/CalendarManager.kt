@@ -25,6 +25,10 @@ class CalendarManager {
         initMonthData()
     }
 
+    fun getSelectedDate(date: Int): LocalDate {
+        return selectedDate.withDayOfMonth(date)
+    }
+
     fun getSelectedMonth(): Month {
         return selectedDate.month
     }

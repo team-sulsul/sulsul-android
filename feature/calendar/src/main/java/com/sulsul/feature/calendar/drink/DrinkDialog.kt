@@ -6,19 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.DialogDrinkBinding
+import com.sulsul.feature.calendar.enums.DrinkTheme
+import com.sulsul.feature.calendar.enums.DrinkUnitRatio
 
 class DrinkDialog(
-    private val drink: Drink,
+    private val theme: DrinkTheme,
+    private var bottles: Int = 0,
+    private var glasses: Int = 0,
     private val onCancelClicked: () -> Unit,
     private val onSaveClicked: (Int, Int) -> Unit
 ) : DialogFragment() {
 
     private lateinit var binding: DialogDrinkBinding
-    private var bottleCnt = 0
-    private var glassCnt = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,60 +33,90 @@ class DrinkDialog(
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         init()
-        initListener()
 
         return binding.root
     }
 
     private fun init() {
-        with(binding) {
-            tvDialogDrinkTitle.text = drink.title
-            context?.let { tvDialogDrinkTitle.setTextColor(it.getColor(drink.mainColor)) }
-            tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottleCnt)
-            tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glassCnt)
+        setTitle()
+        setDrinkInfo()
+        setDrinkImage()
+        setInitialCount()
+        setupCounterListeners()
+        initClickListeners()
+    }
 
-            if (drink.bottleImage == null) {
-                containerDialogDrinkBottle.visibility = View.GONE
-                dividerDialogDrink.visibility = View.GONE
-            } else {
-                containerDialogDrinkGlass.visibility = View.VISIBLE
-                dividerDialogDrink.visibility = View.VISIBLE
-                ivDialogDrinkBottle.setImageResource(drink.bottleImage)
-            }
+    private fun setTitle() {
+        binding.tvDialogDrinkTitle.text = theme.drinkName
+        binding.tvDialogDrinkTitle.setTextColor(ContextCompat.getColor(binding.root.context, theme.textColor))
+    }
 
-            ivDialogDrinkGlass.setImageResource(drink.glassImage)
+    private fun setDrinkImage() {
+        if (theme.bottleImage == null) {
+            binding.containerDialogDrinkBottle.visibility = View.GONE
+            binding.dividerDialogDrink.visibility = View.GONE
+        } else {
+            binding.containerDialogDrinkGlass.visibility = View.VISIBLE
+            binding.dividerDialogDrink.visibility = View.VISIBLE
+            binding.ivDialogDrinkBottle.setImageResource(theme.bottleImage)
+        }
 
-            tvDialogDrinkSave.setOnClickListener {
-                onSaveClicked(bottleCnt, glassCnt)
-                dismiss()
-            }
-            tvDialogDrinkCancel.setOnClickListener {
-                onCancelClicked()
-                dismiss()
-            }
+        binding.ivDialogDrinkGlass.setImageResource(theme.glassImage)
+    }
+
+    private fun setDrinkInfo() {
+        val ratio = DrinkUnitRatio.valueOf(theme.name).glassPerBottle
+
+        if (ratio != null) {
+            binding.tvDialogDrinkInfo.visibility = View.VISIBLE
+            binding.tvDialogDrinkInfo.text = getString(R.string.dialog_drink_info, theme.drinkName, ratio)
+        } else {
+            binding.tvDialogDrinkInfo.visibility = View.GONE
         }
     }
 
-    private fun initListener() {
+    private fun setInitialCount() {
+        binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottles)
+        binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glasses)
+    }
+
+    private fun initClickListeners() {
+        binding.tvDialogDrinkSave.setOnClickListener {
+            onSaveClicked(bottles, glasses)
+            dismiss()
+        }
+        binding.tvDialogDrinkCancel.setOnClickListener {
+            onCancelClicked()
+            dismiss()
+        }
+    }
+
+    private fun setupCounterListeners() {
         binding.ivDialogDrinkBottlePlus.setOnClickListener {
-            bottleCnt++
-            binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottleCnt)
+            changeBottleCount(1)
         }
         binding.ivDialogDrinkBottleMinus.setOnClickListener {
-            if (bottleCnt > 0) {
-                bottleCnt--
-                binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottleCnt)
-            }
+            changeBottleCount(-1)
         }
         binding.ivDialogDrinkGlassPlus.setOnClickListener {
-            glassCnt++
-            binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glassCnt)
+            changeGlassCount(1)
         }
         binding.ivDialogDrinkGlassMinus.setOnClickListener {
-            if (glassCnt > 0) {
-                glassCnt--
-                binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glassCnt)
-            }
+            changeGlassCount(-1)
+        }
+    }
+
+    private fun changeBottleCount(change: Int) {
+        if (bottles + change >= 0) {
+            bottles += change
+            binding.tvDialogDrinkBottleCount.text = getString(R.string.dialog_drink_bottle_cnt, bottles)
+        }
+    }
+
+    private fun changeGlassCount(change: Int) {
+        if (glasses + change >= 0) {
+            glasses += change
+            binding.tvDialogDrinkGlassCount.text = getString(R.string.dialog_drink_glass_cnt, glasses)
         }
     }
 }
