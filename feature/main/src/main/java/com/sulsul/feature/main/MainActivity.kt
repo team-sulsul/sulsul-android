@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
         val navController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when(destination.id) {
+            when (destination.id) {
                 com.sulsul.feature.calendar.R.id.calendarFragment -> {
                     binding.bnvMain.isVisible = true
                 }
@@ -32,7 +32,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
 
             binding.bnvMain.setupWithNavController(navController)
-
         }
     }
 }

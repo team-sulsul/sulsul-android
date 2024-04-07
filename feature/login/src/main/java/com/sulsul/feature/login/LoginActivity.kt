@@ -6,7 +6,7 @@ import com.sulsul.core.common.base.BaseActivity
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
 import com.sulsul.feature.main.MainActivity
 
-class LoginActivity: BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::inflate) {
+class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +15,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::i
     }
 
     private fun moveToCalendar() {
-        binding.ivLoginKakao.setOnClickListener{
+        binding.ivLoginKakao.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
