@@ -12,5 +12,5 @@ interface DrinkInfoDao {
     fun getDrinkInfoListByRecordId(recordId: Int): Flow<List<DrinkInfoEntity>>
 
     @Insert
-    fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
+    suspend fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
 }
