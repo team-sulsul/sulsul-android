@@ -65,13 +65,15 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                         quantity = calculateQuantity(theme.name, bottles, glasses)
                     )
 
-                    viewModel.addDrinkRecord(
-                        DrinkRecord(
-                            recordedAt = LocalDate.now(),
-                            drunkennessLevel = "DRUNKEN_DEFAULT",
-                            drinks = listOf(data)
-                        )
-                    )
+//                    viewModel.addDrinkRecord(
+//                        DrinkRecord(
+//                            recordedAt = LocalDate.now(),
+//                            drunkennessLevel = "DRUNKEN_DEFAULT",
+//                            drinks = listOf(data)
+//                        )
+//                    )
+
+                    viewModel.drinks.add(data)
 
                     drinkAdapter.notifyDataSetChanged()
                 }
@@ -90,6 +92,15 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             Navigation.findNavController(it).navigateUp()
         }
         binding.tvDrinkNext.setOnClickListener {
+
+            // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
+            viewModel.insertDrinkRecord(
+                DrinkRecord(
+                    recordedAt = args.drinkRecord.recordedAt,
+                    drinks = viewModel.drinks
+                )
+            )
+
             val action = DrinkFragmentDirections.actionDrinkFragmentToDrunkenStateFragment(args.drinkRecord)
             findNavController().navigate(action)
         }
