@@ -8,5 +8,5 @@ data class LoginResponse(
     @SerialName("accessToken") val accessToken: String,
     @SerialName("refreshToken") val refreshToken: String,
     @SerialName("grantType") val grantType: String,
-    @SerialName("expiresIn") val expiresIn: Int
+    @SerialName("expiresIn") val expiresIn: Long
 )
