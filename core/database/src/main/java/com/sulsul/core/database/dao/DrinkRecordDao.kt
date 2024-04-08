@@ -1,6 +1,7 @@
 package com.sulsul.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -18,6 +19,9 @@ interface DrinkRecordDao {
 
     @Update
     suspend fun updateRecord(record: DrinkRecordEntity)
+
+    @Delete
+    suspend fun deleteRecord(record: DrinkRecordEntity)
 
     @Query("SELECT * FROM record WHERE recordedAt = :date")
     suspend fun getRecordByDate(date: LocalDate): DrinkRecordEntity

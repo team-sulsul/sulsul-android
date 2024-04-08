@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.designsystem.view.dialog.TwoButtonDialog
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
@@ -103,6 +104,22 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
 
             val action = DrinkFragmentDirections.actionDrinkFragmentToDrunkenStateFragment(args.drinkRecord)
             findNavController().navigate(action)
+        }
+
+        binding.tvDrinkDelete.setOnClickListener {
+            val dialog = TwoButtonDialog(
+                title = "삭제",
+                subtitle = "모든 기록을 삭제하시겠습니까?",
+                leftButton = "취소",
+                rightButton = "삭제",
+                onLeftButtonClicked = {},
+                onRightButtonClicked = {
+                    viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
+                    Navigation.findNavController(it).navigateUp() // navUp과 pop의 차이가 뭐지?
+                }
+            )
+            dialog.show(childFragmentManager, "DELETE_DIALOG")
+
         }
     }
 
