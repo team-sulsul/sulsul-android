@@ -13,9 +13,9 @@ import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentMainBinding
-import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter.Companion.TOP_RANK
 import com.sulsul.feature.calendar.main.adapter.CalendarPagerAdapter
 import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter
+import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter.Companion.TOP_RANK
 import com.sulsul.feature.calendar.utils.formatDateToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,7 +35,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initPagerCalendar()
         initObserver()
         initListener()
     }
@@ -116,6 +115,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.selectedDate.collect { date ->
                 binding.tvCalendarDateLabel.text = formatDateToString(date)
+            }
+        }
+
+        viewModel.isLoaded.observe(viewLifecycleOwner) {
+            if (it) {
+                initPagerCalendar()
             }
         }
     }

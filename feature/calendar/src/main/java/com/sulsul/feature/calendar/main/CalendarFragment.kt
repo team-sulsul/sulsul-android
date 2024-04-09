@@ -21,14 +21,13 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
 
     private lateinit var calendarAdapter: CalendarAdapter
     private val viewModel: CalenderViewModel by activityViewModels()
-    private var pageIndex: Int = 0
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
     ): FragmentCalendarBinding {
         arguments?.let {
-            pageIndex = it.getInt("pageIndex", 0)
+            viewModel.pageIndex = it.getInt("pageIndex", 0)
         }
         return FragmentCalendarBinding.inflate(inflater, container, false)
     }
@@ -49,12 +48,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
 
     private fun initCalendar(data: List<DrinkRecord>) {
         val dayOfWeeks = resources.getStringArray(R.array.calendar_day_of_weeks).toList()
-        pageIndex -= (Int.MAX_VALUE / 2)
-        calendarAdapter = CalendarAdapter(dayOfWeeks, data) { date, infoList ->
+        viewModel.pageIndex -= (Int.MAX_VALUE / 2)
+        calendarAdapter = CalendarAdapter(dayOfWeeks, data) { date, record ->
             viewModel.setDate(date)
-            viewModel.setDrinkInfoList(infoList)
+            viewModel.setRecord(record)
         }
-        calendarAdapter.calendarManager.setSelectedMonth(pageIndex)
+        calendarAdapter.calendarManager.setSelectedMonth(viewModel.pageIndex)
 
         binding.rvCalendar.apply {
             this.adapter = calendarAdapter

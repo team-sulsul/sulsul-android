@@ -1,6 +1,8 @@
 package com.sulsul.feature.calendar.main
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sulsul.core.data.local.repository.RecordRepository
@@ -34,6 +36,11 @@ class CalenderViewModel @Inject constructor(
     private val _drinkRecord = MutableStateFlow<DrinkRecord>(DrinkRecord())
     val drinkRecord: StateFlow<DrinkRecord> = _drinkRecord
 
+    var pageIndex = 0
+
+    private var _isLoaded = MutableLiveData(false)
+    val isLoaded: LiveData<Boolean> = _isLoaded
+
     init {
         getDrinkRecords()
     }
@@ -44,16 +51,17 @@ class CalenderViewModel @Inject constructor(
         _calendarMonth.value = currentDate.monthValue
     }
 
-    fun getDrinkRecords() {
+    private fun getDrinkRecords() {
         viewModelScope.launch {
             repository.getRecordAll().collect { records ->
                 _drinkRecordList.value = records
                 Log.d("###", "$records")
+                _isLoaded.value = true
             }
         }
     }
 
-    fun setDrinkInfoList(drinkRecord: DrinkRecord) {
+    fun setRecord(drinkRecord: DrinkRecord) {
         _drinkRecord.value = drinkRecord
     }
 
