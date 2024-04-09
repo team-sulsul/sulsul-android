@@ -2,6 +2,7 @@ package com.sulsul.feature.calendar.drink
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +19,9 @@ import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentDrinkBinding
 import com.sulsul.feature.calendar.drink.adapter.DrinkAdapter
 import com.sulsul.feature.calendar.main.adapter.DrinkRankAdapter.Companion.TOP_RANK
-import com.sulsul.feature.calendar.utils.calculateQuantity
 import com.sulsul.feature.calendar.utils.formatDateToString
 import com.sulsul.feature.calendar.utils.splitQuantity
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
@@ -41,50 +40,57 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarTitle()
-        setTotalDrinkQuantityForDay()
-        initDrink()
+        initDrinkList()
+        initDrinkAdapter()
         initListener()
+        setToolbarTitle()
+        setDeleteButtonVisibility()
+        setTotalDrinkQuantityForDay()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initDrink() {
+    private fun initDrinkAdapter() {
         val drinkThemeList = viewModel.drinkThemeList
 
-        drinkAdapter = DrinkAdapter(drinkThemeList, args.drinkRecord.drinks) { theme, bottles, glasses ->
+        drinkAdapter = DrinkAdapter(drinkThemeList) { theme, bottles, glasses ->
             val dialog = DrinkDialog(
                 theme = theme,
                 bottles = bottles,
                 glasses = glasses,
                 onCancelClicked = {},
-                onSaveClicked = { bottles, glasses ->
-                    if (bottles == 0 && glasses == 0) {
-                        // TODO: 삭제를 의미한다
+                onSaveClicked = { quantity ->
+                    if (quantity == 0) {
+                        val removedDrink = viewModel.drinks.find { it.drinkType == theme.name }
+                        viewModel.drinks.remove(removedDrink)
+                    } else {
+                        val drink = DrinkInfo(
+                            drinkType = theme.name,
+                            quantity = quantity
+                        )
+
+                        viewModel.drinks.add(drink)
                     }
-                    val data = DrinkInfo(
-                        drinkType = theme.name,
-                        quantity = calculateQuantity(theme.name, bottles, glasses)
-                    )
 
-//                    viewModel.addDrinkRecord(
-//                        DrinkRecord(
-//                            recordedAt = LocalDate.now(),
-//                            drunkennessLevel = "DRUNKEN_DEFAULT",
-//                            drinks = listOf(data)
-//                        )
-//                    )
-
-                    viewModel.drinks.add(data)
-
+                    drinkAdapter.setDrinks(viewModel.drinks)
                     drinkAdapter.notifyDataSetChanged()
+                    setTotalDrinkQuantityForDay()
+                    Log.d("###", "drinkList ${viewModel.drinks}")
                 }
             )
             dialog.show(childFragmentManager, "DIALOG_DRINK")
         }
 
+        drinkAdapter.setDrinks(args.drinkRecord.drinks)
+
         binding.rvDrink.apply {
             this.adapter = drinkAdapter
             this.layoutManager = GridLayoutManager(requireContext(), TOP_RANK)
+        }
+    }
+
+    private fun initDrinkList() {
+        args.drinkRecord.drinks.forEach {
+            viewModel.drinks.add(it)
         }
     }
 
@@ -115,7 +121,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 onLeftButtonClicked = {},
                 onRightButtonClicked = {
                     viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
-                    Navigation.findNavController(it).navigateUp() // navUp과 pop의 차이가 뭐지?
+                    Navigation.findNavController(it).navigateUp()
                 }
             )
             dialog.show(childFragmentManager, "DELETE_DIALOG")
@@ -131,12 +137,20 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         var bottles = 0
         var glasses = 0
 
-        args.drinkRecord.drinks.forEach {
+        viewModel.drinks.forEach {
             val (b, g) = splitQuantity(it.drinkType, it.quantity)
             bottles += b
             glasses += g
         }
 
         binding.tvDrinkTotalLabel.text = getString(R.string.drink_total_quantity, bottles, glasses)
+    }
+
+    private fun setDeleteButtonVisibility() {
+        if (viewModel.drinks.isNotEmpty()) {
+            binding.tvDrinkDelete.visibility = View.VISIBLE
+        } else {
+            binding.tvDrinkDelete.visibility = View.INVISIBLE
+        }
     }
 }

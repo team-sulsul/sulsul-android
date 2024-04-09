@@ -29,7 +29,7 @@ class DrinkViewModel @Inject constructor(
         DrinkTheme.SAKE
     )
 
-    val drinks = mutableListOf<DrinkInfo>()
+    var drinks = mutableListOf<DrinkInfo>()
 
     fun insertDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
