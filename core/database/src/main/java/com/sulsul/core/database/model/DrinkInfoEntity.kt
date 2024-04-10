@@ -25,6 +25,7 @@ data class DrinkInfoEntity(
 )
 
 fun DrinkInfoEntity.asExternalModel() = DrinkInfo(
+    recordId = recordId,
     drinkType = drinkType,
     quantity = quantity
 )

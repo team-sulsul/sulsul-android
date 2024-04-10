@@ -41,6 +41,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initDrinkList()
+        initDrinkRecordId()
         initDrinkAdapter()
         initListener()
         setToolbarTitle()
@@ -64,6 +65,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                         viewModel.drinks.remove(removedDrink)
                     } else {
                         val drink = DrinkInfo(
+                            recordId = viewModel.recordId,
                             drinkType = theme.name,
                             quantity = quantity
                         )
@@ -94,19 +96,32 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         }
     }
 
+    private fun initDrinkRecordId() {
+        if (args.drinkRecord.drinks.isNotEmpty()) {
+            viewModel.recordId = args.drinkRecord.drinks[0].recordId
+        }
+    }
+
     private fun initListener() {
         binding.btnDrinkBack.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
         }
         binding.tvDrinkNext.setOnClickListener {
 
-            // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
-            viewModel.insertDrinkRecord(
-                DrinkRecord(
-                    recordedAt = args.drinkRecord.recordedAt,
-                    drinks = viewModel.drinks
+            if (args.drinkRecord.drinks.isEmpty()) {
+                // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
+                viewModel.insertDrinkRecord(
+                    DrinkRecord(
+                        recordedAt = args.drinkRecord.recordedAt,
+                        drinks = viewModel.drinks
+                    )
                 )
-            )
+            } else {
+                viewModel.updateDrinks(
+                    viewModel.drinks[0].recordId,
+                    viewModel.drinks
+                )
+            }
 
             val action = DrinkFragmentDirections.actionDrinkFragmentToDrunkenStateFragment(args.drinkRecord)
             findNavController().navigate(action)

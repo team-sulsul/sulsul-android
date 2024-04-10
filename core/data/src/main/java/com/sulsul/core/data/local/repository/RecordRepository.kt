@@ -31,6 +31,14 @@ class RecordRepository @Inject constructor(
         insertDrinks(recordId, record.drinks)
     }
 
+    suspend fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+        drinkInfoDao.deleteDrinkInfoByRecordId(recordId)
+        drinks.forEach { drinkInfo ->
+            val drinkInfoEntity = drinkInfo.asEntity(drinkInfo.recordId)
+            drinkInfoDao.insertDrinkInfo(drinkInfoEntity)
+        }
+    }
+
     suspend fun updateDrunkennessLevel(date: LocalDate, state: String) {
         val drinkRecordEntity = recordDao.getRecordByDate(date) // 날짜에 해당하는 entity를 가져온다
         drinkRecordEntity.let {

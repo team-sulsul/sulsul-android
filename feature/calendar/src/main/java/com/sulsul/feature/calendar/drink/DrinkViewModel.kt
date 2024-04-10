@@ -30,6 +30,7 @@ class DrinkViewModel @Inject constructor(
     )
 
     var drinks = mutableListOf<DrinkInfo>()
+    var recordId = 0
 
     fun insertDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -40,6 +41,12 @@ class DrinkViewModel @Inject constructor(
     fun deleteDrinkRecord(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteRecord(date)
+        }
+    }
+
+    fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateDrinks(recordId, drinks)
         }
     }
 }
