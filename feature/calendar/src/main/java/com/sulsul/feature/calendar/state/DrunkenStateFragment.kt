@@ -32,8 +32,13 @@ class DrunkenStateFragment : BaseFragment<FragmentDrunkenStateBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarTitle()
+        initState()
         initListener()
         setDrunkenStateView(getDrunkenStateTheme(args.drinkRecord.drunkennessLevel))
+    }
+
+    private fun initState() {
+        viewModel.state = args.drinkRecord.drunkennessLevel
     }
 
     private fun initListener() {
