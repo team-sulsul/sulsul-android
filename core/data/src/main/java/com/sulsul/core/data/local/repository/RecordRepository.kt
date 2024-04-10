@@ -52,7 +52,6 @@ class RecordRepository @Inject constructor(
             val drinkInfoEntity = drink.asEntity(recordId = recordId.toInt())
             drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity)
             Log.d("술 데이터 저장", "$recordId, $drinkInfoEntity")
-
         }
     }
 
@@ -67,5 +66,4 @@ class RecordRepository @Inject constructor(
         val drinkRecordEntity = recordDao.getRecordByDate(date) // 날짜에 해당하는 entity를 가져온다
         recordDao.deleteRecord(drinkRecordEntity)
     }
-
 }

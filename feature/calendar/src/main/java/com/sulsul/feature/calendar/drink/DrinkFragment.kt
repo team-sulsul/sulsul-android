@@ -107,7 +107,6 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             Navigation.findNavController(it).navigateUp()
         }
         binding.tvDrinkNext.setOnClickListener {
-
             if (args.drinkRecord.drinks.isEmpty()) {
                 // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
                 viewModel.insertDrinkRecord(
@@ -140,7 +139,6 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 }
             )
             dialog.show(childFragmentManager, "DELETE_DIALOG")
-
         }
     }
 

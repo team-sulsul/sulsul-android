@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DrunkenStateViewModel @Inject constructor(
     private val repository: RecordRepository
-): ViewModel() {
+) : ViewModel() {
 
     var state = DrunkenStateTheme.DRUNKEN_LEVEL_DEFAULT.name
     fun updateStatus(date: LocalDate, level: String) {
