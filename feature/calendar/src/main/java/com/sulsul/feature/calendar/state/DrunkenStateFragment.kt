@@ -72,7 +72,10 @@ class DrunkenStateFragment : BaseFragment<FragmentDrunkenStateBinding>() {
         }
 
         binding.tvDrunkenStateSave.setOnClickListener {
-            viewModel.updateStatus(args.drinkRecord.recordedAt, viewModel.state)
+            if (args.drinkRecord.drunkennessLevel != viewModel.state) {
+                viewModel.updateStatus(args.drinkRecord.recordedAt, viewModel.state)
+            }
+
             findNavController().popBackStack(R.id.mainFragment, false)
         }
     }
