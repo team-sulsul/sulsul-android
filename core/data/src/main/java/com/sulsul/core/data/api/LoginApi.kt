@@ -6,8 +6,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LoginApi {
-        @POST("/api/auth/kakao")
-        suspend fun postLogin(
-            @Body autCode: LoginRequest
-        ): LoginResponse
+    @POST("/api/auth/kakao")
+    suspend fun postLogin(
+        @Body autCode: LoginRequest
+    ): LoginResponse
 }

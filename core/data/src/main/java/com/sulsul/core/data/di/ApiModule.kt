@@ -77,10 +77,10 @@ object ApiModule {
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
     ): Retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(converterFactory)
+        .build()
 }
 fun String.isJsonObject(): Boolean = runCatching { JSONObject(this) }.isSuccess
 fun String.isJsonArray(): Boolean = runCatching { JSONArray(this) }.isSuccess

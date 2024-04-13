@@ -12,12 +12,12 @@ android {
     namespace = "com.teamsulsul.sulsul"
 
     defaultConfig {
-        buildConfigField (
+        buildConfigField(
             "String",
             "KAKAO_NATIVE_APP_KEY",
             properties.getProperty("KAKAO_NATIVE_APP_KEY")
         )
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"]= properties.getProperty("KAKAO_NATIVE_APP_KEY")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = properties.getProperty("KAKAO_NATIVE_APP_KEY")
 
         targetSdk = 34
         applicationId = "com.teamsulsul.sulsul"

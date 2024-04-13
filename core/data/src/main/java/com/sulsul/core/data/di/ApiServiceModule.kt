@@ -15,8 +15,7 @@ object ApiServiceModule {
     // Login API
     @Provides
     @Singleton
-    fun providesLoginApi( retrofit: Retrofit): LoginApi {
+    fun providesLoginApi(retrofit: Retrofit): LoginApi {
         return retrofit.create(LoginApi::class.java)
     }
-
 }

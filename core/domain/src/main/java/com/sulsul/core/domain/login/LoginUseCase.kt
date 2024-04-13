@@ -9,4 +9,3 @@ class LoginUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(authCode: LoginRequest) = loginRepository.postLogin(authCode)
 }
-

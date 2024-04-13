@@ -11,8 +11,8 @@ properties.load(project.rootProject.file("local.properties").inputStream())
 android {
     namespace = "com.sulsul.feature.login"
 
-    defaultConfig{
-        manifestPlaceholders["KAKAO_SCHEME_NATIVE_APP_KEY"]= properties.getProperty("KAKAO_SCHEME_NATIVE_APP_KEY")
+    defaultConfig {
+        manifestPlaceholders["KAKAO_SCHEME_NATIVE_APP_KEY"] = properties.getProperty("KAKAO_SCHEME_NATIVE_APP_KEY")
     }
 }
 
