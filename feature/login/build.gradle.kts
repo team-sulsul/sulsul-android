@@ -1,10 +1,19 @@
+import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("sulsul.android.feature")
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
     namespace = "com.sulsul.feature.login"
+
+    defaultConfig{
+        manifestPlaceholders["KAKAO_SCHEME_NATIVE_APP_KEY"]= properties.getProperty("KAKAO_SCHEME_NATIVE_APP_KEY")
+    }
 }
 
 dependencies {
