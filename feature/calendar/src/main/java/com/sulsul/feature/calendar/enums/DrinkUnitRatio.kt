@@ -5,9 +5,9 @@ enum class DrinkUnitRatio(val glassPerBottle: Int?) {
     BEER(3),
     SOJUBEER(null),
     WINE(5),
-    RICE_WINE(3),
+    RICE_WINE(5),
     COCKTAIL(null),
     WHISKY(25),
     VODKA(25),
-    SAKE(6)
+    SAKE(7)
 }

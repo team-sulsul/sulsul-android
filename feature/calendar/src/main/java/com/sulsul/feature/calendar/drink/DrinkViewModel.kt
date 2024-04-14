@@ -2,17 +2,19 @@ package com.sulsul.feature.calendar.drink
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.repository.local.DrinkRecordRepository
+import com.sulsul.core.data.local.repository.RecordRepository
+import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.enums.DrinkTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
-    private val repository: DrinkRecordRepository
+    private val repository: RecordRepository
 ) : ViewModel() {
 
     val drinkThemeList = listOf(
@@ -27,9 +29,24 @@ class DrinkViewModel @Inject constructor(
         DrinkTheme.SAKE
     )
 
-    fun addDrinkRecord(data: DrinkRecord) {
+    var drinks = mutableListOf<DrinkInfo>()
+    var recordId = 0
+
+    fun insertDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addDrinkRecordWithDrinkInfo(data)
+            repository.insertRecord(record)
+        }
+    }
+
+    fun deleteDrinkRecord(date: LocalDate) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteRecord(date)
+        }
+    }
+
+    fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateDrinks(recordId, drinks)
         }
     }
 }

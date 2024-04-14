@@ -1,9 +1,11 @@
 package com.sulsul.feature.calendar.main
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.repository.local.DrinkRecordRepository
-import com.sulsul.core.model.DrinkInfo
+import com.sulsul.core.data.local.repository.RecordRepository
 import com.sulsul.core.model.DrinkRecord
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalenderViewModel @Inject constructor(
-    private val repository: DrinkRecordRepository,
+    private val repository: RecordRepository,
 ) : ViewModel() {
 
     private val calendarDate = LocalDate.now()
@@ -34,6 +36,11 @@ class CalenderViewModel @Inject constructor(
     private val _drinkRecord = MutableStateFlow<DrinkRecord>(DrinkRecord())
     val drinkRecord: StateFlow<DrinkRecord> = _drinkRecord
 
+    var pageIndex = 0
+
+    private var _isLoaded = MutableLiveData(false)
+    val isLoaded: LiveData<Boolean> = _isLoaded
+
     init {
         getDrinkRecords()
     }
@@ -44,59 +51,17 @@ class CalenderViewModel @Inject constructor(
         _calendarMonth.value = currentDate.monthValue
     }
 
-    fun getDrinkRecords() {
+    private fun getDrinkRecords() {
         viewModelScope.launch {
-//            repository.getRecordAll().collect { records ->
-//                _drinkRecordList.value = records
-//            }
-
-            val records = listOf(
-                DrinkRecord(
-                    id = 1,
-                    recordedAt = LocalDate.of(2024, 4, 1),
-                    drunkennessLevel = "DRUNKEN_LEVEL_4",
-                    drinks = listOf(
-                        DrinkInfo(
-                            recordId = 1,
-                            drinkType = "SOJU",
-                            quantity = 21
-                        ),
-                        DrinkInfo(
-                            recordId = 1,
-                            drinkType = "SOJUBEER",
-                            quantity = 10
-                        ),
-                        DrinkInfo(
-                            recordId = 1,
-                            drinkType = "RICE_WINE",
-                            quantity = 3
-                        )
-                    )
-                ),
-                DrinkRecord(
-                    id = 2,
-                    recordedAt = LocalDate.of(2024, 4, 2),
-                    drunkennessLevel = "DRUNKEN_LEVEL_3",
-                    drinks = listOf(
-                        DrinkInfo(
-                            recordId = 2,
-                            drinkType = "SAKE",
-                            quantity = 22
-                        ),
-                        DrinkInfo(
-                            recordId = 2,
-                            drinkType = "SOJUBEER",
-                            quantity = 10
-                        )
-                    )
-                ),
-
-            )
-            _drinkRecordList.value = records
+            repository.getRecordAll().collect { records ->
+                _drinkRecordList.value = records
+                Log.d("###", "$records")
+                _isLoaded.value = true
+            }
         }
     }
 
-    fun setDrinkInfoList(drinkRecord: DrinkRecord) {
+    fun setRecord(drinkRecord: DrinkRecord) {
         _drinkRecord.value = drinkRecord
     }
 

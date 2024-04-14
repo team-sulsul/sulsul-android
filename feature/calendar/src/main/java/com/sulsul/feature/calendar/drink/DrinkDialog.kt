@@ -12,13 +12,14 @@ import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.DialogDrinkBinding
 import com.sulsul.feature.calendar.enums.DrinkTheme
 import com.sulsul.feature.calendar.enums.DrinkUnitRatio
+import com.sulsul.feature.calendar.utils.calculateQuantity
 
 class DrinkDialog(
     private val theme: DrinkTheme,
     private var bottles: Int = 0,
     private var glasses: Int = 0,
     private val onCancelClicked: () -> Unit,
-    private val onSaveClicked: (Int, Int) -> Unit
+    private val onSaveClicked: (Int) -> Unit
 ) : DialogFragment() {
 
     private lateinit var binding: DialogDrinkBinding
@@ -82,7 +83,7 @@ class DrinkDialog(
 
     private fun initClickListeners() {
         binding.tvDialogDrinkSave.setOnClickListener {
-            onSaveClicked(bottles, glasses)
+            onSaveClicked(calculateQuantity(theme.name, bottles, glasses))
             dismiss()
         }
         binding.tvDialogDrinkCancel.setOnClickListener {
