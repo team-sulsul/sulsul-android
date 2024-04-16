@@ -1,6 +1,7 @@
 package com.sulsul.core.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sulsul.core.data.remote.api.RecordApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,6 +82,12 @@ object ApiModule {
         .client(okHttpClient)
         .addConverterFactory(converterFactory)
         .build()
+
+    // RecordApi
+    @Provides
+    @Singleton
+    fun provideRecordApi(retrofit: Retrofit): RecordApi =
+        retrofit.create(RecordApi::class.java)
 }
 fun String.isJsonObject(): Boolean = runCatching { JSONObject(this) }.isSuccess
 fun String.isJsonArray(): Boolean = runCatching { JSONArray(this) }.isSuccess
