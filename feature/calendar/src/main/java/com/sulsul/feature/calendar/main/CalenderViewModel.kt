@@ -2,7 +2,7 @@ package com.sulsul.feature.calendar.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.repository.local.DrinkRecordRepository
+import com.sulsul.core.data.local.repository.DrinkRecordRepository
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import dagger.hilt.android.lifecycle.HiltViewModel

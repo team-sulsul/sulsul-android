@@ -1,4 +1,4 @@
-package com.sulsul.core.data.model.remote.response
+package com.sulsul.core.data.remote.model.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

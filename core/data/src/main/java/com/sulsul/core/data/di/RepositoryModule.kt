@@ -1,7 +1,7 @@
 package com.sulsul.core.data.di
 
-import com.sulsul.core.data.repository.remote.LoginRepository
-import com.sulsul.core.data.repository.remote.LoginRepositoryImpl
+import com.sulsul.core.data.remote.repository.LoginRepository
+import com.sulsul.core.data.remote.repository.LoginRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

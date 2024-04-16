@@ -1,8 +1,8 @@
-package com.sulsul.core.data.repository.remote
+package com.sulsul.core.data.remote.repository
 
 import com.sulsul.core.data.api.LoginApi
-import com.sulsul.core.data.model.remote.request.LoginRequest
-import com.sulsul.core.data.model.remote.response.LoginResponse
+import com.sulsul.core.data.remote.model.request.LoginRequest
+import com.sulsul.core.data.remote.model.response.LoginResponse
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(

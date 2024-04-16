@@ -1,7 +1,7 @@
 package com.sulsul.core.domain.login
 
-import com.sulsul.core.data.model.remote.request.LoginRequest
-import com.sulsul.core.data.repository.remote.LoginRepository
+import com.sulsul.core.data.remote.model.request.LoginRequest
+import com.sulsul.core.data.remote.repository.LoginRepository
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(

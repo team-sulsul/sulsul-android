@@ -1,4 +1,4 @@
-package com.sulsul.core.data.repository.local
+package com.sulsul.core.data.local.repository
 
 import android.util.Log
 import com.sulsul.core.database.dao.DrinkInfoDao
