@@ -12,9 +12,9 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
-    fun postLogin(authCode: LoginRequest) {
+    fun postLogin(kakaoAccess: LoginRequest) {
         viewModelScope.launch {
-            val response = loginUseCase.invoke(authCode)
+            val response = loginUseCase.invoke(kakaoAccess)
         }
     }
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class LoginRepositoryImpl @Inject constructor(
     private val loginApi: LoginApi
 ) : LoginRepository {
-    override suspend fun postLogin(authCode: LoginRequest): LoginResponse {
-        return loginApi.postLogin(authCode)
+    override suspend fun postLogin(kakaoAccess: LoginRequest): LoginResponse {
+        return loginApi.postLogin(kakaoAccess)
     }
 }

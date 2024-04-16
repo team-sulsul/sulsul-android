@@ -7,5 +7,5 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository
 ) {
-    suspend operator fun invoke(authCode: LoginRequest) = loginRepository.postLogin(authCode)
+    suspend operator fun invoke(kakaoAccess: LoginRequest) = loginRepository.postLogin(kakaoAccess)
 }
