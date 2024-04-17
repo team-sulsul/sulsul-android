@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -13,6 +14,7 @@ import com.sulsul.core.data.remote.model.request.LoginRequest
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
 import com.sulsul.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -27,31 +29,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
         super.onCreate(savedInstanceState)
 
         callback()
-        moveToCalendar()
+        kakaoLogin()
     }
 
-    fun callback() {
+    private fun callback() {
         callback = { token, error ->
             if (error != null) {
                 Timber.tag(TAG).d("[kakao login] error callback : ${error.message}")
             } else if (token != null) {
-                // 로그인 성공
-                Timber.tag(TAG).d("[kakao login] login success")
-                Timber.tag(TAG).d("[kakao login] kakao access token : ${token.accessToken}, ${token.accessTokenExpiresAt}")
-                Timber.tag(TAG).d("[kakao login] kakao refresh token : ${token.refreshToken}, ${token.refreshTokenExpiresAt}")
-
-                // 인가코드 post
-                val access_token = token.accessToken
-                val loginRequest = LoginRequest(access_token)
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                loginViewModel.postLogin(loginRequest)
+                sulsulLogin(token)
             }
         }
     }
 
-    private fun moveToCalendar() {
+    private fun kakaoLogin() {
         binding.ivLoginKakao.setOnClickListener {
             // kakao 실행 가능 여부
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
@@ -66,12 +57,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
                             return@loginWithKakaoTalk
                         }
                     } else if (token != null) {
-                        Toast.makeText(this, "카카오톡으로 로그인 성공!", Toast.LENGTH_SHORT).show()
-                        Timber.tag(TAG).d("카카오톡으로 로그인 성공! ${token.accessToken}")
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        sulsulLogin(token)
                     }
 
                     // kakao로 로그인 하지 못 할 경우 계정으로 로그인 시도
@@ -79,6 +65,30 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
+        }
+    }
+
+    private fun sulsulLogin(token: OAuthToken) {
+        // 카카오 로그인 성공
+        Timber.tag(TAG).d("[kakao login] login success")
+        Timber.tag(TAG).d("[kakao login] kakao access token : ${token.accessToken}, ${token.accessTokenExpiresAt}")
+        Timber.tag(TAG).d("[kakao login] kakao refresh token : ${token.refreshToken}, ${token.refreshTokenExpiresAt}")
+
+        // 술술 서버 로그인 시도
+        val access_token = token.accessToken
+        val loginRequest = LoginRequest(access_token)
+        loginViewModel.postLogin(loginRequest)
+        moveToMain()
+    }
+
+    fun moveToMain() {
+        lifecycleScope.launch {
+            loginViewModel.loginSuccess.collect { success ->
+                if (success) {
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }
