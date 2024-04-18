@@ -10,7 +10,6 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.sulsul.core.common.base.BaseActivity
-import com.sulsul.core.data.remote.model.request.LoginRequest
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
 import com.sulsul.feature.login.viewModel.LoginViewModel
 import com.sulsul.feature.main.MainActivity

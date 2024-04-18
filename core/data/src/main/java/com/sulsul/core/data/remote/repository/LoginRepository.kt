@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-
 class LoginRepository @Inject constructor(
     private val loginApi: LoginApi
 ) {
