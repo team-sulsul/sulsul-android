@@ -12,6 +12,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.sulsul.core.common.base.BaseActivity
 import com.sulsul.core.data.remote.model.request.LoginRequest
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
+import com.sulsul.feature.login.viewModel.LoginViewModel
 import com.sulsul.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::inflate) {
 
-    private val TAG = "LoginActivity"
+    private val TAG = "Login"
     private val loginViewModel: LoginViewModel by viewModels()
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
@@ -86,8 +87,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
         lifecycleScope.launch {
             loginViewModel.loginSuccess.collect { success ->
                 if (success) {
+                    Timber.tag(TAG).d("[sulsul login] sulsul login success")
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
+                } else {
+                    Timber.tag(TAG).d("[sulsul login] sulsul login failed ${loginViewModel.errorMsg}")
                     finish()
                 }
             }

@@ -1,4 +1,4 @@
-package com.sulsul.feature.login
+package com.sulsul.feature.login.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,10 +17,12 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val success = "200"
+    var errorMsg = ""
 
     private val _loinSuccess = MutableStateFlow<Boolean>(false)
     val loginSuccess: StateFlow<Boolean> = _loinSuccess
 
+    // TODO : 서버 측에서 응답 구조, 에러코드 상세화 변경되면 코드 변경 필요
     fun postLogin(kakaoAccess: LoginRequest) {
         viewModelScope.launch {
             loginUseCase.tryLogin(kakaoAccess)
@@ -28,6 +30,9 @@ class LoginViewModel @Inject constructor(
                 }.collect {
                     if (it.message == success) {
                         _loinSuccess.value = true
+                    } else {
+                        _loinSuccess.value = false
+                        errorMsg = it.message
                     }
                 }
         }
