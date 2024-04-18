@@ -23,7 +23,7 @@ class LoginViewModel @Inject constructor(
     val loginSuccess: StateFlow<Boolean> = _loinSuccess
 
     // TODO : 서버 측에서 응답 구조, 에러코드 상세화 변경되면 코드 변경 필요
-    fun postLogin(kakaoAccess: LoginRequest) {
+    fun postLogin(kakaoAccess: String) {
         viewModelScope.launch {
             loginUseCase.tryLogin(kakaoAccess)
                 .catch {

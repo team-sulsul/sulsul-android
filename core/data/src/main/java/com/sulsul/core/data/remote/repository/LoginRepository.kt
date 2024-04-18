@@ -11,9 +11,9 @@ import javax.inject.Inject
 class LoginRepository @Inject constructor(
     private val loginApi: LoginApi
 ) {
-    suspend fun postLogin(kakaoAccess: LoginRequest): Flow<LoginResponse> {
+    suspend fun postLogin(kakaoAccess: String): Flow<LoginResponse> {
         return flow {
-            emit(loginApi.postLogin(kakaoAccess = kakaoAccess))
+            emit(loginApi.postLogin(LoginRequest(kakaoAccess = kakaoAccess)))
         }
     }
 }
