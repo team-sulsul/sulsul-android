@@ -88,6 +88,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
                 if (success) {
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
         }
