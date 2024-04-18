@@ -32,7 +32,7 @@ class LoginViewModel @Inject constructor(
                         _loinSuccess.value = true
                     } else {
                         _loinSuccess.value = false
-                        errorMsg = it.message
+                        errorMsg = "failed" // 서버에서 fail에 대한 응답을 줘야 수정할 수 있을듯..?
                     }
                 }
         }

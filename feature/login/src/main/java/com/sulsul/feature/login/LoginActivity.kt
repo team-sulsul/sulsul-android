@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::inflate) {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
     private val TAG = "Login"
     private val loginViewModel: LoginViewModel by viewModels()
@@ -90,7 +90,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding> (ActivityLoginBinding::
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else {
+                } else if (loginViewModel.errorMsg.isNotEmpty()) { // 서버 응답 바뀌면 변경되어야 함
                     Timber.tag(TAG).d("[sulsul login] sulsul login failed ${loginViewModel.errorMsg}")
                     finish()
                 }
