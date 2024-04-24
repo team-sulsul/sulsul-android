@@ -23,6 +23,8 @@ class CalendarAdapter(
     private val curYear = curDate.year
     private val curMonth = curDate.month
 
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
+
     val calendarManager = CalendarManager()
 
     companion object {
@@ -100,6 +102,7 @@ class CalendarAdapter(
 
             bindDate(date)
             bindStateImage(date, records)
+            bindItemClickListener(date, records)
         }
 
         private fun bindDate(date: Int) {
@@ -113,19 +116,39 @@ class CalendarAdapter(
         }
 
         private fun bindStateImage(date: Int, records: List<DrinkRecord>) {
+            if (selectedPosition == adapterPosition) {
+                setSelected(true)
+            } else {
+                setSelected(false)
+            }
+
             val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
             record?.let {
                 val icon = getDrunkenStateTheme(it.drunkennessLevel).icon
                 binding.ivCalendarItemState.setImageResource(icon)
             }
+        }
 
+        private fun bindItemClickListener(date: Int, records: List<DrinkRecord>) {
+            val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
             binding.ivCalendarItemState.setOnClickListener {
+                selectedPosition = adapterPosition
+                notifyDataSetChanged()
+
                 val selectedDate = calendarManager.getSelectedDate(date)
 
                 onClicked(
                     selectedDate,
                     record ?: DrinkRecord(recordedAt = selectedDate)
                 )
+            }
+        }
+
+        private fun setSelected(isSelected: Boolean) {
+            if (isSelected) {
+                binding.ivCalendarItemState.setBackgroundResource(R.drawable.bg_blue300_circle)
+            } else {
+                binding.ivCalendarItemState.setBackgroundResource(0)
             }
         }
     }

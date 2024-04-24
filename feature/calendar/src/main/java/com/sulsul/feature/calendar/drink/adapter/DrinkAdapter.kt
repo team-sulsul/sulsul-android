@@ -11,9 +11,10 @@ import com.sulsul.feature.calendar.utils.splitQuantity
 
 class DrinkAdapter(
     private val drinkThemeList: List<DrinkTheme>,
-    private val drinkInfoList: List<DrinkInfo>,
     private val onClicked: (drinkTheme: DrinkTheme, bottles: Int, glasses: Int) -> Unit
 ) : RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>() {
+
+    private var drinkInfoList: List<DrinkInfo> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrinkViewHolder {
         val binding =
@@ -34,6 +35,7 @@ class DrinkAdapter(
             with(binding) {
                 var bottles = 0
                 var glasses = 0
+                var isSelected = false
 
                 containerDrinkItem.setBackgroundResource(theme.backgroundColor)
                 ivDrinkItem.setBackgroundResource(theme.selectorImage)
@@ -42,19 +44,25 @@ class DrinkAdapter(
 
                 drinkInfoList
                     .filter { it.drinkType == theme.name }
-                    .forEach {
-                        val drinkText = buildDrinkText(it.drinkType, it.quantity)
-                        bottles = splitQuantity(theme.name, it.quantity).first
-                        glasses = splitQuantity(theme.name, it.quantity).second
+                    .forEach { lastDrinkInfo ->
+                        val drinkText = buildDrinkText(lastDrinkInfo.drinkType, lastDrinkInfo.quantity)
+                        bottles = splitQuantity(theme.name, lastDrinkInfo.quantity).first
+                        glasses = splitQuantity(theme.name, lastDrinkInfo.quantity).second
 
                         tvDrinkItem.text = drinkText
-                        containerDrinkItem.isSelected = true
+                        isSelected = true
                     }
+
+                containerDrinkItem.isSelected = isSelected
 
                 containerDrinkItem.setOnClickListener {
                     onClicked(theme, bottles, glasses)
                 }
             }
         }
+    }
+
+    fun setDrinks(drinks: List<DrinkInfo>) {
+        drinkInfoList = drinks
     }
 }

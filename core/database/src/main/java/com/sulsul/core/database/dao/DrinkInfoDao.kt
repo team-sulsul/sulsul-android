@@ -12,5 +12,8 @@ interface DrinkInfoDao {
     fun getDrinkInfoListByRecordId(recordId: Int): Flow<List<DrinkInfoEntity>>
 
     @Insert
-    fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
+    suspend fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
+
+    @Query("DELETE FROM record_drink WHERE recordId = :recordId")
+    suspend fun deleteDrinkInfoByRecordId(recordId: Int) // recordId가 동일한 모든 drinkInfo 삭제
 }
