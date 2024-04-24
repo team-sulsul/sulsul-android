@@ -81,7 +81,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         moveToMain()
     }
 
-    fun moveToMain() {
+    private fun moveToMain() {
         lifecycleScope.launch {
             loginViewModel.loginSuccess.collect { success ->
                 if (success) {
