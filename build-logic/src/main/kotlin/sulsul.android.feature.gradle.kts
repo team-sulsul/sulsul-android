@@ -41,4 +41,5 @@ dependencies {
     implementation(libs.findLibrary("androidx.navigation.ui").get())
 
     implementation(libs.findLibrary("material").get())
+    implementation(libs.findLibrary("timber").get())
 }
