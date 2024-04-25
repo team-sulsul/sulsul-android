@@ -77,7 +77,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
         // 술술 서버 로그인 시도
         val access_token = token.accessToken
-        loginViewModel.postLogin(access_token)
+        loginViewModel.tryLogin(access_token)
         moveToMain()
     }
 
