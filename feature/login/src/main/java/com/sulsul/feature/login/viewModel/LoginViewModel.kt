@@ -26,7 +26,7 @@ class LoginViewModel @Inject constructor(
     val errorMsg: StateFlow<String> = _errorMsg
 
     // TODO : 서버 측에서 응답 구조, 에러코드 상세화 변경되면 코드 변경 필요
-    fun tryLogin (kakaoAccess: String) {
+    fun tryLogin(kakaoAccess: String) {
         viewModelScope.launch {
             loginUseCase.tryLogin(kakaoAccess)
                 .catch {
