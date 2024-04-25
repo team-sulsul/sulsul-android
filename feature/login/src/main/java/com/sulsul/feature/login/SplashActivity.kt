@@ -8,11 +8,13 @@ import android.view.ViewTreeObserver
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.sulsul.core.common.base.BaseActivity
 import com.sulsul.feature.login.databinding.ActivitySplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     private val TAG = "SplashActivity"

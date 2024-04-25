@@ -15,6 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sulsul"
-        tools:targetApi="34" />
+        tools:targetApi="34" >
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_native_app_key"/>
+    </application>
 
 </manifest>
