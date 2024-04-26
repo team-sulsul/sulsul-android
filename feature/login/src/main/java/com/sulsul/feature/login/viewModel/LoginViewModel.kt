@@ -25,6 +25,8 @@ class LoginViewModel @Inject constructor(
     private val _errorMsg = MutableStateFlow<String>("")
     val errorMsg: StateFlow<String> = _errorMsg
 
+    val tokenData = loginRepository.getTokenData()
+
     // TODO : 서버 측에서 응답 구조, 에러코드 상세화 변경되면 코드 변경 필요
     fun tryLogin(kakaoAccess: String) {
         viewModelScope.launch {
@@ -35,6 +37,7 @@ class LoginViewModel @Inject constructor(
                 }.collect {
                     if (it.message == success) {
                         _loinSuccess.value = true
+                        loginRepository.updateTokenData(it.accessToken, it.refreshToken)
                     } else {
                         _errorMsg.value = "failed" // 서버에서 fail에 대한 응답을 줘야 수정할 수 있을듯..?
                         Timber.tag(TAG).d(it.message)

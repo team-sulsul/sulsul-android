@@ -5,12 +5,16 @@ import com.sulsul.core.data.remote.model.request.LoginRequest
 import com.sulsul.core.data.remote.model.request.TokenRequest
 import com.sulsul.core.data.remote.model.response.LoginResponse
 import com.sulsul.core.data.remote.model.response.TokenResponse
+import com.sulsul.core.datastore.datasource.TokenPreferenceDataSource
+import com.sulsul.core.datastore.model.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
-    private val loginApi: LoginApi
+    private val loginApi: LoginApi,
+    private val preferencesDataStore: TokenPreferenceDataSource
 ) {
     suspend fun postLogin(kakaoAccess: String): Flow<LoginResponse> {
         return flow {
@@ -28,5 +32,15 @@ class LoginRepository @Inject constructor(
                 )
             )
         }
+    }
+
+    fun getTokenData(): Flow<TokenData>{
+        return preferencesDataStore.tokenData.map {
+            tokenData -> TokenData(tokenData.accessToken, tokenData.refreshToken)
+        }
+    }
+
+    suspend fun updateTokenData(accessToken: String, refreshToken: String) {
+        preferencesDataStore.updateTokenData(accessToken = accessToken, refreshToken = refreshToken)
     }
 }
