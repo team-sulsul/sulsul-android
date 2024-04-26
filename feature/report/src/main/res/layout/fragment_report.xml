@@ -6,13 +6,101 @@
     android:layout_height="match_parent"
     tools:context=".ReportFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Report Fragment"
+    <LinearLayout
+        android:id="@+id/linear_report_select_month"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/blue_200"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/Title2"
+            android:layout_width="168dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="2024년 2월 통계"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/linear_report_select_month">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/view_report_summary"
+                android:layout_width="match_parent"
+                android:layout_height="370dp"
+                android:background="@color/blue_200"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_report_summary_user"
+                style="@style/Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="28dp"
+                android:text="이번달 유저123의 고래는?"
+                android:textColor="@color/blue_100"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/Headline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="음주 기록을 추가하고\n유저123의 고래를 확인하세요!"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/tv_report_summary_user"
+                app:layout_constraintTop_toBottomOf="@id/tv_report_summary_user" />
+
+            <View
+                android:id="@+id/view_report_detail_round"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_white_rt42"
+                app:layout_constraintBottom_toBottomOf="@id/view_report_summary" />
+
+            <ImageView
+                android:id="@+id/iv_report_summary_wave"
+                android:layout_width="match_parent"
+                android:layout_height="202dp"
+                android:src="@drawable/img_report_summary_wave"
+                app:layout_constraintBottom_toBottomOf="@id/view_report_summary" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/img_drunken_whale_default"
+                app:layout_constraintTop_toTopOf="@id/iv_report_summary_wave" />
+
+            <include
+                android:layout_marginTop="30dp"
+                android:id="@+id/view_report_detail"
+                layout="@layout/item_report_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/view_report_detail_round" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
