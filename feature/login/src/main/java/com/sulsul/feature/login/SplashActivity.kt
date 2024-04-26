@@ -65,6 +65,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     // 선행될 작업이 있는 경우, 여기서 처리 후 isReady true 처리
     private fun checkSulSulToken() {
+        // 토큰 저장되어있으면 토큰 유효성 검사 필요, 토큰 저장이 없으면 isReady = true에 로그인화면으로 이동
         // todo : dataStoreModule 작업 후 실제 토큰으로 수정
         splashViewModel.checkToken("accessToken", "refreshToken")
         autoLogin()
