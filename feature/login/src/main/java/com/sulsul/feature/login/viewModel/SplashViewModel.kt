@@ -2,7 +2,7 @@ package com.sulsul.feature.login.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.domain.login.LoginUseCase
+import com.sulsul.core.data.remote.repository.LoginRepository
 import com.sulsul.feature.login.TokenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<String>(TokenState.LOADING)
@@ -22,7 +22,7 @@ class SplashViewModel @Inject constructor(
     // 결과에 따라 이동활 화면 구분
     fun checkToken(accessToken: String, refreshToken: String) {
         viewModelScope.launch {
-            loginUseCase.checkToken(accessToken, refreshToken)
+            loginRepository.postToken(accessToken, refreshToken)
                 .catch {
 
                 }.collect {
