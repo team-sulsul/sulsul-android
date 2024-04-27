@@ -21,6 +21,7 @@ timber = "5.0.1"
 firebase = "32.7.3"
 glide = "4.14.2"
 splash-screen = "1.0.1"
+lottie = "6.4.0"
 
 okhttp = "4.11.0"
 retrofit = "2.9.0"
@@ -137,6 +138,7 @@ google-firebase-analytics = { group = "com.google.firebase", name = "firebase-an
 
 glide ={module="com.github.bumptech.glide:glide",version.ref ="glide"}
 glide-compiler ={module="com.github.bumptech.glide:compiler",version.ref ="glide"}
+lottie ={module="com.airbnb.android:lottie",version.ref ="lottie"}
 
 splash-screen ={module="androidx.core:core-splashscreen",version.ref ="splash-screen"}
 
