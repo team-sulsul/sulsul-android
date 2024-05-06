@@ -16,7 +16,6 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val success = "200"
     private val TAG = "login"
 
     private val _loinSuccess = MutableStateFlow<Boolean>(false)
@@ -35,12 +34,12 @@ class LoginViewModel @Inject constructor(
                     _errorMsg.value = "failed"
                     Timber.tag(TAG).d(it)
                 }.collect {
-                    if (it.message == success) {
+                    if (it.resultCode.toInt() == 200) {
                         _loinSuccess.value = true
-                        loginRepository.updateTokenData(it.accessToken, it.refreshToken)
+                        loginRepository.updateTokenData(it.resultData.accessToken, it.resultData.refreshToken)
                     } else {
                         _errorMsg.value = "failed" // 서버에서 fail에 대한 응답을 줘야 수정할 수 있을듯..?
-                        Timber.tag(TAG).d(it.message)
+                        Timber.tag(TAG).d(it.resultMessage)
                     }
                 }
         }
