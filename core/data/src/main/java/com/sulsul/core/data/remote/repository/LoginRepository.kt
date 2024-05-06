@@ -10,6 +10,7 @@ import com.sulsul.core.datastore.model.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
@@ -42,5 +43,6 @@ class LoginRepository @Inject constructor(
 
     suspend fun updateTokenData(accessToken: String, refreshToken: String) {
         preferencesDataStore.updateTokenData(accessToken = accessToken, refreshToken = refreshToken)
+        Timber.tag("updateToken").d("token updated")
     }
 }
