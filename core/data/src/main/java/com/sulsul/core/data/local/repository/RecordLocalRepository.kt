@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
-class RecordRepository @Inject constructor(
+class RecordLocalRepository @Inject constructor(
     private val recordDao: DrinkRecordDao,
     private val drinkInfoDao: DrinkInfoDao,
 ) {
