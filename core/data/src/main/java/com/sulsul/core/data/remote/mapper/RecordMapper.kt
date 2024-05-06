@@ -1,8 +1,8 @@
 package com.sulsul.core.data.remote.mapper
 
-import com.sulsul.core.data.remote.model.DrinkInfo
-import com.sulsul.core.data.remote.model.DrinkRecordRequest
-import com.sulsul.core.data.remote.model.StateRecordRequest
+import com.sulsul.core.data.remote.model.request.DrinkInfo
+import com.sulsul.core.data.remote.model.request.DrinkRecordRequest
+import com.sulsul.core.data.remote.model.request.StateRecordRequest
 import com.sulsul.core.model.DrinkRecord
 
 fun DrinkRecordRequest.toData(): DrinkRecord = DrinkRecord(
