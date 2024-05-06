@@ -90,7 +90,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else if (loginViewModel.errorMsg.value.isNotEmpty()) { // 서버 응답 바뀌면 변경되어야 함
+                } else if (loginViewModel.errorMsg.value.isNotEmpty()) {
                     Timber.tag(TAG).d("[sulsul login] sulsul login failed ${loginViewModel.errorMsg.value}")
                     Toast.makeText(this@LoginActivity, "술술 로그인 실패", Toast.LENGTH_SHORT).show()
                     finish()
