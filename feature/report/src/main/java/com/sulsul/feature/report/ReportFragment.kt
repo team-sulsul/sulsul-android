@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -34,6 +35,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initLineChart()
+        initLineChartMarker()
     }
 
     private fun initLineChart() {
@@ -47,9 +49,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             axisLeft.isEnabled = false
             legend.isEnabled = false
             xAxis.isEnabled = true
+            extraTopOffset = 10F
             description.isEnabled = false
-            isHighlightPerDragEnabled = false
-            isHighlightPerTapEnabled = false
+//            isHighlightPerDragEnabled = false
+//            isHighlightPerTapEnabled = false
 
             // x값 grid 설정
             xAxis.setDrawGridLines(true)
@@ -101,5 +104,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             data = LineData(listOf(lineDataSet))
             invalidate()
         }
+    }
+
+    private fun initLineChartMarker() {
+        val marker = RecentMonthMarker(requireContext(), R.layout.item_recent_month_chart_marker)
+        binding.lineChartReport.marker = marker
     }
 }
