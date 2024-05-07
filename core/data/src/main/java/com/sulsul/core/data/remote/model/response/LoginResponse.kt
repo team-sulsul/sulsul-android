@@ -18,4 +18,3 @@ data class LoginResult(
     @SerialName("expiresIn") val expiresIn: Long,
     @SerialName("message") val message: String
 )
-
