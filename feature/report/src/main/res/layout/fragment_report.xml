@@ -57,7 +57,7 @@
                 android:layout_marginTop="28dp"
                 android:text="이번달 유저123의 고래는?"
                 android:textColor="@color/blue_100"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/divider_report_1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
