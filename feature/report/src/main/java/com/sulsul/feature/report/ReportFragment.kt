@@ -18,10 +18,8 @@ import java.time.LocalDate
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
-    private val dataList = arrayListOf(
-        3, 5, 10
-    )
-
+    private val dataList = arrayListOf(3, 5, 10)
+    private val entryList = arrayListOf<Entry>()
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -33,6 +31,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initLineChart()
+        initLineChartMarker()
     }
 
     private fun initLineChart() {
@@ -80,7 +79,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             xAxis.setDrawLabels(true)
 
             // 데이터 line
-            val entryList = arrayListOf<Entry>()
             dataList.forEachIndexed { index, d ->
                 entryList.add(Entry(index.toFloat(), d.toFloat()))
             }
@@ -96,19 +94,19 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
                 lineWidth = 2.5F
                 color = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.blue_200)
+
+                setDrawValues(false)
+                setDrawVerticalHighlightIndicator(false)
+                setDrawHorizontalHighlightIndicator(false)
             }
             setDrawMarkers(true)
-            lineDataSet.setDrawValues(false)
-            lineDataSet.setDrawVerticalHighlightIndicator(false)
-            lineDataSet.setDrawHorizontalHighlightIndicator(false)
 
             data = LineData(listOf(lineDataSet))
             invalidate()
-            initLineChartMarker(entryList)
         }
     }
 
-    private fun initLineChartMarker(entryList: ArrayList<Entry>) {
+    private fun initLineChartMarker() {
         val marker = MonthlyReportMarkerView(requireContext(), R.layout.item_recent_month_chart_marker)
         binding.lineChartReport.marker = marker
 
