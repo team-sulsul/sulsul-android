@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/report_recent_month_drink_title"
                 android:textColor="@color/gray_500"
                 app:layout_constraintStart_toStartOf="@id/divider_report_1"
@@ -159,11 +159,24 @@
                 android:layout_width="372dp"
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="36dp"
                 android:background="@color/gray_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lineChart_report" />
+
+
+            <TextView
+                android:id="@+id/tv_report_drunken_state_title"
+                style="@style/Title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/report_drunken_state_title"
+                android:textColor="@color/gray_500"
+                app:layout_constraintStart_toStartOf="@id/divider_report_2"
+                app:layout_constraintTop_toBottomOf="@id/divider_report_2" />
 
             <include
                 layout="@layout/item_drunken_state_bar"
@@ -172,7 +185,7 @@
                 android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_report_2" />
+                app:layout_constraintTop_toBottomOf="@id/tv_report_drunken_state_title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
