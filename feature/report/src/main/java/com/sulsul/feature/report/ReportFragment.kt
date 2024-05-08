@@ -5,14 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.DefaultValueFormatter
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.report.databinding.FragmentReportBinding
@@ -107,7 +103,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
     private fun initLineChartMarker() {
-        val marker = RecentMonthMarker(requireContext(), R.layout.item_recent_month_chart_marker)
+        val marker = MonthlyReportMarkerView(requireContext(), R.layout.item_recent_month_chart_marker)
         binding.lineChartReport.marker = marker
     }
 }
