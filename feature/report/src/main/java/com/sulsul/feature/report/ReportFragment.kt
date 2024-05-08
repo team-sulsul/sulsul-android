@@ -51,8 +51,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             xAxis.isEnabled = true
             extraTopOffset = 10F
             description.isEnabled = false
-//            isHighlightPerDragEnabled = false
-//            isHighlightPerTapEnabled = false
 
             // x값 grid 설정
             xAxis.setDrawGridLines(true)
@@ -100,7 +98,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 lineWidth = 2.5F
                 color = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.blue_200)
             }
-            lineDataSet.valueFormatter = DefaultValueFormatter(0)
+            lineDataSet.setDrawValues(false)
+            lineDataSet.setDrawVerticalHighlightIndicator(false)
+            lineDataSet.setDrawHorizontalHighlightIndicator(false)
             data = LineData(listOf(lineDataSet))
             invalidate()
         }
