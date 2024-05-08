@@ -15,7 +15,6 @@ import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import java.time.LocalDate
 
-
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val dataList = arrayListOf(3, 5, 10)
@@ -64,9 +63,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                     var curMonth = LocalDate.now().monthValue
                     curMonth = 1
                     var startMonth = curMonth - 2
-                    if (curMonth <= 2) {
-                       startMonth += 12
-                    }
+                    if (curMonth <= 2) startMonth += 12
                     // Todo : 월 수정 필요
                     return (startMonth + value).toInt().toString() + "월"
                 }
