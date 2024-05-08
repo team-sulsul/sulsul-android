@@ -10,9 +10,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import java.time.LocalDate
+
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
@@ -31,7 +33,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initLineChart()
-        initLineChartMarker()
     }
 
     private fun initLineChart() {
@@ -94,16 +95,24 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 lineWidth = 2.5F
                 color = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.blue_200)
             }
+            setDrawMarkers(true)
             lineDataSet.setDrawValues(false)
             lineDataSet.setDrawVerticalHighlightIndicator(false)
             lineDataSet.setDrawHorizontalHighlightIndicator(false)
+
             data = LineData(listOf(lineDataSet))
             invalidate()
+            initLineChartMarker(entryList)
         }
     }
 
-    private fun initLineChartMarker() {
+    private fun initLineChartMarker(entryList: ArrayList<Entry>) {
         val marker = MonthlyReportMarkerView(requireContext(), R.layout.item_recent_month_chart_marker)
         binding.lineChartReport.marker = marker
+
+        val lastEntry: Entry = entryList[entryList.size - 1]
+        val highlight = Highlight(lastEntry.x, lastEntry.y, 0)
+        highlight.dataIndex = 0
+        binding.lineChartReport.highlightValue(highlight)
     }
 }
