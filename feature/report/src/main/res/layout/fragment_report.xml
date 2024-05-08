@@ -17,13 +17,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/iv_report_arrow_left"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/img_report_arrow_left" />
+
         <TextView
+            android:id="@+id/tv_report_title"
             style="@style/Title2"
             android:layout_width="168dp"
             android:layout_height="24dp"
             android:gravity="center"
             android:text="2024년 2월 통계"
             android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_report_arrow_right"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/img_report_arrow_right" />
+
     </LinearLayout>
 
     <ScrollView
@@ -92,7 +106,7 @@
                 app:layout_constraintTop_toTopOf="@id/iv_report_summary_wave" />
 
             <include
-                android:id="@+id/view_report_no_data"
+                android:id="@+id/layout_report_no_data"
                 layout="@layout/item_report_empty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,7 +122,7 @@
                 android:background="@color/gray_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_report_no_data" />
+                app:layout_constraintTop_toBottomOf="@id/layout_report_no_data" />
 
             <TextView
                 android:id="@+id/tv_report_recent_month_title"
@@ -179,15 +193,29 @@
                 app:layout_constraintTop_toBottomOf="@id/divider_report_2" />
 
             <include
+                android:id="@+id/layout_report_drunken_state_bar"
                 layout="@layout/item_drunken_state_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="86dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_report_drunken_state_title" />
 
+            <View
+                android:id="@+id/view_report_empty_blur"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/a60_white"
+                app:layout_constraintBottom_toBottomOf="@id/layout_report_drunken_state_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/divider_report_1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
