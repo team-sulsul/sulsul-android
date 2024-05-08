@@ -49,13 +49,15 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             extraTopOffset = 10F
             description.isEnabled = false
 
+            axisLeft.axisMinimum = 0F // y값 최솟값
+            axisLeft.axisMaximum = dataList.max().toFloat() + 3.0F // 값 최댓값
+
             // x값 grid 설정
             xAxis.setDrawGridLines(true)
             xAxis.gridLineWidth = 0.7F
             xAxis.gridColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
 
             // x축 설정
-            axisLeft.axisMinimum = 0F
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.labelCount = dataList.size - 1
             xAxis.valueFormatter = object : ValueFormatter() {
