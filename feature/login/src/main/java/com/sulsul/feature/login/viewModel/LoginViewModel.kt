@@ -3,6 +3,7 @@ package com.sulsul.feature.login.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sulsul.core.data.remote.repository.LoginRepository
+import com.sulsul.feature.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,10 +17,8 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val TAG = "login"
-
-    private val _loinSuccess = MutableStateFlow<Boolean>(false)
-    val loginSuccess: StateFlow<Boolean> = _loinSuccess
+    private val _loginInfo  = MutableStateFlow<LoginState>(LoginState.Initial)
+    val loginInfo: StateFlow<LoginState> = _loginInfo
 
     private val _errorMsg = MutableStateFlow<String>("")
     val errorMsg: StateFlow<String> = _errorMsg
@@ -28,16 +27,18 @@ class LoginViewModel @Inject constructor(
     fun tryLogin(kakaoAccess: String) {
         viewModelScope.launch {
             loginRepository.postLogin(kakaoAccess)
-                .catch {
-                    _errorMsg.value = "failed"
-                    Timber.tag(TAG).d(it)
+                .catch {e ->
+                    _loginInfo.value = LoginState.Failure(e)
+                    Timber.d("!!error : $e")
                 }.collect {
                     if (it.resultCode.toInt() == 200) {
-                        _loinSuccess.value = true
+                        _loginInfo.value = LoginState.Success(it.resultData)
                         loginRepository.updateTokenData(it.resultData.accessToken, it.resultData.refreshToken)
+                        Timber.d("!!success : ${it.resultMessage}")
                     } else {
-                        _errorMsg.value = "failed"
-                        Timber.tag(TAG).d(it.resultMessage)
+                        _loginInfo.value = LoginState.Loading(it.resultData)
+                        Timber.d(it.resultMessage)
+                        Timber.d("!!failure : ${it.resultMessage}")
                     }
                 }
         }

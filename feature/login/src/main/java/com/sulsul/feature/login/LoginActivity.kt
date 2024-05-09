@@ -83,17 +83,26 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun moveToMain() {
         lifecycleScope.launch {
-            loginViewModel.loginSuccess.collect { success ->
-                if (success) {
-                    Timber.tag(TAG).d("[sulsul login] sulsul login success")
-                    Toast.makeText(this@LoginActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else if (loginViewModel.errorMsg.value.isNotEmpty()) {
-                    Timber.tag(TAG).d("[sulsul login] sulsul login failed ${loginViewModel.errorMsg.value}")
-                    Toast.makeText(this@LoginActivity, "술술 로그인 실패", Toast.LENGTH_SHORT).show()
-                    finish()
+            loginViewModel.loginInfo.collect { state ->
+                when (state) {
+                    is LoginState.Initial -> {}
+                    is LoginState.Loading -> {
+                        Timber.tag(TAG).d("[sulsul login] sulsul login failed ${state.data.message}")
+                        Toast.makeText(this@LoginActivity, "술술 로그인 실패", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is LoginState.Failure -> {
+                        Timber.tag(TAG).d("[sulsul login] sulsul login failed ${state.msg}}")
+                        Toast.makeText(this@LoginActivity, "술술 로그인 실패", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is LoginState.Success -> {
+                        Timber.tag(TAG).d("[sulsul login] sulsul login success")
+                        Toast.makeText(this@LoginActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
         }
