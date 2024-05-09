@@ -40,20 +40,16 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getReport()
+
         initLineChart()
         initLineChartMarker()
-        observeReportInfo()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        getReport()
-    }
+        }
 
     // Todo : 넘기는 date값 수정
     private fun getReport() {
         reportViewModel.getReport("2024-05-01")
+        observeReportInfo()
     }
 
     private fun observeReportInfo() {
