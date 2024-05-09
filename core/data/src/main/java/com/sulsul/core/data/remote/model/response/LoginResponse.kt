@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginResponse(
-    val resultCode: Long,
-    val resultMessage: String,
-    val resultData: LoginResult
+    @SerialName("resultCode") val resultCode: Long,
+    @SerialName("resultMessage") val resultMessage: String,
+    @SerialName("resultData") val resultData: LoginResult
 )
 
 @Serializable
