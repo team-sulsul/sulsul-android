@@ -77,31 +77,46 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 } else {
                     Timber.tag("checkToken in dataStore").d("accessToken : $accessToken, refreshToken : $refreshToken")
                     splashViewModel.checkToken(accessToken, refreshToken)
-                    autoLogin()
+                    observeTokenInfo()
                 }
             }
         }
     }
 
-    private fun autoLogin() {
+    private fun observeTokenInfo() {
         lifecycleScope.launch {
-            splashViewModel.loginState.collect{ loginState ->
+            splashViewModel.tokenInfo.collect{ state ->
+                when (state) {
+                    is TokenState.Initial -> {}
+                    is TokenState.Loading -> {}
+                    is TokenState.Failure -> {}
+                    is TokenState.Success -> {
+                        observeTokenValidState()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeTokenValidState() {
+        lifecycleScope.launch {
+         splashViewModel.loginState.collect{ loginState ->
                 Timber.tag("loginState").d(loginState)
                 when(loginState) {
-                    TokenState.TOKEN_VALID -> {
+                    SplashViewModel.TokenValidState.TOKEN_VALID -> {
                         isLoginAvailable = true
                         isReady = true
                     }
-                    TokenState.TOKEN_ACCESS_EXPIRED -> {
+                    SplashViewModel.TokenValidState.TOKEN_ACCESS_EXPIRED -> {
                         isLoginAvailable = true
                         isReady = true
                     }
-                    TokenState.TOKEN_REFRESH_EXPIRED -> {
+                  SplashViewModel.TokenValidState.TOKEN_REFRESH_EXPIRED -> {
                         isLoginAvailable = false
                         isReady = true
                     }
                     else -> { // Loading
-                    }
+                  }
                 }
             }
         }
