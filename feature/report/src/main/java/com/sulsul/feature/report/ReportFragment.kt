@@ -3,8 +3,14 @@ package com.sulsul.feature.report
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -13,9 +19,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.report.databinding.FragmentReportBinding
+import com.sulsul.feature.report.viewModel.ReportViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
+
+    private val reportViewModel: ReportViewModel by viewModels()
 
     private val dataList = arrayListOf(3, 5, 10)
     private val entryList = arrayListOf<Entry>()
@@ -31,6 +42,43 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
         initLineChart()
         initLineChartMarker()
+        observeReportInfo()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getReport()
+    }
+
+    // Todo : 넘기는 date값 수정
+    private fun getReport() {
+        reportViewModel.getReport("2024-05-01")
+    }
+
+    private fun observeReportInfo() {
+        lifecycleScope.launch {
+            reportViewModel.reportInfo.collect { state ->
+                when (state) {
+                    is ReportState.Initial -> {
+                    }
+
+                    is ReportState.Loading -> {
+                    }
+
+                    is ReportState.Failure -> {
+                    }
+
+                    is ReportState.Success -> {
+                        if (state.data.monthlyDrinkData == null) { // 기록된 술 데이터 없음
+                            emptyViewVisible(true)
+                        } else {
+                            emptyViewVisible(false)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun initLineChart() {
@@ -111,5 +159,15 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         val highlight = Highlight(lastEntry.x, lastEntry.y, 0)
         highlight.dataIndex = 0
         binding.lineChartReport.highlightValue(highlight)
+    }
+
+    private fun emptyViewVisible(visible: Boolean) {
+        if (visible) {
+            binding.viewReportEmptyBlur.visibility = VISIBLE
+            binding.layoutReportNoData.root.visibility = VISIBLE
+        } else {
+            binding.viewReportEmptyBlur.visibility = GONE
+            binding.layoutReportNoData.root.visibility = GONE
+        }
     }
 }
