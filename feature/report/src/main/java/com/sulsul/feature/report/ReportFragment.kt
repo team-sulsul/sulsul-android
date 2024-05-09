@@ -20,10 +20,12 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 
+@AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val reportViewModel: ReportViewModel by viewModels()
