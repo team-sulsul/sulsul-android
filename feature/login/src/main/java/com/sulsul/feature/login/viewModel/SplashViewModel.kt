@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +18,18 @@ class SplashViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _loginState = MutableStateFlow<String>(TokenState.LOADING)
+    object TokenValidState { // todo : 이걸 어따 두지
+        val LOADING = "000"
+        val TOKEN_VALID = "200"
+        val TOKEN_ACCESS_EXPIRED = "600"
+        val TOKEN_REFRESH_EXPIRED = "601"
+        val FAILURE = "400"
+    }
+
+    private val _tokenInfo = MutableStateFlow<TokenState>(TokenState.Initial)
+    val tokenInfo: StateFlow<TokenState> = _tokenInfo
+
+    private val _loginState = MutableStateFlow<String>(TokenValidState.LOADING)
     val loginState: StateFlow<String> = _loginState
 
     val tokenData = loginRepository.getTokenData()
@@ -26,34 +38,41 @@ class SplashViewModel @Inject constructor(
     fun checkToken(accessToken: String, refreshToken: String) {
         viewModelScope.launch {
             loginRepository.postToken(accessToken, refreshToken)
-                .catch {
-
+                .catch {e ->
+                    _tokenInfo.value = TokenState.Failure(e)
+                    Timber.d("!!error : $e")
                 }.collect {
                     if (it.resultCode.toInt() == 200) {
+                        _tokenInfo.value = TokenState.Success(it.resultData)
+                        Timber.d("!!success : ${it.resultData.message}")
+
                         when (it.resultData.message) {
-                            TokenState.TOKEN_VALID -> { // 토큰 정상
-                                _loginState.value = TokenState.TOKEN_VALID
+                            TokenValidState.TOKEN_VALID -> { // 토큰 정상
+                                _loginState.value = TokenValidState.TOKEN_VALID
                             }
 
-                            TokenState.TOKEN_ACCESS_EXPIRED -> { // accessToken 만료
+                            TokenValidState.TOKEN_ACCESS_EXPIRED -> { // accessToken 만료
                                 tokenData.collect{tokenData ->
                                     val accessToken = it.resultData.accessToken
                                     val refreshToken = tokenData.refreshToken
                                     if (accessToken != null) {
                                         loginRepository.updateTokenData(accessToken, refreshToken)
                                     }
-                                    _loginState.value = TokenState.TOKEN_ACCESS_EXPIRED
+                                    _loginState.value = TokenValidState.TOKEN_ACCESS_EXPIRED
                                 }
                             }
 
-                            TokenState.TOKEN_REFRESH_EXPIRED -> { // refreshToken 만료
-                                _loginState.value = TokenState.TOKEN_REFRESH_EXPIRED
+                            TokenValidState.TOKEN_REFRESH_EXPIRED -> { // refreshToken 만료
+                                _loginState.value = TokenValidState.TOKEN_REFRESH_EXPIRED
                             }
 
                             else -> {
-                                _loginState.value = TokenState.FAILURE
+                                _loginState.value = TokenValidState.FAILURE
                             }
                         }
+                    } else {
+                        _tokenInfo.value = TokenState.Loading(it.resultData)
+                        Timber.d("!!failure : ${it.resultMessage}")
                     }
                 }
         }

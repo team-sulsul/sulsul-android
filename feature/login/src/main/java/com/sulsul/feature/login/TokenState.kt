@@ -1,11 +1,10 @@
 package com.sulsul.feature.login
 
-import com.sulsul.core.data.remote.model.response.TokenResponse
+import com.sulsul.core.data.remote.model.response.TokenResult
 
-object TokenState {
-    val LOADING = "000"
-    val TOKEN_VALID = "200"
-    val TOKEN_ACCESS_EXPIRED = "600"
-    val TOKEN_REFRESH_EXPIRED = "601"
-    val FAILURE = "400"
+sealed class TokenState {
+    object Initial : TokenState()
+    class Loading(val data: TokenResult) : TokenState()
+    class Failure(val msg: Throwable) : TokenState()
+    class Success(val data: TokenResult) : TokenState()
 }
