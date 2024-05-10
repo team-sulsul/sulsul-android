@@ -8,9 +8,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -18,11 +16,11 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.data.remote.model.response.MonthlyDrunkenState
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -30,7 +28,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val reportViewModel: ReportViewModel by viewModels()
 
-    private val dataList = arrayListOf(3, 5, 10)
+    private var dataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
     private val entryList = arrayListOf<Entry>()
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -58,20 +56,41 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         lifecycleScope.launch {
             reportViewModel.reportInfo.collect { state ->
                 when (state) {
-                    is ReportState.Initial -> {
-                    }
-
+                    is ReportState.Initial -> {}
                     is ReportState.Loading -> {
+                        emptyViewVisible(true)
                     }
-
                     is ReportState.Failure -> {
+                        emptyViewVisible(true)
                     }
-
                     is ReportState.Success -> {
-                        if (state.data.monthlyDrinkData == null) { // 기록된 술 데이터 없음
+                        if (state.data.monthlyDrinkData == null && state.data.monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             emptyViewVisible(true)
                         } else {
                             emptyViewVisible(false)
+                            dataList.clear()
+                            state.data.recentThreeMonthDrinks.forEach { dataList.add(it.times) }
+                            binding.apply {
+                                // 최근 3개월 음주 빈도
+                                // todo : 색깔
+                                val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
+                                var differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
+                                tvReportRecentMonthSummaryAmount.text = getString(R.string.report_recent_month_amount, drinkDifference, differenceString)
+
+                                // 이달의 컨디션
+                                val monthlyDrunkenState = state.data.monthlyDrunkenState
+                                layoutReportDrunkenStateBar.tvReportDrunkenState1Value.text = monthlyDrunkenState!!.drunkenLevel1Count.toString()
+                                layoutReportDrunkenStateBar.tvReportDrunkenState2Value.text = monthlyDrunkenState.drunkenLevel2Count.toString()
+                                layoutReportDrunkenStateBar.tvReportDrunkenState3Value.text = monthlyDrunkenState.drunkenLevel3Count.toString()
+                                layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
+                                layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
+
+                                layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
+                                layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
+                                layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
+                                layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
+                                layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+                            }
                         }
                     }
                 }
@@ -168,4 +187,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             binding.layoutReportNoData.root.visibility = GONE
         }
     }
+
+    private fun getDrunkenStatePercentage(drunkenData: MonthlyDrunkenState, stateValue: Int): Int {
+        val totalDrunkenState = drunkenData.apply {
+            drunkenLevel1Count + drunkenLevel2Count + drunkenLevel3Count + drunkenLevel4Count + drunkenLevel5Count
+        }.toString().toInt()
+        return stateValue / totalDrunkenState
+    }
+
 }
