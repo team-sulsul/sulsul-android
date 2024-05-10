@@ -1,6 +1,7 @@
 package com.sulsul.feature.report
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -42,9 +43,14 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
         getReport()
 
+        initLayout()
         initLineChart()
         initLineChartMarker()
-        }
+    }
+
+    private fun initLayout() {
+        setDrinkDifferenceText()
+    }
 
     // Todo : 넘기는 date값 수정
     private fun getReport() {
@@ -72,10 +78,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             state.data.recentThreeMonthDrinks.forEach { dataList.add(it.times) }
                             binding.apply {
                                 // 최근 3개월 음주 빈도
-                                // todo : 색깔
-                                val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
-                                var differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
-                                tvReportRecentMonthSummaryAmount.text = getString(R.string.report_recent_month_amount, drinkDifference, differenceString)
+                                setDrinkDifferenceText()
 
                                 // 이달의 컨디션
                                 val monthlyDrunkenState = state.data.monthlyDrunkenState
@@ -193,6 +196,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             drunkenLevel1Count + drunkenLevel2Count + drunkenLevel3Count + drunkenLevel4Count + drunkenLevel5Count
         }.toString().toInt()
         return stateValue / totalDrunkenState
+    }
+
+    private fun setDrinkDifferenceText() {
+        val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
+        val differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
+        binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(getString(R.string.report_recent_month_amount, drinkDifference, differenceString))
     }
 
 }
