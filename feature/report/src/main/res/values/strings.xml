@@ -6,6 +6,10 @@
     <string name="report_drunken_state_4">취했어요</string>
     <string name="report_drunken_state_5">핑글핑글</string>
 
+
+    <string name="item_report_empty_title">한 개 이상의 음주 기록이 필요해요!\n음주 기록하러 가볼까요?</string>
+    <string name="item_report_empty">기록하러 가기</string>
+
     <string name="report_recent_month_drink_title">최근 3개월 음주 빈도</string>
     <string name="report_recent_month_summary">음주가 줄었어요.</string>
     <string name="report_recent_month_amount"><![CDATA[지난달 보다 <b><font color=#f26c00>%d</b>번 <b><font color=#f26c00>%s</b> 마셨어요!]]></string>
