@@ -8,8 +8,11 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -63,6 +66,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             }
             ivReportArrowRight.setOnClickListener {
                 getReport(makeDate(true))
+            }
+            layoutReportNoData.btnItemReportEmpty.setOnClickListener {
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri("android-app://com.teamsulsul.sulsul/mainFragment".toUri())
+                    .build()
+                findNavController().navigate(request)
             }
         }
     }
