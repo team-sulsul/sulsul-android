@@ -69,6 +69,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private fun initLayout(date: LocalDate) {
         setDateTitleText(date)
+        setSummaryText("유저123")
         setDrinkDifferenceText()
     }
 
@@ -91,6 +92,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             dataList.clear()
                             state.data.recentThreeMonthDrinks.forEach { dataList.add(it.times) }
                             binding.apply {
+                                // 이달의 통계 요약
+                                // Todo : 랜덤닉네임 response내려오도록 수정되면 유저 닉네임으로 바꾸기
+                                // Todo : 술, 상태 최댓값 넣기
+                                setSummaryText("유저123")
+
                                 // 최근 3개월 음주 빈도
                                 setDrinkDifferenceText()
 
@@ -246,5 +252,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private fun setDateTitleText(date: LocalDate) {
         binding.tvReportTitle.text = getString(R.string.report_title, date.year, Month.valueOf(date.month.toString()).value)
+    }
+
+    private fun setSummaryText(userName: String) {
+        binding.apply {
+            tvReportSummaryUser.text = getString(R.string.report_summary_user, userName)
+        }
     }
 }

@@ -16,4 +16,6 @@
     <string name="report_recent_month_amount"><![CDATA[지난달 보다 <b><font color=#7087ff>%d</b>번 %s 마셨어요!]]></string>
 
     <string name="report_drunken_state_title">이달의 컨디션</string>
+    <string name="report_summary_user">이번달 %s의 고래는?</string>
+    <string name="report_add_drink_data">음주 기록을 추가하고\n유저123의 고래를 확인하세요!</string>
 </resources>
