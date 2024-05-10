@@ -22,6 +22,7 @@ import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -52,22 +53,20 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         initLineChartMarker()
     }
 
+    private fun initClickListener() {
+        binding.apply {
+            // 겁나 빨리 화살표 누르면 문제 없나..? 글고 잘...통신되나..?
+            ivReportArrowLeft.setOnClickListener{
+                getReport(makeDate(false))
+            }
+            ivReportArrowRight.setOnClickListener {
+                getReport(makeDate(true))
+            }
+        }
+    }
+
     private fun initLayout() {
         setDrinkDifferenceText()
-    }
-
-    // Todo : 넘기는 date값 수정
-    private fun getReport(date: LocalDate) {
-        curDate = date
-        reportViewModel.getReport(curDate.toString())
-    }
-
-    private fun makeDate(isNext: Boolean): LocalDate {
-        return if (isNext) {
-            curDate.plus(1, ChronoUnit.MONTHS)
-        } else {
-            curDate.minus(1, ChronoUnit.MONTHS)
-        }
     }
 
     private fun observeReportInfo() {
@@ -213,23 +212,30 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
             layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
 
-            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
+                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress =
+                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress =
+                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress =
+                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
+                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
         }
     }
 
-    private fun initClickListener() {
-        binding.apply {
-            // 겁나 빨리 화살표 누르면 문제 없나..? 글고 잘...통신되나..?
-            ivReportArrowLeft.setOnClickListener{
-                getReport(makeDate(false))
-            }
-            ivReportArrowRight.setOnClickListener {
-                getReport(makeDate(true))
-            }
+    private fun getReport(date: LocalDate) {
+        curDate = date
+        Timber.tag("request Date").d(curDate.toString())
+        reportViewModel.getReport(curDate.toString())
+    }
+
+    private fun makeDate(isNext: Boolean): LocalDate {
+        return if (isNext) {
+            curDate.plus(1, ChronoUnit.MONTHS)
+        } else {
+            curDate.minus(1, ChronoUnit.MONTHS)
         }
     }
 }
