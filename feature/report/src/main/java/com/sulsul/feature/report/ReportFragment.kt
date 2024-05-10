@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
+import java.time.Month
 import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
@@ -44,10 +45,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getReport(LocalDate.now().withDayOfMonth(1)) //29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
+        val localDate = LocalDate.now().withDayOfMonth(1) //29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
+        getReport(localDate)
         observeReportInfo()
 
-        initLayout()
+        initLayout(localDate)
         initClickListener()
         initLineChart()
         initLineChartMarker()
@@ -65,7 +67,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun initLayout() {
+    private fun initLayout(date: LocalDate) {
+        setDateTitleText(date)
         setDrinkDifferenceText()
     }
 
@@ -232,10 +235,16 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
     private fun makeDate(isNext: Boolean): LocalDate {
-        return if (isNext) {
+        val date = if (isNext) {
             curDate.plus(1, ChronoUnit.MONTHS)
         } else {
             curDate.minus(1, ChronoUnit.MONTHS)
         }
+        setDateTitleText(date)
+        return date
+    }
+
+    private fun setDateTitleText(date: LocalDate) {
+        binding.tvReportTitle.text = getString(R.string.report_title, date.year, Month.valueOf(date.month.toString()).value)
     }
 }
