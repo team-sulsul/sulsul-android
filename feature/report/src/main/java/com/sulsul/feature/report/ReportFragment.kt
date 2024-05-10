@@ -23,6 +23,7 @@ import com.sulsul.feature.report.viewModel.ReportViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
@@ -31,6 +32,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private var dataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
     private val entryList = arrayListOf<Entry>()
+    private lateinit var curDate: LocalDate
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -41,9 +43,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getReport()
+        getReport(LocalDate.now().withDayOfMonth(1)) //29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
+        observeReportInfo()
 
         initLayout()
+        initClickListener()
         initLineChart()
         initLineChartMarker()
     }
@@ -53,9 +57,17 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
     // Todo : 넘기는 date값 수정
-    private fun getReport() {
-        reportViewModel.getReport("2024-05-01")
-        observeReportInfo()
+    private fun getReport(date: LocalDate) {
+        curDate = date
+        reportViewModel.getReport(curDate.toString())
+    }
+
+    private fun makeDate(isNext: Boolean): LocalDate {
+        return if (isNext) {
+            curDate.plus(1, ChronoUnit.MONTHS)
+        } else {
+            curDate.minus(1, ChronoUnit.MONTHS)
+        }
     }
 
     private fun observeReportInfo() {
@@ -206,6 +218,18 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
             layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
             layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+        }
+    }
+
+    private fun initClickListener() {
+        binding.apply {
+            // 겁나 빨리 화살표 누르면 문제 없나..? 글고 잘...통신되나..?
+            ivReportArrowLeft.setOnClickListener{
+                getReport(makeDate(false))
+            }
+            ivReportArrowRight.setOnClickListener {
+                getReport(makeDate(true))
+            }
         }
     }
 }
