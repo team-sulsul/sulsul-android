@@ -70,7 +70,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         emptyViewVisible(true)
                     }
                     is ReportState.Success -> {
-                        if (state.data.monthlyDrinkData == null && state.data.monthlyDrunkenState == null) { // 기록된 술 데이터 없음
+                        if (state.data.monthlyDrinkData == null || state.data.monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             emptyViewVisible(true)
                         } else {
                             emptyViewVisible(false)
@@ -81,18 +81,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                                 setDrinkDifferenceText()
 
                                 // 이달의 컨디션
-                                val monthlyDrunkenState = state.data.monthlyDrunkenState
-                                layoutReportDrunkenStateBar.tvReportDrunkenState1Value.text = monthlyDrunkenState!!.drunkenLevel1Count.toString()
-                                layoutReportDrunkenStateBar.tvReportDrunkenState2Value.text = monthlyDrunkenState.drunkenLevel2Count.toString()
-                                layoutReportDrunkenStateBar.tvReportDrunkenState3Value.text = monthlyDrunkenState.drunkenLevel3Count.toString()
-                                layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
-                                layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
-
-                                layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
-                                layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
-                                layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
-                                layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
-                                layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+                                setDrunkenState(state.data.monthlyDrunkenState!!)
                             }
                         }
                     }
@@ -204,4 +193,19 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(getString(R.string.report_recent_month_amount, drinkDifference, differenceString))
     }
 
+    private fun setDrunkenState(monthlyDrunkenState: MonthlyDrunkenState) {
+        binding.apply {
+            layoutReportDrunkenStateBar.tvReportDrunkenState1Value.text = monthlyDrunkenState!!.drunkenLevel1Count.toString()
+            layoutReportDrunkenStateBar.tvReportDrunkenState2Value.text = monthlyDrunkenState.drunkenLevel2Count.toString()
+            layoutReportDrunkenStateBar.tvReportDrunkenState3Value.text = monthlyDrunkenState.drunkenLevel3Count.toString()
+            layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
+            layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
+
+            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
+            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+        }
+    }
 }
