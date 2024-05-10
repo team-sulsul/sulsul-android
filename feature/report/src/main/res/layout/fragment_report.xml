@@ -58,7 +58,7 @@
             <View
                 android:id="@+id/view_report_summary"
                 android:layout_width="match_parent"
-                android:layout_height="370dp"
+                android:layout_height="306dp"
                 android:background="@color/blue_200"
                 app:layout_constraintTop_toTopOf="parent" />
 
