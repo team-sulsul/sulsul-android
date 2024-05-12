@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.local.repository.RecordRepository
+import com.sulsul.core.data.local.repository.RecordLocalRepository
 import com.sulsul.core.model.DrinkRecord
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalenderViewModel @Inject constructor(
-    private val repository: RecordRepository,
+    private val repository: RecordLocalRepository,
 ) : ViewModel() {
 
     private val calendarDate = LocalDate.now()

@@ -109,14 +109,22 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         binding.tvDrinkNext.setOnClickListener {
             if (args.drinkRecord.drinks.isEmpty()) {
                 // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
-                viewModel.insertDrinkRecord(
+                viewModel.insertLocalDrinkRecord(
+                    DrinkRecord(
+                        recordedAt = args.drinkRecord.recordedAt,
+                        drinks = viewModel.drinks
+                    )
+                )
+
+                // 서버로 데이터 전송
+                viewModel.postDrinkRecord(
                     DrinkRecord(
                         recordedAt = args.drinkRecord.recordedAt,
                         drinks = viewModel.drinks
                     )
                 )
             } else {
-                viewModel.updateDrinks(
+                viewModel.updateLocalDrinks(
                     viewModel.drinks[0].recordId,
                     viewModel.drinks
                 )
@@ -134,7 +142,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 rightButton = "삭제",
                 onLeftButtonClicked = {},
                 onRightButtonClicked = {
-                    viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
+                    viewModel.deleteLocalDrinkRecord(args.drinkRecord.recordedAt)
                     Navigation.findNavController(it).navigateUp()
                 }
             )

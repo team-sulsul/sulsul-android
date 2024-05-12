@@ -1,11 +1,11 @@
-package com.sulsul.core.data.remote.model.request
+package com.sulsul.core.data.remote.model.response
 
 import com.sulsul.core.data.remote.model.BeverageInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TotalRecordRequest(
+data class TotalRecordResponse(
     @SerialName("recordedAt")
     val recordedAt: String,
     @SerialName("drunkenLevel")

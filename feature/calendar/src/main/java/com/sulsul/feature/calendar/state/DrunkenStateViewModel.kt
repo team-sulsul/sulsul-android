@@ -2,7 +2,7 @@ package com.sulsul.feature.calendar.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.local.repository.RecordRepository
+import com.sulsul.core.data.local.repository.RecordLocalRepository
 import com.sulsul.feature.calendar.enums.DrunkenStateTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DrunkenStateViewModel @Inject constructor(
-    private val repository: RecordRepository
+    private val repository: RecordLocalRepository
 ) : ViewModel() {
 
     var state = DrunkenStateTheme.DRUNKEN_LEVEL_DEFAULT.name

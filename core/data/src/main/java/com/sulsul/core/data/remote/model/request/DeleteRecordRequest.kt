@@ -4,9 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StateRecordRequest(
+data class DeleteRecordRequest(
     @SerialName("recordedAt")
-    val recordedAt: String,
-    @SerialName("drunkenLevel")
-    val drunkennessLevel: String,
-)
+    val recordedAt: String
+) // mapper 없이 사용

@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,10 +56,27 @@ object ApiModule {
 
     @Provides
     @Singleton
+    fun providesHeaderInterceptor() = Interceptor { chain ->
+        with(chain) {
+            val request = request().newBuilder()
+            val tempToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzEzODAwNTczfQ.IQE-SStEcDLhmU87GkrqVH1H9qyIG4zQQ9t7T4OScE9-zFarj26ZxGOgO3-6XagpsQTtHzYu25D-m7_UGOtimg"
+
+            if (tempToken != null) {
+                request
+                    .addHeader("Authorization", tempToken)
+            }
+            proceed(request.build())
+        }
+    }
+
+    @Provides
+    @Singleton
     fun providesOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        headerInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(httpLoggingInterceptor)
+        .addInterceptor(headerInterceptor)
         .connectTimeout(5, TimeUnit.SECONDS) // 서버 연결 대기 최대 5초
         .readTimeout(5, TimeUnit.SECONDS) // 데이터 읽기 대기 최대 5초
         .writeTimeout(5, TimeUnit.SECONDS) // 데이터 쓰기 대기 최대 5초
