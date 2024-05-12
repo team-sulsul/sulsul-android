@@ -7,6 +7,7 @@ import com.sulsul.core.data.remote.mapper.toRemoteTotalRequestModel
 import com.sulsul.core.data.remote.model.request.DeleteRecordRequest
 import com.sulsul.core.model.DrinkRecord
 import kotlinx.coroutines.flow.flow
+import java.time.LocalDate
 import javax.inject.Inject
 
 class RecordRemoteRepository @Inject constructor(
@@ -26,8 +27,8 @@ class RecordRemoteRepository @Inject constructor(
         emit(response)
     }
 
-    suspend fun deleteRecord(deletedRecord: DeleteRecordRequest) = flow {
-        val response = recordApi.deleteRecord(deletedRecord)
+    suspend fun deleteRecord(date: LocalDate) = flow {
+        val response = recordApi.deleteRecord(DeleteRecordRequest(recordedAt = date.toString()))
         emit(response)
     }
 

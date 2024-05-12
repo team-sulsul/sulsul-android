@@ -34,16 +34,12 @@ class DrinkViewModel @Inject constructor(
     var drinks = mutableListOf<DrinkInfo>()
     var recordId = 0
 
-    // 네이밍 DB 넣게
+    /**
+     * Local DB
+     */
     fun insertLocalDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
             localRepository.insertRecord(record)
-        }
-    }
-
-    fun deleteLocalDrinkRecord(date: LocalDate) {
-        viewModelScope.launch(Dispatchers.IO) {
-            localRepository.deleteRecord(date)
         }
     }
 
@@ -53,12 +49,29 @@ class DrinkViewModel @Inject constructor(
         }
     }
 
+    fun deleteLocalDrinkRecord(date: LocalDate) {
+        viewModelScope.launch(Dispatchers.IO) {
+            localRepository.deleteRecord(date)
+        }
+    }
+
+    /**
+     * Remote Server
+     */
     fun postDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
             remoteRepository.postDrinkRecord(record)
                 .collect {
                     Log.d("###", "code : $it")
                 }
+        }
+    }
+
+    // 수정
+
+    fun deleteDrinkRecord(date: LocalDate) {
+        viewModelScope.launch(Dispatchers.IO) {
+            remoteRepository.deleteRecord(date)
         }
     }
 }

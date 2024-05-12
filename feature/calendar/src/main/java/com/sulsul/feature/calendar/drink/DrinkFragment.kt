@@ -144,6 +144,9 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 onRightButtonClicked = {
                     viewModel.deleteLocalDrinkRecord(args.drinkRecord.recordedAt)
                     Navigation.findNavController(it).navigateUp()
+
+                    viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
+                    Navigation.findNavController(it).navigateUp()
                 }
             )
             dialog.show(childFragmentManager, "DELETE_DIALOG")
