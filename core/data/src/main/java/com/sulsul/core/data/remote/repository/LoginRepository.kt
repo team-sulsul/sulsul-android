@@ -23,12 +23,11 @@ class LoginRepository @Inject constructor(
         }
     }
 
-    suspend fun postToken(accessToken: String, refreshToken: String): Flow<TokenResponse> {
+    suspend fun postToken(accessToken: String): Flow<TokenResponse> {
         return flow {
             emit(loginApi.postToken(
                 TokenRequest(
-                        accessToken = accessToken,
-                        refreshToken = refreshToken
+                        accessToken = accessToken
                     )
                 )
             )
@@ -37,12 +36,12 @@ class LoginRepository @Inject constructor(
 
     fun getTokenData(): Flow<TokenData>{
         return preferencesDataStore.tokenData.map {
-            tokenData -> TokenData(tokenData.accessToken, tokenData.refreshToken)
+            tokenData -> TokenData(tokenData.accessToken)
         }
     }
 
-    suspend fun updateTokenData(accessToken: String, refreshToken: String) {
-        preferencesDataStore.updateTokenData(accessToken = accessToken, refreshToken = refreshToken)
+    suspend fun updateTokenData(accessToken: String) {
+        preferencesDataStore.updateTokenData(accessToken = accessToken)
         Timber.tag("updateToken").d("token updated")
     }
 }

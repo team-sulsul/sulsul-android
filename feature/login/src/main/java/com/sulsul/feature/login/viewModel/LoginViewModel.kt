@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
                 }.collect {
                     if (it.resultCode.toInt() == 200) {
                         _loginInfo.value = LoginState.Success(it.resultData)
-                        loginRepository.updateTokenData(it.resultData.accessToken, it.resultData.refreshToken)
+                        loginRepository.updateTokenData(it.resultData.accessToken)
                         Timber.d("!!success : ${it.resultMessage}")
                     } else {
                         _loginInfo.value = LoginState.Loading(it.resultData)

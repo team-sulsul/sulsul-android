@@ -70,13 +70,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         lifecycleScope.launch {
             splashViewModel.tokenData.collect{tokenData ->
                 val accessToken = tokenData.accessToken
-                val refreshToken = tokenData.refreshToken
-                if (accessToken.isEmpty() || refreshToken.isEmpty()) {
-                    Timber.tag("checkToken in dataStore").d("no token!! accessToken : $accessToken, refreshToken : $refreshToken")
+                if (accessToken.isEmpty()) {
+                    Timber.tag("checkToken in dataStore").d("no token!! accessToken : $accessToken")
                     isReady = true
                 } else {
-                    Timber.tag("checkToken in dataStore").d("accessToken : $accessToken, refreshToken : $refreshToken")
-                    splashViewModel.checkToken(accessToken, refreshToken)
+                    Timber.tag("checkToken in dataStore").d("accessToken : $accessToken")
+                    splashViewModel.checkToken(accessToken)
                     observeTokenInfo()
                 }
             }

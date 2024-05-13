@@ -21,8 +21,8 @@ class SplashViewModel @Inject constructor(
     object TokenValidState { // todo : 이걸 어따 두지
         val LOADING = "000"
         val TOKEN_VALID = "200"
-        val TOKEN_ACCESS_EXPIRED = "600"
-        val TOKEN_REFRESH_EXPIRED = "601"
+        val TOKEN_ACCESS_EXPIRED = "400"
+        val TOKEN_REFRESH_EXPIRED = "401"
         val FAILURE = "400"
     }
 
@@ -35,9 +35,9 @@ class SplashViewModel @Inject constructor(
     val tokenData = loginRepository.getTokenData()
 
     // 결과에 따라 이동활 화면 구분
-    fun checkToken(accessToken: String, refreshToken: String) {
+    fun checkToken(accessToken: String) {
         viewModelScope.launch {
-            loginRepository.postToken(accessToken, refreshToken)
+            loginRepository.postToken(accessToken)
                 .catch {e ->
                     _tokenInfo.value = TokenState.Failure(e)
                     Timber.d("!!error : $e")
@@ -54,9 +54,8 @@ class SplashViewModel @Inject constructor(
                             TokenValidState.TOKEN_ACCESS_EXPIRED -> { // accessToken 만료
                                 tokenData.collect{tokenData ->
                                     val accessToken = it.resultData.accessToken
-                                    val refreshToken = tokenData.refreshToken
                                     if (accessToken != null) {
-                                        loginRepository.updateTokenData(accessToken, refreshToken)
+                                        loginRepository.updateTokenData(accessToken)
                                     }
                                     _loginState.value = TokenValidState.TOKEN_ACCESS_EXPIRED
                                 }
