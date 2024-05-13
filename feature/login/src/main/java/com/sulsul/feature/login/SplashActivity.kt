@@ -106,14 +106,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                         isLoginAvailable = true
                         isReady = true
                     }
-                    SplashViewModel.TokenValidState.TOKEN_ACCESS_EXPIRED -> {
-                        isLoginAvailable = true
-                        isReady = true
-                    }
-                  SplashViewModel.TokenValidState.TOKEN_REFRESH_EXPIRED -> {
-                        isLoginAvailable = false
-                        isReady = true
-                    }
+//                    SplashViewModel.TokenValidState.TOKEN_ACCESS_EXPIRED -> {
+//                        isLoginAvailable = true
+//                        isReady = true
+//                    }
+//                    SplashViewModel.TokenValidState.TOKEN_REFRESH_EXPIRED -> {
+//                        isLoginAvailable = false
+//                        isReady = true
+//                    }
                     else -> { // Loading
                   }
                 }
