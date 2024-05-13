@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
     private val loginApi: LoginApi,
-    private val preferencesDataStore: TokenPreferenceDataSource
 ) {
     suspend fun postLogin(kakaoAccess: String): Flow<LoginResponse> {
         return flow {
@@ -32,16 +31,5 @@ class LoginRepository @Inject constructor(
                 )
             )
         }
-    }
-
-    fun getTokenData(): Flow<TokenData>{
-        return preferencesDataStore.tokenData.map {
-            tokenData -> TokenData(tokenData.accessToken)
-        }
-    }
-
-    suspend fun updateTokenData(accessToken: String) {
-        preferencesDataStore.updateTokenData(accessToken = accessToken)
-        Timber.tag("updateToken").d("token updated")
     }
 }

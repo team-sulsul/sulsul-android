@@ -2,6 +2,7 @@ package com.sulsul.feature.login.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sulsul.core.data.TokenManager
 import com.sulsul.core.data.remote.repository.LoginRepository
 import com.sulsul.feature.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _loginInfo  = MutableStateFlow<LoginState>(LoginState.Initial)
@@ -33,7 +35,7 @@ class LoginViewModel @Inject constructor(
                 }.collect {
                     if (it.resultCode.toInt() == 200) {
                         _loginInfo.value = LoginState.Success(it.resultData)
-                        loginRepository.updateTokenData(it.resultData.accessToken)
+                        tokenManager.updateTokenData(it.resultData.accessToken)
                         Timber.d("!!success : ${it.resultMessage}")
                     } else {
                         _loginInfo.value = LoginState.Loading(it.resultData)
