@@ -14,20 +14,17 @@ class TokenPreferenceDataSource @Inject constructor(
 ) {
     object PreferencesKey {
         val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
-        val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
     }
 
     val tokenData = dataStore.data.map { preferences ->
         TokenData(
-            accessToken = preferences[PreferencesKey.ACCESS_TOKEN] ?: "",
-            refreshToken = preferences[PreferencesKey.REFRESH_TOKEN] ?: ""
+            accessToken = preferences[PreferencesKey.ACCESS_TOKEN] ?: ""
         )
     }
 
-    suspend fun updateTokenData(accessToken: String, refreshToken: String) {
+    suspend fun updateTokenData(accessToken: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.ACCESS_TOKEN] = accessToken
-            preferences[PreferencesKey.REFRESH_TOKEN] = refreshToken
         }
     }
 }
