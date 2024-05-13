@@ -12,7 +12,5 @@ data class TokenResponse(
 
 @Serializable
 data class TokenResult(
-    @SerialName("accessToken") val accessToken: String?,
-    @SerialName("message") val message: String?
-
+    @SerialName("accessToken") val accessToken: String?
 )
