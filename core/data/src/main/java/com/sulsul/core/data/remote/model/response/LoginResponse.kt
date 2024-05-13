@@ -13,9 +13,6 @@ data class LoginResponse(
 @Serializable
 data class LoginResult(
     @SerialName("accessToken") val accessToken: String,
-    @SerialName("refreshToken") val refreshToken: String,
-    @SerialName("grantType") val grantType: String,
-    @SerialName("expiresIn") val expiresIn: Long,
     @SerialName("message") val message: String
 )
 
