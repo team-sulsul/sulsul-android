@@ -13,7 +13,9 @@ import android.webkit.WebViewClient
 import androidx.navigation.Navigation
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.setting.databinding.FragmentTermsWebviewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TermsWebViewFragment : BaseFragment<FragmentTermsWebviewBinding>() {
 
     private val args: TermsWebViewFragmentArgs by navArgs()
