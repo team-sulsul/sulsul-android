@@ -25,15 +25,21 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
 
     private fun initListener() {
         binding.containerSettingNotification.setOnClickListener {
-
+            val notificationUrl = "www.naver.com"
+            val title = getString(R.string.setting_notification)
+            setNavAction(notificationUrl, title)
         }
 
         binding.containerSettingTermsOfUse.setOnClickListener {
-
+            val termsOfUseUrl = ""
+            val title = getString(R.string.setting_terms_of_use)
+            setNavAction(termsOfUseUrl, title)
         }
 
         binding.containerSettingPrivacyPolicy.setOnClickListener {
-
+            val privacyPolicyUrl = ""
+            val title = getString(R.string.setting_privacy_policy)
+            setNavAction(privacyPolicyUrl, title)
         }
 
         binding.btnSettingLogout.setOnClickListener {
@@ -54,5 +60,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             val navController = findNavController()
             navController.navigate(R.id.action_settingFragment_to_deleteAccountFragment)
         }
+    }
+
+    private fun setNavAction(termUrl: String, title: String){
+        val action = SettingFragmentDirections.actionSettingFragmentToTermsWebViewFragment(termUrl, title)
+        findNavController().navigate(action)
     }
 }

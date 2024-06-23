@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import androidx.navigation.fragment.navArgs
 import android.webkit.WebViewClient
+import androidx.navigation.Navigation
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.feature.setting.databinding.FragmentTermsWebviewBinding
 
 class TermsWebViewFragment : BaseFragment<FragmentTermsWebviewBinding>() {
+
+    private val args: TermsWebViewFragmentArgs by navArgs()
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,6 +28,8 @@ class TermsWebViewFragment : BaseFragment<FragmentTermsWebviewBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initWebView()
+        setToolbar(args.title)
+        loadUrl(args.url)
     }
 
     private fun initWebView() {
@@ -46,5 +52,12 @@ class TermsWebViewFragment : BaseFragment<FragmentTermsWebviewBinding>() {
 
     private fun loadUrl(url: String) {
         binding.webviewTerms.loadUrl(url)
+    }
+
+    private fun setToolbar(title: String) {
+        binding.tbTermsWebview.tvToolbarTitle.text = title
+        binding.tbTermsWebview.btnToolbarBack.setOnClickListener {
+            Navigation.findNavController(it).navigateUp()
+        }
     }
 }

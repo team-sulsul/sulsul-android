@@ -31,11 +31,7 @@ class DeleteAccountFragment : BaseFragment<FragmentDeleteAccountBinding>() {
         }
 
         binding.cbDeleteAccount.setOnClickListener {
-            if (binding.cbDeleteAccount.isChecked) {
-                binding.btnDeleteAccount.isEnabled = true
-            } else {
-                binding.btnDeleteAccount.isEnabled = false
-            }
+            binding.btnDeleteAccount.isEnabled = binding.cbDeleteAccount.isChecked
         }
 
         binding.btnDeleteAccount.setOnClickListener {

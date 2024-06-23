@@ -20,13 +20,18 @@
     <fragment
         android:id="@+id/deleteAccountFragment"
         android:name="com.sulsul.feature.setting.DeleteAccountFragment"
-        android:label="DeleteAccountFragment" />
+        android:label="fragment_delete_account"
+        tools:layout="@layout/fragment_delete_account" />
     <fragment
         android:id="@+id/termsWebViewFragment"
         android:name="com.sulsul.feature.setting.TermsWebViewFragment"
-        android:label="TermsWebViewFragment" >
+        android:label="fragment_terms_webview"
+        tools:layout="@layout/fragment_terms_webview" >
         <argument
             android:name="url"
+            app:argType="string" />
+        <argument
+            android:name="title"
             app:argType="string" />
     </fragment>
 
