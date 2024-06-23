@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/tb_delete_account"
+        layout="@layout/default_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_delete_account_title"
+        style="@style/Headline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="57dp"
+        android:text="@string/delete_account_title"
+        android:textColor="@color/gray_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tb_delete_account" />
+
+    <TextView
+        android:id="@+id/tv_delete_account_subtitle"
+        style="@style/Body3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:text="@string/delete_account_subtitle"
+        android:textColor="@color/gray_500"
+        app:layout_constraintStart_toStartOf="@id/tv_delete_account_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_delete_account_title" />
+
+    <ImageView
+        android:id="@+id/iv_delete_account_privacy_info"
+        android:layout_width="178dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="38dp"
+        android:src="@drawable/img_account_info"
+        app:layout_constraintStart_toStartOf="@id/tv_delete_account_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/tv_delete_account_subtitle" />
+
+    <ImageView
+        android:id="@+id/iv_delete_account_drink_record"
+        android:layout_width="178dp"
+        android:layout_height="164dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/img_drink_record"
+        app:layout_constraintStart_toEndOf="@id/iv_delete_account_privacy_info"
+        app:layout_constraintTop_toTopOf="@id/iv_delete_account_privacy_info" />
+
+    <ImageView
+        android:id="@+id/iv_delete_account_drunken_state_record"
+        android:layout_width="178dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/img_drunken_state_record"
+        app:layout_constraintStart_toStartOf="@id/iv_delete_account_privacy_info"
+        app:layout_constraintTop_toBottomOf="@id/iv_delete_account_privacy_info" />
+
+    <ImageView
+        android:id="@+id/iv_delete_account_report_info"
+        android:layout_width="178dp"
+        android:layout_height="164dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/img_report_info"
+        app:layout_constraintStart_toEndOf="@id/iv_delete_account_drunken_state_record"
+        app:layout_constraintTop_toTopOf="@id/iv_delete_account_drunken_state_record" />
+
+    <CheckBox
+        android:id="@+id/cb_delete_account"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/selector_checkbox"
+        android:button="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_delete_account_drunken_state_record" />
+
+    <TextView
+        style="@style/Body3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_account_check"
+        android:textColor="@color/gray_500"
+        app:layout_constraintBottom_toBottomOf="@id/cb_delete_account"
+        app:layout_constraintStart_toEndOf="@id/cb_delete_account"
+        app:layout_constraintTop_toTopOf="@id/cb_delete_account" />
+
+    <TextView
+        android:id="@+id/btn_delete_account"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_button_bg"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/delete_account_execute"
+        android:textColor="@drawable/selector_button_text"
+        app:layout_constraintTop_toBottomOf="@id/cb_delete_account" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

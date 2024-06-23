@@ -7,12 +7,189 @@
     tools:context=".SettingFragment">
 
     <TextView
+        android:id="@+id/tv_setting_title"
+        style="@style/Headline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Setting Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="12dp"
+        android:paddingStart="20dp"
+        android:text="@string/setting_label"
+        android:textColor="@color/gray_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_setting_user_nickname"
+        style="@style/Title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/gray_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_title"
+        tools:text="유저 123" />
+
+    <TextView
+        android:id="@+id/tv_setting_total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_setting_user_nickname"
+        app:layout_constraintStart_toStartOf="@id/tv_setting_user_nickname"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_user_nickname"
+        tools:text="지금까지 마신 술 50병 2잔" />
+
+    <LinearLayout
+        android:id="@+id/container_setting_version_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_total_amount">
+
+        <TextView
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/setting_version_info"
+            android:textColor="@color/gray_500" />
+
+        <TextView
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/gray_500"
+            tools:text="1.0.05" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_setting_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_setting_version_info">
+
+        <TextView
+            style="@style/Title3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/setting_notification"
+            android:textColor="@color/gray_500" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:gravity="end"
+            android:src="@drawable/ic_small_black_arrow_right"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_setting_terms_of_use"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_setting_notification">
+
+        <TextView
+            style="@style/Title3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/setting_terms_of_use"
+            android:textColor="@color/gray_500" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:gravity="end"
+            android:src="@drawable/ic_small_black_arrow_right"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_setting_privacy_policy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_setting_terms_of_use">
+
+        <TextView
+            style="@style/Title3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/setting_privacy_policy"
+            android:textColor="@color/gray_500" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:gravity="end"
+            android:src="@drawable/ic_small_black_arrow_right"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_setting_logout"
+        style="@style/Title2"
+        android:layout_width="367dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/bg_gray400_border_r10"
+        android:gravity="center"
+        android:text="@string/setting_logout"
+        android:textColor="@color/gray_400"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_setting_privacy_policy" />
+
+    <TextView
+        android:id="@+id/tv_setting_delete_account"
+        style="@style/Body4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/setting_delete_account"
+        android:textColor="@color/gray_400"
+        app:layout_constraintStart_toStartOf="@id/btn_setting_logout"
+        app:layout_constraintTop_toBottomOf="@id/btn_setting_logout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="@string/setting_copyrights"
+        android:textColor="@color/gray_300"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_delete_account" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

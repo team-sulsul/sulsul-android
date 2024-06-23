@@ -9,6 +9,25 @@
         android:id="@+id/settingFragment"
         android:name="com.sulsul.feature.setting.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_deleteAccountFragment"
+            app:destination="@id/deleteAccountFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_termsWebViewFragment"
+            app:destination="@id/termsWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deleteAccountFragment"
+        android:name="com.sulsul.feature.setting.DeleteAccountFragment"
+        android:label="DeleteAccountFragment" />
+    <fragment
+        android:id="@+id/termsWebViewFragment"
+        android:name="com.sulsul.feature.setting.TermsWebViewFragment"
+        android:label="TermsWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
