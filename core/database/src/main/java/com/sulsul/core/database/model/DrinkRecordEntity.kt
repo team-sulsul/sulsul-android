@@ -14,6 +14,7 @@ data class DrinkRecordEntity(
 )
 
 fun DrinkRecordEntity.asExternalModel() = DrinkRecord(
+    id = id,
     recordedAt = recordedAt,
     drunkennessLevel = drunkennessLevel,
     drinks = emptyList()

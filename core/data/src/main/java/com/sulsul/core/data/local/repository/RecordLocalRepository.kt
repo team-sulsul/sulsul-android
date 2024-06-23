@@ -26,6 +26,12 @@ class RecordLocalRepository @Inject constructor(
         }
     }
 
+    fun getRecord(): Flow<List<DrinkRecord>> = recordDao.getRecordAll().map { records ->
+        records.map {record ->
+            record.asExternalModel()
+        }
+    }
+
     suspend fun insertRecord(record: DrinkRecord) {
         val recordId = recordDao.insertRecord(record = record.asEntity()) // 외래키 id 생성
         insertDrinks(recordId, record.drinks)
@@ -55,7 +61,7 @@ class RecordLocalRepository @Inject constructor(
         }
     }
 
-    private fun getDrinkInfoList(recordId: Int): Flow<List<DrinkInfo>> =
+    fun getDrinkInfoList(recordId: Int): Flow<List<DrinkInfo>> =
         drinkInfoDao.getDrinkInfoListByRecordId(recordId).map { infoList ->
             infoList.map {
                 it.asExternalModel()

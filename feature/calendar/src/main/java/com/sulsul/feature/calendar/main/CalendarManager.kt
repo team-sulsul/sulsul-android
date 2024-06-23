@@ -36,4 +36,8 @@ class CalendarManager {
     fun getSelectedYear(): Int {
         return selectedDate.year
     }
+
+    fun getFirstDayPosition(): Int {
+        return dateList.indexOf(1) + 7
+    }
 }

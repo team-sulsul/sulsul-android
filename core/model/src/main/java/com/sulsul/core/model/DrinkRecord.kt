@@ -9,5 +9,5 @@ data class DrinkRecord(
     val id: Int = 0,
     val recordedAt: LocalDate = LocalDate.now(),
     val drunkennessLevel: String = "DRUNKEN_LEVEL_DEFAULT",
-    val drinks: List<DrinkInfo> = emptyList()
+    var drinks: List<DrinkInfo> = emptyList()
 ) : Parcelable

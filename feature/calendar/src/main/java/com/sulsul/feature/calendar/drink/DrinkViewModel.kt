@@ -34,6 +34,11 @@ class DrinkViewModel @Inject constructor(
     var drinks = mutableListOf<DrinkInfo>()
     var recordId = 0
 
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("DrinkViewModel", "onCleared")
+    }
+
     /**
      * Local DB
      */
@@ -58,20 +63,20 @@ class DrinkViewModel @Inject constructor(
     /**
      * Remote Server
      */
-    fun postDrinkRecord(record: DrinkRecord) {
-        viewModelScope.launch(Dispatchers.IO) {
-            remoteRepository.postDrinkRecord(record)
-                .collect {
-                    Log.d("###", "code : $it")
-                }
-        }
-    }
-
-    // 수정
-
-    fun deleteDrinkRecord(date: LocalDate) {
-        viewModelScope.launch(Dispatchers.IO) {
-            remoteRepository.deleteRecord(date)
-        }
-    }
+//    fun postDrinkRecord(record: DrinkRecord) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            remoteRepository.postDrinkRecord(record)
+//                .collect {
+//                    Log.d("###", "code : $it")
+//                }
+//        }
+//    }
+//
+//    // 수정
+//
+//    fun deleteDrinkRecord(date: LocalDate) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            remoteRepository.deleteRecord(date)
+//        }
+//    }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.core.model.DrinkRecord
@@ -35,26 +36,32 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initCalendar()
         observeData()
     }
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.drinkRecordList.collect { records ->
-                initCalendar(records)
+            viewModel.recordList.collect { records ->
+                calendarAdapter.updateDrinkRecordList(records)
+                //initCalendar(records)
+                calendarAdapter.selectedDate(viewModel.position)
             }
         }
     }
 
-    private fun initCalendar(data: List<DrinkRecord>) {
+    private fun initCalendar() {
         val dayOfWeeks = resources.getStringArray(R.array.calendar_day_of_weeks).toList()
         viewModel.pageIndex -= (Int.MAX_VALUE / 2)
-        calendarAdapter = CalendarAdapter(dayOfWeeks, data) { date, record ->
+        calendarAdapter = CalendarAdapter(dayOfWeeks) { position, date, record ->
             viewModel.setDate(date)
+            //viewModel.setRecord(record)
             viewModel.setRecord(record)
+            viewModel.getDrinkInfoById(record.id)
+            viewModel.position = position
         }
         calendarAdapter.calendarManager.setSelectedMonth(viewModel.pageIndex)
-
+        viewModel.position = calendarAdapter.calendarManager.getFirstDayPosition()
         binding.rvCalendar.apply {
             this.adapter = calendarAdapter
             this.layoutManager = GridLayoutManager(requireContext(), DAY_OF_WEEKS)
