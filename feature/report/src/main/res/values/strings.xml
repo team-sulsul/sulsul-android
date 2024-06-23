@@ -5,4 +5,9 @@
     <string name="report_drunken_state_3">힘들어요</string>
     <string name="report_drunken_state_4">취했어요</string>
     <string name="report_drunken_state_5">핑글핑글</string>
+
+    <string name="report_recent_month_drink_title">최근 3개월 음주 빈도</string>
+    <string name="report_recent_month_summary">음주가 줄었어요.</string>
+    <string name="report_recent_month_amount">지난달 보다 2번 덜 마셨어요!</string>
+    <string name="report_drunken_state_title">이달의 컨디션</string>
 </resources>
