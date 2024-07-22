@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class TokenResponse(
     @SerialName("resultCode") val resultCode: Long,
     @SerialName("resultMessage") val resultMessage: String,
-    @SerialName("resultData") val resultData: TokenResult
+    @SerialName("resultData") val resultData: TokenResult?
 )
 
 @Serializable

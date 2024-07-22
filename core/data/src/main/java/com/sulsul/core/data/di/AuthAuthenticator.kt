@@ -22,7 +22,7 @@ class AuthAuthenticator @Inject constructor(
             if (tokenResponse.resultCode.toInt() == 400) { // access만료, 토큰 업데이트 후 재요청 (여기에 대한 200응답은 어케 체크되는거?)
                 var accessToken = ""
                 runBlocking {
-                    tokenResponse.resultData.accessToken?.let { tokenManager.updateTokenData(it) }
+                    tokenResponse.resultData?.accessToken?.let { tokenManager.updateTokenData(it) }
                     accessToken = tokenManager.getTokenData().collect{ it.accessToken }.toString()
                 }
 
