@@ -87,7 +87,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 when (state) {
                     is LoginState.Initial -> {}
                     is LoginState.Loading -> {
-                        Timber.tag(TAG).d("[sulsul login] sulsul login failed ${state.data.message}")
+                        Timber.tag(TAG).d("[sulsul login] sulsul login failed ${state.data}")
                         Toast.makeText(this@LoginActivity, "술술 로그인 실패", Toast.LENGTH_SHORT).show()
                         finish()
                     }
