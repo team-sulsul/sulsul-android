@@ -85,6 +85,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun observeReportInfo() {
         lifecycleScope.launch {
             reportViewModel.reportInfo.collect { state ->
+                Timber.d("state : $state")
                 when (state) {
                     is ReportState.Initial -> {}
                     is ReportState.Loading -> {

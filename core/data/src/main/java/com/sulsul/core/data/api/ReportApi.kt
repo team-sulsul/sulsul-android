@@ -10,7 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ReportApi {
-    @GET("/statistics")
+    @GET("/api/statistics")
     suspend fun getReport(
         @Query("startDate") requestDate: String,
         @Header("Authorization") accessToken: String

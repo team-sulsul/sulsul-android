@@ -12,6 +12,7 @@ data class ReportResponse(
 
 @Serializable
 data class ReportResult(
+    @SerialName("nickname") val nickname: String, // 닉네임
     @SerialName("section1") val monthlyDrinkData: MonthlyDrinkData?, // 이달의 음주량
     @SerialName("section2") val recentThreeMonthDrinks: ArrayList<MonthlyDrinkAmount>, // 최근 3개월의 음주량
     @SerialName("section3") val monthlyDrunkenState: MonthlyDrunkenState?, // 이달의 상태
@@ -47,6 +48,7 @@ data class MonthlyDrinkAmount( //
 
 @Serializable
 data class MonthlyDrunkenState(
+    @SerialName("maxDrunkenStatus") val maxDrunkenStatus: String,
     @SerialName("drunkenLevel1Count") val drunkenLevel1Count: Int,
     @SerialName("drunkenLevel2Count") val drunkenLevel2Count: Int,
     @SerialName("drunkenLevel3Count") val drunkenLevel3Count: Int,
