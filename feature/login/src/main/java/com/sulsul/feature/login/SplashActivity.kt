@@ -74,7 +74,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                     Timber.tag("checkToken in dataStore").d("no token!! accessToken : $accessToken")
                     isReady = true
                 } else {
-                    Timber.tag("checkToken in dataStore").d("accessToken : $accessToken")
+                    Timber.tag("checkToken in dataStore").d("accessToken : $accessToken") // todo : tokendata가 authenticator에서 바뀌고 여기가 다시 호출되나?
                     splashViewModel.checkToken(accessToken)
                     observeTokenInfo()
                 }
