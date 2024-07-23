@@ -39,7 +39,7 @@ class SplashViewModel @Inject constructor(
             loginRepository.postToken(accessToken)
                 .catch {e ->
                     _tokenInfo.value = TokenState.Failure(e)
-                    Timber.d("!!error : $e")
+                    Timber.d("!!error : $e") // todo : 여기서 또 통신을 하는게 맞나? 그럼 인터셉터에서 하는건..?
                 }.collect {
                     if (it.resultCode.toInt() == 200) {
                         _tokenInfo.value = TokenState.Success(it.resultData)
