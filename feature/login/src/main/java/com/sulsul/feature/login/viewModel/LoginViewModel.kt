@@ -19,7 +19,7 @@ class LoginViewModel @Inject constructor(
     private val tokenManager: TokenManager
 ) : ViewModel() {
 
-    private val _loginInfo  = MutableStateFlow<LoginState>(LoginState.Initial)
+    private val _loginInfo = MutableStateFlow<LoginState>(LoginState.Initial)
     val loginInfo: StateFlow<LoginState> = _loginInfo
 
     private val _errorMsg = MutableStateFlow<String>("")
@@ -29,7 +29,7 @@ class LoginViewModel @Inject constructor(
     fun tryLogin(kakaoAccess: String) {
         viewModelScope.launch {
             loginRepository.postLogin(kakaoAccess)
-                .catch {e ->
+                .catch { e ->
                     _loginInfo.value = LoginState.Failure(e)
                     Timber.d("!!error : $e")
                 }.collect {

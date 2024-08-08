@@ -14,4 +14,3 @@ data class LoginResponse(
 data class LoginResult(
     @SerialName("accessToken") val accessToken: String
 )
-

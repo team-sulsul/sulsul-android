@@ -5,12 +5,8 @@ import com.sulsul.core.data.remote.model.request.LoginRequest
 import com.sulsul.core.data.remote.model.request.TokenRequest
 import com.sulsul.core.data.remote.model.response.LoginResponse
 import com.sulsul.core.data.remote.model.response.TokenResponse
-import com.sulsul.core.datastore.datasource.TokenPreferenceDataSource
-import com.sulsul.core.datastore.model.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
@@ -24,8 +20,9 @@ class LoginRepository @Inject constructor(
 
     suspend fun postToken(accessToken: String): Flow<TokenResponse> {
         return flow {
-            emit(loginApi.postToken(
-                TokenRequest(
+            emit(
+                loginApi.postToken(
+                    TokenRequest(
                         accessToken = accessToken
                     )
                 )

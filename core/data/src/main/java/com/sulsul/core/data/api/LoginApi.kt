@@ -19,5 +19,5 @@ interface LoginApi {
     @Headers("Auth: false")
     suspend fun postToken(
         @Body sulsulToken: TokenRequest
-    ) : TokenResponse
+    ): TokenResponse
 }
