@@ -2,18 +2,15 @@ package com.sulsul.feature.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.sulsul.core.common.base.BaseActivity
 import com.sulsul.feature.login.databinding.ActivitySplashBinding
- import com.sulsul.feature.login.viewModel.SplashViewModel
+import com.sulsul.feature.login.viewModel.SplashViewModel
 import com.sulsul.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -68,7 +65,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     private fun checkSulSulToken() {
         // 토큰 저장되어있으면 토큰 유효성 검사 필요, 토큰 저장이 없으면 isReady = true에 로그인화면으로 이동
         lifecycleScope.launch {
-            splashViewModel.tokenData.collect{tokenData ->
+            splashViewModel.tokenData.collect { tokenData ->
                 val accessToken = tokenData.accessToken
                 if (accessToken.isEmpty()) {
                     Timber.tag("checkToken in dataStore").d("no token!! accessToken : $accessToken")
@@ -84,11 +81,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun observeTokenInfo() {
         lifecycleScope.launch {
-            splashViewModel.tokenInfo.collect{ state ->
+            splashViewModel.tokenInfo.collect { state ->
                 when (state) {
-                    is TokenState.Initial -> {}
-                    is TokenState.Loading -> {}
-                    is TokenState.Failure -> {}
+                    is TokenState.Initial -> { }
+                    is TokenState.Loading -> { }
+                    is TokenState.Failure -> { }
                     is TokenState.Success -> {
                         observeTokenValidState()
                     }
@@ -99,9 +96,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun observeTokenValidState() {
         lifecycleScope.launch {
-         splashViewModel.loginState.collect{ loginState ->
+            splashViewModel.loginState.collect { loginState ->
                 Timber.tag("loginState").d(loginState)
-                when(loginState) {
+                when (loginState) {
                     SplashViewModel.TokenValidState.TOKEN_VALID -> {
                         isLoginAvailable = true
                         isReady = true
@@ -114,8 +111,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 //                        isLoginAvailable = false
 //                        isReady = true
 //                    }
-                    else -> { // Loading
-                  }
+                    else -> { } // Loading
                 }
             }
         }

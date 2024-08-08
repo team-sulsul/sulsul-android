@@ -25,8 +25,8 @@ class AuthInterceptor @Inject constructor(
             token.accessToken
         }
 
-        Timber.tag("checking auth").d("authInterceptor, add Bearer with accessToken ${accessToken}")
-        val request = chain.request().newBuilder().header(AUTHORIZATION, "Bearer ${accessToken}").build()
+        Timber.tag("checking auth").d("authInterceptor, add Bearer with accessToken $accessToken")
+        val request = chain.request().newBuilder().header(AUTHORIZATION, "Bearer $accessToken").build()
         return chain.proceed(request)
     }
 
@@ -34,4 +34,3 @@ class AuthInterceptor @Inject constructor(
         const val AUTHORIZATION = "Authorization"
     }
 }
-
