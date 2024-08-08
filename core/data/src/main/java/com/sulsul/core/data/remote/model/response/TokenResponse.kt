@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginResponse(
+data class TokenResponse(
     @SerialName("resultCode") val resultCode: Long,
     @SerialName("resultMessage") val resultMessage: String,
-    @SerialName("resultData") val resultData: LoginResult
+    @SerialName("resultData") val resultData: TokenResult?
 )
 
 @Serializable
-data class LoginResult(
-    @SerialName("accessToken") val accessToken: String
+data class TokenResult(
+    @SerialName("accessToken") val accessToken: String?
 )
