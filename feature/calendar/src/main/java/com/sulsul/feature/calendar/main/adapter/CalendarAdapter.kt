@@ -1,5 +1,6 @@
 package com.sulsul.feature.calendar.main.adapter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,19 +17,16 @@ import java.time.LocalDate
 
 class CalendarAdapter(
     private val dayOfWeeks: List<String>,
-    //private val drinkRecordList: List<DrinkRecord>,
     private val onClicked: (Int, LocalDate, DrinkRecord) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    val calendarManager = CalendarManager()
 
     private val curDate = LocalDate.now()
     private val curYear = curDate.year
     private val curMonth = curDate.month
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
-
-    private var record: DrinkRecord? = null
-
-    val calendarManager = CalendarManager()
 
     private val drinkRecordList = ArrayList<DrinkRecord>()
 
@@ -45,20 +43,9 @@ class CalendarAdapter(
         const val DAY_OF_WEEKS = 7
     }
 
-    fun selectedDate(date: Int) {
-        selectedPosition = date
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        Log.d("onAttachedToRecyclerView", "onAttachedToRecyclerView")
-        selectedPosition = 10
-    }
-
-    init {
-        // 오늘 날짜에 표시한다
-        selectedPosition = 9
-    }
+//    fun selectedDate(date: Int) {
+//        selectedPosition = date
+//    }
 
     override fun getItemViewType(position: Int): Int {
         val isAfterCurYear = (curYear < calendarManager.getSelectedYear())
@@ -81,21 +68,7 @@ class CalendarAdapter(
         }
     }
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        super.onViewRecycled(holder)
-        holder.setIsRecyclable(false)
-        Log.d("onViewRecycled", "${holder.adapterPosition}")
-    }
-
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        Log.d("onViewAttachedToWindow", "${holder.adapterPosition}")
-    }
-
-    var holderSize = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        Log.d("onCreateViewHolder", "${holderSize++}")
         return when (viewType) {
             VIEW_TYPE_DAY_OF_WEEKS -> {
                 val binding = ItemDayOfWeeksBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -119,7 +92,6 @@ class CalendarAdapter(
             is DayViewHolder -> holder.bind(dayOfWeeks[position])
             is DateWithImageViewHolder -> {
                 holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS], drinkRecordList)
-                //holder.setIsRecyclable(false)
             }
             is DateViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS])
         }
@@ -143,88 +115,68 @@ class CalendarAdapter(
                 return
             }
 
-            //bsoluteAdapterPosition
-
-            bindSibal()
+            setSelectedItem()
             bindDate(date)
             bindStateImage(date, records)
             bindItemClickListener(date, records)
+        }
 
-
+        private fun setSelectedItem() {
+            if (selectedPosition == adapterPosition) {
+                updateSelectedState(true)
+            } else {
+                updateSelectedState(false)
+            }
         }
 
         private fun bindDate(date: Int) {
-            //Log.d("### date ###", "$date")
-            val d = date
-
-
             binding.tvCalendarItemSmallDate.apply {
-                if (isToday(d)) {
-                    //Log.d("### position ###", "$adapterPosition")
-                    //Log.d("### today ###", "$date")
+                if (isToday(date)) {
                     setBackgroundResource(R.drawable.bg_blue300_circle)
                     setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.white))
+                } else {
+                    setBackgroundResource(0)
+                    setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.gray_300))
                 }
 
-                text = d.toString()
+                text = date.toString()
             }
         }
-
-
-        private fun bindSibal() {
-            if (selectedPosition == adapterPosition) {
-                setSelected(true)
-            } else {
-                setSelected(false)
-            }
-        }
-
 
         private fun bindStateImage(date: Int, records: List<DrinkRecord>) {
-            if (selectedPosition == adapterPosition) {
-                val recorddd = records.firstOrNull { isSameDate(it.recordedAt, date) }
-                record = recorddd
-                setSelected(true)
-            } else {
-                setSelected(false)
-            }
+            val matchingRecord = records.firstOrNull { isSameDate(it.recordedAt, date) }
 
-
-            val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
-            record?.let {
-                val icon = getDrunkenStateTheme(it.drunkennessLevel).icon
+            if (matchingRecord != null) {
+                val icon = getDrunkenStateTheme(matchingRecord.drunkennessLevel).icon
                 binding.ivCalendarItemState.setImageResource(icon)
+            } else {
+                val defaultIcon = com.sulsul.core.designsystem.R.drawable.ic_drunken_state_empty
+                binding.ivCalendarItemState.setImageResource(defaultIcon)
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         private fun bindItemClickListener(date: Int, records: List<DrinkRecord>) {
-            val recorddd = records.firstOrNull { isSameDate(it.recordedAt, date) }
             binding.ivCalendarItemState.setOnClickListener {
-                //val position = adapterPosition
-                //record = recorddd
-
-                val prevSelectedPosition = selectedPosition
-                selectedPosition = adapterPosition
-                notifyItemChanged(selectedPosition, recorddd)
-                notifyItemChanged(prevSelectedPosition, record)
-
-
-
+                val matchingRecord = records.firstOrNull { isSameDate(it.recordedAt, date) }
                 val selectedDate = calendarManager.getSelectedDate(date)
+
+                selectedPosition = adapterPosition
+                notifyDataSetChanged()
 
                 onClicked(
                     adapterPosition,
                     selectedDate,
-                    recorddd ?: DrinkRecord(recordedAt = selectedDate)
+                    matchingRecord ?: DrinkRecord(recordedAt = selectedDate)
                 )
             }
         }
 
-        private fun setSelected(isSelected: Boolean) {
+        private fun updateSelectedState(isSelected: Boolean) {
             if (isSelected) {
                 binding.ivCalendarItemState.setBackgroundResource(R.drawable.bg_blue300_circle)
             } else {
-                binding.ivCalendarItemState.setBackgroundResource(com.sulsul.core.designsystem.R.color.transparent)
+                binding.ivCalendarItemState.setBackgroundResource(0)
             }
         }
     }

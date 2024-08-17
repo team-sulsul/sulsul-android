@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.sulsul.core.common.base.BaseFragment
-import com.sulsul.core.model.DrinkInfo
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentMainBinding
 import com.sulsul.feature.calendar.main.adapter.CalendarPagerAdapter
@@ -26,7 +25,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val viewModel: CalenderViewModel by activityViewModels()
 
-    private lateinit var pagerAdapter: CalendarPagerAdapter
+    private lateinit var calendarPagerAdapter: CalendarPagerAdapter
     private lateinit var drinkRankAdapter: DrinkRankAdapter
 
     override fun getFragmentBinding(
@@ -41,7 +40,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         Log.d("MainFragment", "onViewCreated")
 
         initPagerCalendar()
-        //setPagePosition()
+        initDrinkRankView()
         initObserver()
         initListener()
     }
@@ -66,13 +65,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         Log.d("MainFragment", "onDestroyView")
     }
 
-    private fun setPagePosition() {
-        binding.pagerCalendar.currentItem = viewModel.position - (Int.MAX_VALUE / 2)
-    }
-
-
     private fun initPagerCalendar() {
-        val calendarPagerAdapter = CalendarPagerAdapter(this)
+        calendarPagerAdapter = CalendarPagerAdapter(this)
         binding.pagerCalendar.adapter = calendarPagerAdapter
         binding.pagerCalendar.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         calendarPagerAdapter.apply {
@@ -80,9 +74,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun initDrinkRank(drinkInfoList: List<DrinkInfo>) {
+    private fun initDrinkRankView() {
         val rankList = resources.getStringArray(R.array.main_top_rank).toList()
-        val drinkRankAdapter = DrinkRankAdapter(rankList, drinkInfoList)
+        drinkRankAdapter = DrinkRankAdapter(rankList)
         binding.rvCalendarDrinkRank.apply {
             this.adapter = drinkRankAdapter
             this.layoutManager = GridLayoutManager(requireContext(), TOP_RANK)
@@ -109,9 +103,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.pagerCalendar.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (position != 0) {
-
-                }
 
                 val adjustedPosition = position - (Int.MAX_VALUE / 2)
                 viewModel.pageIndex = adjustedPosition
@@ -140,7 +131,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label)
                     binding.ivCalendarDrinkRankEmpty.visibility = View.GONE
                     binding.rvCalendarDrinkRank.visibility = View.VISIBLE
-                    initDrinkRank(record)
+                    drinkRankAdapter.updateRankData(record)
                 } else {
                     binding.tvCalendarTodayLabel.text = getString(R.string.main_today_label_empty)
                     binding.ivCalendarDrinkRankEmpty.visibility = View.VISIBLE
@@ -152,12 +143,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.selectedDate.collect { date ->
                 binding.tvCalendarDateLabel.text = formatDateToString(date)
-            }
-        }
-
-        viewModel.isLoaded.observe(viewLifecycleOwner) {
-            if (it) {
-                //initPagerCalendar()
             }
         }
     }
