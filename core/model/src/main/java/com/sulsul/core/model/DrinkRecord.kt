@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 @Parcelize
 data class DrinkRecord(
-    val id: Int = 0,
+    val id: Long = 0L,
     val recordedAt: LocalDate = LocalDate.now(),
     val drunkennessLevel: String = "DRUNKEN_LEVEL_DEFAULT",
     var drinks: List<DrinkInfo> = emptyList()

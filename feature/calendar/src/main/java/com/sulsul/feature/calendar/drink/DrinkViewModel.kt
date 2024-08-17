@@ -32,7 +32,7 @@ class DrinkViewModel @Inject constructor(
     )
 
     var drinks = mutableListOf<DrinkInfo>()
-    var recordId = 0
+    var recordId = 0L
 
     override fun onCleared() {
         super.onCleared()
@@ -48,7 +48,7 @@ class DrinkViewModel @Inject constructor(
         }
     }
 
-    fun updateLocalDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+    fun updateLocalDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
             localRepository.updateDrinks(recordId, drinks)
         }

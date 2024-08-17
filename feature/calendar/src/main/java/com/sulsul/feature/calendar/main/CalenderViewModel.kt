@@ -79,7 +79,7 @@ class CalenderViewModel @Inject constructor(
         }
     }
 
-    fun getDrinkInfoById(id: Int) {
+    fun getDrinkInfoById(id: Long) {
         viewModelScope.launch {
             repository.getDrinkInfoList(id).collect {drinkRecord
                 _drinkInfoList.value = it

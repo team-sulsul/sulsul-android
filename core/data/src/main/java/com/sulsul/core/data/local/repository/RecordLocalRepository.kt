@@ -37,7 +37,7 @@ class RecordLocalRepository @Inject constructor(
         insertDrinks(recordId, record.drinks)
     }
 
-    suspend fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+    suspend fun updateDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         drinkInfoDao.deleteDrinkInfoByRecordId(recordId)
         drinks.forEach { drinkInfo ->
             val drinkInfoEntity = drinkInfo.asEntity(drinkInfo.recordId)
@@ -55,13 +55,13 @@ class RecordLocalRepository @Inject constructor(
 
     private suspend fun insertDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         drinks.forEach { drink ->
-            val drinkInfoEntity = drink.asEntity(recordId = recordId.toInt())
+            val drinkInfoEntity = drink.asEntity(recordId = recordId)
             drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity)
             Log.d("술 데이터 저장", "$recordId, $drinkInfoEntity")
         }
     }
 
-    fun getDrinkInfoList(recordId: Int): Flow<List<DrinkInfo>> =
+    fun getDrinkInfoList(recordId: Long): Flow<List<DrinkInfo>> =
         drinkInfoDao.getDrinkInfoListByRecordId(recordId).map { infoList ->
             infoList.map {
                 it.asExternalModel()
