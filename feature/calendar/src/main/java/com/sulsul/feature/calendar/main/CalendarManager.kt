@@ -8,7 +8,7 @@ class CalendarManager {
     private var selectedDate = LocalDate.now()
     val dateList = arrayListOf<Int>()
 
-    fun initMonthData() {
+    private fun initMonthData() {
         dateList.clear()
         val firstDayOfMonth = selectedDate.withDayOfMonth(1).dayOfWeek.value
 

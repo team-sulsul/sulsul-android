@@ -30,11 +30,6 @@ class CalendarAdapter(
 
     private val drinkRecordList = ArrayList<DrinkRecord>()
 
-    fun updateDrinkRecordList(list: List<DrinkRecord>) {
-        drinkRecordList.clear()
-        drinkRecordList.addAll(list)
-    }
-
     companion object {
         const val VIEW_TYPE_DAY_OF_WEEKS = 0
         const val VIEW_TYPE_DATE = 1
@@ -42,10 +37,6 @@ class CalendarAdapter(
 
         const val DAY_OF_WEEKS = 7
     }
-
-//    fun selectedDate(date: Int) {
-//        selectedPosition = date
-//    }
 
     override fun getItemViewType(position: Int): Int {
         val isAfterCurYear = (curYear < calendarManager.getSelectedYear())
@@ -165,7 +156,7 @@ class CalendarAdapter(
                 notifyDataSetChanged()
 
                 onClicked(
-                    adapterPosition,
+                    selectedPosition,
                     selectedDate,
                     matchingRecord ?: DrinkRecord(recordedAt = selectedDate)
                 )
@@ -201,5 +192,15 @@ class CalendarAdapter(
         return (curYear == calendarManager.getSelectedYear()) &&
             (curMonth == calendarManager.getSelectedMonth()) &&
             (curDate.dayOfMonth == date)
+    }
+
+    fun updateDrinkRecordList(list: List<DrinkRecord>) {
+        drinkRecordList.clear()
+        drinkRecordList.addAll(list)
+    }
+
+    fun selectedDate(date: Int) {
+        selectedPosition = date
+        notifyItemChanged(selectedPosition)
     }
 }

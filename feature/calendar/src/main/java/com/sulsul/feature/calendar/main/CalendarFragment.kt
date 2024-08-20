@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
-import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
 import com.sulsul.feature.calendar.main.adapter.CalendarAdapter
@@ -37,10 +35,10 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initCalendar()
-        observeData()
+        initObserver()
     }
 
-    private fun observeData() {
+    private fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.recordList.collect { records ->
                 calendarAdapter.updateDrinkRecordList(records)
@@ -54,13 +52,23 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
         viewModel.pageIndex -= (Int.MAX_VALUE / 2)
         calendarAdapter = CalendarAdapter(dayOfWeeks) { position, date, record ->
             viewModel.setDate(date)
-            //viewModel.setRecord(record)
             viewModel.setRecord(record)
             viewModel.getDrinkInfoById(record.id)
             viewModel.position = position
         }
         calendarAdapter.calendarManager.setSelectedMonth(viewModel.pageIndex)
-        viewModel.position = calendarAdapter.calendarManager.getFirstDayPosition()
+
+        // TODO: 기록 작성 후 술 랭크 불러올 시 초기화 이슈 존재
+        if (viewModel.position == -1) {
+            if (viewModel.pageIndex == 0) {
+                // TODO : set selectedItem By Today
+            } else {
+                viewModel.position = calendarAdapter.calendarManager.getFirstDayPosition()
+            }
+        }
+
+        calendarAdapter.selectedDate(viewModel.position)
+
         binding.rvCalendar.apply {
             this.adapter = calendarAdapter
             this.layoutManager = GridLayoutManager(requireContext(), DAY_OF_WEEKS)

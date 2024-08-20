@@ -45,7 +45,7 @@ class CalenderViewModel @Inject constructor(
     private var _isLoaded = MutableLiveData(false)
     val isLoaded: LiveData<Boolean> = _isLoaded
 
-    var position = 0
+    var position = -1
 
     init {
         getDrinkRecords()
