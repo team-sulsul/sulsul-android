@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">sulsul-android</string>
+    <string name="kakao_native_app_key">2db11c6c82bd4e8fc434006264584cfe</string>
 </resources>

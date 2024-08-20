@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.core.datastore)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -18,4 +19,6 @@ dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    implementation(libs.kakao)
 }

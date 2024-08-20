@@ -1,6 +1,7 @@
 package com.sulsul.core.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sulsul.core.data.TokenManager
 import com.sulsul.core.data.remote.api.RecordApi
 import dagger.Module
 import dagger.Provides
@@ -8,7 +9,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -54,29 +54,28 @@ object ApiModule {
         }
     }.apply { level = HttpLoggingInterceptor.Level.BODY }
 
-    @Provides
     @Singleton
-    fun providesHeaderInterceptor() = Interceptor { chain ->
-        with(chain) {
-            val request = request().newBuilder()
-            val tempToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzEzODAwNTczfQ.IQE-SStEcDLhmU87GkrqVH1H9qyIG4zQQ9t7T4OScE9-zFarj26ZxGOgO3-6XagpsQTtHzYu25D-m7_UGOtimg"
+    @Provides
+    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
+        return AuthInterceptor(tokenManager)
+    }
 
-            if (tempToken != null) {
-                request
-                    .addHeader("Authorization", tempToken)
-            }
-            proceed(request.build())
-        }
+    @Singleton
+    @Provides
+    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager)
     }
 
     @Provides
     @Singleton
     fun providesOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        headerInterceptor: Interceptor,
+        authInterceptor: AuthInterceptor,
+        authAuthenticator: AuthAuthenticator
     ): OkHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(httpLoggingInterceptor)
-        .addInterceptor(headerInterceptor)
+        .addInterceptor(authInterceptor)
+        .authenticator(authAuthenticator)
         .connectTimeout(5, TimeUnit.SECONDS) // 서버 연결 대기 최대 5초
         .readTimeout(5, TimeUnit.SECONDS) // 데이터 읽기 대기 최대 5초
         .writeTimeout(5, TimeUnit.SECONDS) // 데이터 쓰기 대기 최대 5초

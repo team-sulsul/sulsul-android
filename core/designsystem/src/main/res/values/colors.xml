@@ -2,6 +2,7 @@
 <resources>
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
+    <color name="a60_white">#99FFFFFF</color>
 
     <!-- Blue Scale -->
     <color name="blue_10">#f9faff</color>
