@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReportResponse(
     @SerialName("resultCode") val resultCode: Long,
-    @SerialName("resultMessage") val resultMessage: Long,
+    @SerialName("resultMessage") val resultMessage: String,
     @SerialName("resultData") val resultData: ReportResult,
 )
 

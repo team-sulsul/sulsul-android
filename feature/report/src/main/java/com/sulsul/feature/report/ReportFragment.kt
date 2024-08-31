@@ -85,7 +85,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun observeReportInfo() {
         lifecycleScope.launch {
             reportViewModel.reportInfo.collect { state ->
-                Timber.d("state : $state")
                 when (state) {
                     is ReportState.Initial -> {}
                     is ReportState.Loading -> {
@@ -95,21 +94,25 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         emptyViewVisible(true)
                     }
                     is ReportState.Success -> {
-                        if (state.data.monthlyDrinkData == null || state.data.monthlyDrunkenState == null) { // 기록된 술 데이터 없음
+                        val nickname = state.data.nickname
+                        val monthlyDrinkData = state.data.monthlyDrinkData
+                        val recentThreeMonthDrinks = state.data.recentThreeMonthDrinks
+                        val monthlyDrunkenState = state.data.monthlyDrunkenState
+
+                        setSummaryText(nickname)
+                        if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
+                            binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
                             emptyViewVisible(true)
                         } else {
+                            binding.tvReportSummaryDrinkData.text = getString(R.string.report_summary_drink_data, monthlyDrinkData.maxBeverage, monthlyDrunkenState.maxDrunkenStatus)
                             emptyViewVisible(false)
                             dataList.clear()
-                            state.data.recentThreeMonthDrinks.forEach { dataList.add(it.times) }
+                            recentThreeMonthDrinks.forEach { dataList.add(it.times) }
                             binding.apply {
                                 // 이달의 통계 요약
-                                // Todo : 랜덤닉네임 response내려오도록 수정되면 유저 닉네임으로 바꾸기
                                 // Todo : 술, 상태 최댓값 넣기
-                                setSummaryText("유저123")
-
                                 // 최근 3개월 음주 빈도
                                 setDrinkDifferenceText()
-
                                 // 이달의 컨디션
                                 setDrunkenState(state.data.monthlyDrunkenState!!)
                             }
