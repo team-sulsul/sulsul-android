@@ -12,9 +12,9 @@ import javax.inject.Inject
 class ReportRepository @Inject constructor(
     private val reportApi: ReportApi
 ) {
-    suspend fun getReport(requestDate: String, accessToken: String): Flow<ReportResponse> {
+    suspend fun getReport(requestDate: String): Flow<ReportResponse> {
         return flow {
-            emit(reportApi.getReport(requestDate = requestDate, accessToken = accessToken))
+            emit(reportApi.getReport(requestDate = requestDate))
         }
     }
 }

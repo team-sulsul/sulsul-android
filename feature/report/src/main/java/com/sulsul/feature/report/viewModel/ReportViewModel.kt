@@ -22,7 +22,7 @@ class ReportViewModel @Inject constructor(
 
     fun getReport(requestDate: String) {
         viewModelScope.launch {
-            reportRepository.getReport(requestDate, "accessToken") // Todo : dataStore에서 accessToken가져와야 함
+            reportRepository.getReport(requestDate) // Todo : dataStore에서 accessToken가져와야 함
                 .catch {e ->
                     _reportInfo.value = ReportState.Failure(e)
                     Timber.d("!!error : $e")

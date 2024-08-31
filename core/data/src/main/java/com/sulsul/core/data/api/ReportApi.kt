@@ -12,7 +12,6 @@ import retrofit2.http.Query
 interface ReportApi {
     @GET("/api/statistics")
     suspend fun getReport(
-        @Query("startDate") requestDate: String,
-        @Header("Authorization") accessToken: String
+        @Query("startDate") requestDate: String
     ): ReportResponse
 }
