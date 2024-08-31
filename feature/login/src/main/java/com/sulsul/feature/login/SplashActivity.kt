@@ -111,7 +111,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 //                        isLoginAvailable = false
 //                        isReady = true
 //                    }
-                    else -> { } // Loading
+                    else -> { // Loading
+                    }
                 }
             }
         }
