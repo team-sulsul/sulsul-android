@@ -1,9 +1,6 @@
 package com.sulsul.core.data.remote.repository
 
-import com.sulsul.core.data.api.LoginApi
 import com.sulsul.core.data.api.ReportApi
-import com.sulsul.core.data.remote.model.request.LoginRequest
-import com.sulsul.core.data.remote.model.response.LoginResponse
 import com.sulsul.core.data.remote.model.response.ReportResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,4 +15,3 @@ class ReportRepository @Inject constructor(
         }
     }
 }
-

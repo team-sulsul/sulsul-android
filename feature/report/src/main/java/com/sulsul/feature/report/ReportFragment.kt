@@ -48,7 +48,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val localDate = LocalDate.now().withDayOfMonth(1) //29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
+        val localDate = LocalDate.now().withDayOfMonth(1) // 29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
         getReport(localDate)
         observeReportInfo()
 
@@ -61,7 +61,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun initClickListener() {
         binding.apply {
             // 겁나 빨리 화살표 누르면 문제 없나..? 글고 잘...통신되나..?
-            ivReportArrowLeft.setOnClickListener{
+            ivReportArrowLeft.setOnClickListener {
                 getReport(makeDate(false))
             }
             ivReportArrowRight.setOnClickListener {
@@ -104,7 +104,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
                             emptyViewVisible(true)
                         } else {
-                            binding.tvReportSummaryDrinkData.text = getString(R.string.report_summary_drink_data, monthlyDrinkData.maxBeverage, monthlyDrunkenState.maxDrunkenStatus)
+                            binding.tvReportSummaryDrinkData.text = getString(
+                                R.string.report_summary_drink_data,
+                                monthlyDrinkData.maxBeverage,
+                                monthlyDrunkenState.maxDrunkenStatus
+                            )
                             emptyViewVisible(false)
                             dataList.clear()
                             recentThreeMonthDrinks.forEach { dataList.add(it.times) }
@@ -223,7 +227,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun setDrinkDifferenceText() {
         val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
         val differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
-        binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(getString(R.string.report_recent_month_amount, drinkDifference, differenceString))
+        binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
+            getString(
+                R.string.report_recent_month_amount,
+                drinkDifference,
+                differenceString
+            )
+        )
     }
 
     private fun setDrunkenState(monthlyDrunkenState: MonthlyDrunkenState) {

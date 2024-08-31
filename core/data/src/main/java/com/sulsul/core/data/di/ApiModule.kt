@@ -53,7 +53,6 @@ object ApiModule {
         }
     }.apply { level = HttpLoggingInterceptor.Level.BODY }
 
-
     @Singleton
     @Provides
     fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {

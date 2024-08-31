@@ -55,4 +55,3 @@ data class MonthlyDrunkenState(
     @SerialName("drunkenLevel4Count") val drunkenLevel4Count: Int,
     @SerialName("drunkenLevel5Count") val drunkenLevel5Count: Int
 )
-

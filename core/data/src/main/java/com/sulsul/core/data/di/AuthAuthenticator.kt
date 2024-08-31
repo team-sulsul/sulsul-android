@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class AuthAuthenticator @Inject constructor(
     private val tokenManager: TokenManager
-): Authenticator {
+) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         Timber.tag("checking Auth").d("authenticate, response.code : ${response.code}")
         if (response.code == 401) {
@@ -26,7 +26,7 @@ class AuthAuthenticator @Inject constructor(
                 var accessToken = ""
                 runBlocking {
                     tokenResponse.resultData?.accessToken?.let { tokenManager.updateTokenData(it) }
-                    accessToken = tokenManager.getTokenData().collect{ it.accessToken }.toString()
+                    accessToken = tokenManager.getTokenData().collect { it.accessToken }.toString()
                 }
 
                 if (accessToken.isEmpty()) {

@@ -37,7 +37,7 @@ class SplashViewModel @Inject constructor(
     fun checkToken(accessToken: String) {
         viewModelScope.launch {
             loginRepository.postToken(accessToken)
-                .catch {e ->
+                .catch { e ->
                     _tokenInfo.value = TokenState.Failure(e)
                     Timber.d("!!error : $e") // todo : 여기서 또 통신을 하는게 맞나? 그럼 인터셉터에서 하는건..?
                 }.collect {
