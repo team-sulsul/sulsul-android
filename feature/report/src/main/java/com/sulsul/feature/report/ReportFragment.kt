@@ -1,5 +1,6 @@
 package com.sulsul.feature.report
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -35,7 +36,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val reportViewModel: ReportViewModel by viewModels()
 
-    private var dataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
+    private var threeMonthDrinksDataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
     private val entryList = arrayListOf<Entry>()
     private lateinit var curDate: LocalDate
     override fun getFragmentBinding(
@@ -54,6 +55,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
         initLayout(localDate)
         initClickListener()
+        initCircleChart()
         initLineChart()
         initLineChartMarker()
     }
@@ -79,6 +81,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun initLayout(date: LocalDate) {
         setDateTitleText(date)
         setSummaryText("유저123")
+        setThisMonthDrinks()
         setDrinkDifferenceText()
     }
 
@@ -110,8 +113,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                                 monthlyDrunkenState.maxDrunkenStatus
                             )
                             emptyViewVisible(false)
-                            dataList.clear()
-                            recentThreeMonthDrinks.forEach { dataList.add(it.times) }
+                            threeMonthDrinksDataList.clear()
+                            recentThreeMonthDrinks.forEach { threeMonthDrinksDataList.add(it.times) }
                             binding.apply {
                                 // 이달의 통계 요약
                                 // Todo : 술, 상태 최댓값 넣기
@@ -125,6 +128,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 }
             }
         }
+    }
+
+    private fun initCircleChart() {
+        val data = listOf(20f, 40F, 30f, 50f)
+        val colors = listOf(Color.RED, Color.GREEN, Color.BLUE, Color.BLACK)
+
+        binding.layoutReportThisMonthDrinks.pieChartView.setData(data, colors)
     }
 
     private fun initLineChart() {
@@ -142,7 +152,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             description.isEnabled = false
 
             axisLeft.axisMinimum = 0F // y값 최솟값
-            axisLeft.axisMaximum = dataList.max().toFloat() + 3.0F // 값 최댓값
+            axisLeft.axisMaximum = threeMonthDrinksDataList.max().toFloat() + 3.0F // 값 최댓값
 
             // x값 grid 설정
             xAxis.setDrawGridLines(true)
@@ -151,7 +161,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
             // x축 설정
             xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.labelCount = dataList.size - 1
+            xAxis.labelCount = threeMonthDrinksDataList.size - 1
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     var curMonth = LocalDate.now().monthValue
@@ -170,7 +180,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             xAxis.setDrawLabels(true)
 
             // 데이터 line
-            dataList.forEachIndexed { index, d ->
+            threeMonthDrinksDataList.forEachIndexed { index, d ->
                 entryList.add(Entry(index.toFloat(), d.toFloat()))
             }
             val lineDataSet = LineDataSet(entryList, "data").apply {
@@ -224,8 +234,27 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         return stateValue / totalDrunkenState
     }
 
+    private fun setThisMonthDrinks() {
+        binding.tvReportThisMonthDrinksSummary.text = Html.fromHtml(
+            getString(
+                R.string.report_this_month_drinks_summary,
+                8,
+                15
+            )
+        )
+
+        binding.tvReportThisMonthDrinksSummaryDetail.text = Html.fromHtml(
+            getString(
+                R.string.report_this_month_drinks_summary_detail,
+                "소주",
+                "와인"
+            )
+        )
+    }
+
+
     private fun setDrinkDifferenceText() {
-        val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
+        val drinkDifference = threeMonthDrinksDataList[threeMonthDrinksDataList.size - 1] - threeMonthDrinksDataList[threeMonthDrinksDataList.size - 2]
         val differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
         binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
             getString(

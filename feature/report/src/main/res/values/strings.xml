@@ -19,4 +19,8 @@
     <string name="report_summary_user">이번달 %s의 고래는?</string>
     <string name="report_add_drink_data">음주 기록을 추가하고\n%s의 고래를 확인하세요!</string>
     <string name="report_summary_drink_data">%s를 좋아하는\n%s한 고래</string>
+
+    <string name="report_this_month_drinks_title">이달의 음주량</string>
+    <string name="report_this_month_drinks_summary"><![CDATA[총 <b><font color=#7087ff>%d</b>병 <b><font color=#7087ff>%d</b>잔을 마셨어요]]></string>
+    <string name="report_this_month_drinks_summary_detail"><![CDATA[<b><font color=#7087ff>%s</b>을 가장 많이 마시고 <b><font color=#7087ff>%s</b>을 가장 조금 마셨네요!]]></string>
 </resources>
