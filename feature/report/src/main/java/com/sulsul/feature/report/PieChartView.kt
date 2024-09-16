@@ -67,7 +67,18 @@ class PieChartView @JvmOverloads constructor(
                 // 그릴 영역 정의 (정사각형)
                 val diameter = min(width, height).toFloat()
                 val padding = gapWidth * 2  // 흰 부분 padding
-                val rect = RectF(padding, padding, diameter - padding, diameter - padding)
+
+                // centerX, centerY를 구해 원을 화면 중앙에 맞추기 위한 좌표 계산
+                val centerX = width / 2f
+                val centerY = height / 2f
+
+                // 원의 좌상단, 우하단 좌표를 계산하여 가운데 정렬
+                val rect = RectF(
+                    centerX - diameter / 2 + padding,
+                    centerY - diameter / 2 + padding,
+                    centerX + diameter / 2 - padding,
+                    centerY + diameter / 2 - padding
+                )
 
                 // pie chart 그리기
                 for (i in data.indices) {
@@ -81,9 +92,7 @@ class PieChartView @JvmOverloads constructor(
                 }
 
                 // 가운데 흰 원 그리기
-                val centerX = rect.centerX()
-                val centerY = rect.centerY()
-                it.drawCircle(centerX, centerY, centerCircleRadiusPx, centerCirclePaint)
+                it.drawCircle(rect.centerX(), rect.centerY(), centerCircleRadiusPx, centerCirclePaint)
 
                 // 섹션 위에 띄울 하이라이트 원
                 highlightedIndex?.let { index ->
@@ -131,9 +140,19 @@ class PieChartView @JvmOverloads constructor(
             // 그릴 영역 정의 (정사각형)
             val diameter = min(width, height).toFloat()
             val padding = gapWidth * 2  // 흰 부분 padding
-            val rect = RectF(padding, padding, diameter - padding, diameter - padding)
 
-            // 어느 섹션에서 터치 이벤트 발생했는지 계산
+            // centerX, centerY를 구해 원을 화면 중앙에 맞추기 위한 좌표 계산
+            val centerX = width / 2f
+            val centerY = height / 2f
+
+            // pie chart의 중심에 맞춰 좌표 계산
+            val rect = RectF(
+                centerX - diameter / 2 + padding,
+                centerY - diameter / 2 + padding,
+                centerX + diameter / 2 - padding,
+                centerY + diameter / 2 - padding
+            )
+
             // todo : 가장 넓은 부분 터치이벤트가 간헐적으로 안 먹힘
             for (i in data.indices) {
                 val sweepAngle = (data[i] / total) * 360f
