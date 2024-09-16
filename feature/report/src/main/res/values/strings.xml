@@ -23,4 +23,8 @@
     <string name="report_this_month_drinks_title">이달의 음주량</string>
     <string name="report_this_month_drinks_summary"><![CDATA[총 <b><font color=#7087ff>%d</b>병 <b><font color=#7087ff>%d</b>잔을 마셨어요]]></string>
     <string name="report_this_month_drinks_summary_detail"><![CDATA[<b><font color=#7087ff>%s</b>을 가장 많이 마시고 <b><font color=#7087ff>%s</b>을 가장 조금 마셨네요!]]></string>
+    <string name="item_report_piechartview_total">전체</string>
+    <string name="item_report_piechartview_summary">%s병 %s잔</string>
+    <string name="item_report_piechart_most_drink">가장 많이 마신 술</string>
+    <string name="item_report_piechart_least_drink">가장 조금 마신 술</string>
 </resources>

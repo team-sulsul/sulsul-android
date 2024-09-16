@@ -46,10 +46,10 @@ class PieChartView @JvmOverloads constructor(
 
     private val density = context.resources.displayMetrics.density
 
-    private val centerCircleRadiusDp = 53f
+    private val centerCircleRadiusDp = 58f
     private val centerCircleRadiusPx = centerCircleRadiusDp * density
 
-    private val additionalCircleRadiusDp = 25f
+    private val additionalCircleRadiusDp = 26f
     private val additionalCircleRadiusPx = additionalCircleRadiusDp * density
 
     // 어떤 섹션 위에 원을 표시할지 체크
@@ -75,7 +75,7 @@ class PieChartView @JvmOverloads constructor(
                 var startAngle = -90f // 차트를 12시 방향에서 시작 (기본은 3시 시작임)
 
                 // circlePaint의 반지름 계산
-                val highlightCircleRadius = (min(width, height) / 2 * 0.45f)  // 노란 원의 반지름 비율
+                val highlightCircleRadius = (min(width, height) / 2 * 0.44f)  // 노란 원의 반지름 비율
 
                 // pie chart의 지름에서 circlePaint의 지름을 빼서 결정
                 val diameter = min(width, height).toFloat() - highlightCircleRadius
@@ -133,14 +133,14 @@ class PieChartView @JvmOverloads constructor(
 
         // 하이라이트 원 반지름 세팅
         val pieRadius = (rect.width() / 2)
-        val circleRadiusOffset = pieRadius * 0.85f  // pie chart의 반지름의 0.9F에 하이라이트 원의 중심 두기
+        val circleRadiusOffset = pieRadius * 0.87f  // pie chart의 반지름의 0.9F에 하이라이트 원의 중심 두기
 
         // 하이라이트 원 중심 좌표 계산
         val centerX = rect.centerX() + circleRadiusOffset * cos(Math.toRadians(middleAngle.toDouble())).toFloat()
         val centerY = rect.centerY() + circleRadiusOffset * sin(Math.toRadians(middleAngle.toDouble())).toFloat()
 
         // 하이라이트 원 그리기
-        canvas.drawCircle(centerX, centerY, pieRadius * 0.45f, circlePaint)
+        canvas.drawCircle(centerX, centerY, pieRadius * 0.44f, circlePaint)
 
         // 노란 원 위에 40dp 원 그리기
         canvas.drawCircle(centerX, centerY, additionalCircleRadiusPx, additionalCirclePaint)

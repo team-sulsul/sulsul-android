@@ -55,7 +55,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
         initLayout(localDate)
         initClickListener()
-        initCircleChart()
+        initPieChart()
         initLineChart()
         initLineChartMarker()
     }
@@ -130,11 +130,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun initCircleChart() {
-        val data = listOf(20f, 40F, 30f, 50f)
-        val colors = listOf(Color.RED, Color.GREEN, Color.BLUE, Color.BLACK)
+    private fun initPieChart() {
+        val data = listOf(22f, 23f, 55f)
+        val colors = listOf(Color.RED, Color.GREEN, Color.BLUE)
 
-        binding.layoutReportThisMonthDrinks.pieChartView.setData(data, colors)
+        binding.layoutReportThisMonthDrinks.itemReportPiechartview.setData(data, colors)
     }
 
     private fun initLineChart() {
@@ -250,6 +250,27 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 "와인"
             )
         )
+
+        binding.layoutReportThisMonthDrinks.tvItemPiechartSummary.text = Html.fromHtml(
+            getString(
+                R.string.item_report_piechartview_summary,
+                "8",
+                "15"
+            ))
+
+        binding.layoutReportThisMonthDrinks.tvItemPiechartMostDrinkAmount.text = Html.fromHtml(
+            getString(
+                R.string.item_report_piechartview_summary,
+                "8",
+                "15"
+            ))
+
+        binding.layoutReportThisMonthDrinks.tvItemPiechartLeastDrinkAmount.text = Html.fromHtml(
+            getString(
+                R.string.item_report_piechartview_summary,
+                "2",
+                "0"
+            ))
     }
 
 
