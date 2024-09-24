@@ -8,6 +8,10 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import timber.log.Timber
 import kotlin.math.*
 
 class PieChartView @JvmOverloads constructor(
@@ -142,8 +146,13 @@ class PieChartView @JvmOverloads constructor(
         // 하이라이트 원 그리기
         canvas.drawCircle(centerX, centerY, pieRadius * 0.44f, circlePaint)
 
-        // 노란 원 위에 40dp 원 그리기
+        // 하라이트 원 안에 흰 원
         canvas.drawCircle(centerX, centerY, additionalCircleRadiusPx, additionalCirclePaint)
+
+        val sectionLabel = "소주"  // 해당 섹션의 이름 또는 값
+        val amount = "68%"  // 해당 섹션의 이름 또는 값
+        Timber.tag("piechartview").d("$centerX, $centerY")
+        showTwoTextViewsAtPosition(sectionLabel, amount, centerX, centerY)
     }
 
 
@@ -199,5 +208,65 @@ class PieChartView @JvmOverloads constructor(
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    // 두 개의 텍스트뷰를 터치한 좌표에 표시하는 메서드
+    private fun showTwoTextViewsAtPosition(text1: String, text2: String, x: Float, y: Float) {
+        val parentViewGroup = this.parent as ViewGroup  // PieChartView의 부모 ViewGroup 가져오기
+        removeChild(parentViewGroup, "highlightText1")
+        removeChild(parentViewGroup, "highlightText2")
+
+        // 첫 번째 TextView 추가
+        var textView1 = parentViewGroup.findViewWithTag<TextView>("highlightText1")
+        if (textView1 == null) {
+            textView1 = TextView(context).apply {
+                tag = "highlightText1"
+                textSize = 12f
+                typeface = ResourcesCompat.getFont(context, com.sulsul.core.designsystem.R.font.pretendard_semibold)
+                setTextColor(Color.BLACK)
+                setBackgroundColor(Color.TRANSPARENT)
+            }
+            parentViewGroup.addView(textView1)
+        }
+
+        // 두 번째 TextView 추가
+        var textView2 = parentViewGroup.findViewWithTag<TextView>("highlightText2")
+        if (textView2 == null) {
+            textView2 = TextView(context).apply {
+                tag = "highlightText2"
+                textSize = 14f
+                typeface = ResourcesCompat.getFont(context, com.sulsul.core.designsystem.R.font.pretendard_semibold)
+                setTextColor(Color.BLUE)
+                setBackgroundColor(Color.TRANSPARENT)
+            }
+            parentViewGroup.addView(textView2)
+        }
+
+        // 첫 번째 텍스트 설정 및 위치 지정
+        textView1.text = text1
+        textView1.measure(0, 0)  // TextView의 높이를 측정
+        textView1.x = x - textView1.measuredWidth / 2  // 중앙 정렬
+        textView1.y = y - textView1.measuredHeight
+        Timber.tag("piechartview xy").d("${textView1.x}, ${textView1.y}")
+        Timber.tag("piechartview textview").d("${textView1.measuredWidth}, ${textView1.measuredHeight}")
+        textView1.visibility = View.VISIBLE
+
+        // 두 번째 텍스트 설정 및 위치 지정 (첫 번째 텍스트뷰 바로 아래)
+        textView2.text = text2
+        textView2.measure(0, 0)  // TextView의 높이를 측정
+        textView2.x = x - textView2.measuredWidth / 2  // 중앙 정렬
+        textView2.y = textView1.y + textView1.measuredHeight // 첫 번째 텍스트뷰의 바로 아래에 배치
+        textView2.visibility = View.VISIBLE
+    }
+
+    private fun removeChild(parentViewGroup: ViewGroup, tag: String) {
+        if (parentViewGroup.childCount > 0) {
+            for (i in 0 until parentViewGroup.childCount) {
+                val child = parentViewGroup.getChildAt(i)
+                if (child is TextView && child.tag == tag) {
+                    parentViewGroup.removeView(child)
+                }
+            }
+        }
     }
 }
