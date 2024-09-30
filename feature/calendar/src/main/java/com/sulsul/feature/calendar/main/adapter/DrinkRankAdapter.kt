@@ -1,5 +1,6 @@
 package com.sulsul.feature.calendar.main.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,10 +12,10 @@ import com.sulsul.feature.calendar.utils.buildQuantityText
 import com.sulsul.feature.calendar.utils.getDrinkTheme
 
 class DrinkRankAdapter(
-    private val rankList: List<String>,
-    private val rankData: List<DrinkInfo>
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val rankNameList: List<String>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val rankData = ArrayList<DrinkInfo>()
 
     companion object {
         const val VIEW_TYPE_RANK = 0
@@ -46,7 +47,7 @@ class DrinkRankAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RankViewHolder -> holder.bind(rankList[position], rankData[position])
+            is RankViewHolder -> holder.bind(rankNameList[position], rankData[position])
         }
     }
 
@@ -66,4 +67,12 @@ class DrinkRankAdapter(
     }
 
     inner class EmptyRankViewHolder(private val binding: ItemDrinkRankEmptyBinding) : RecyclerView.ViewHolder(binding.root)
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateRankData(data: List<DrinkInfo>) {
+        rankData.clear()
+        rankData.addAll(data)
+
+        notifyDataSetChanged()
+    }
 }

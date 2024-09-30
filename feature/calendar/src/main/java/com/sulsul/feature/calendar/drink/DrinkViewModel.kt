@@ -1,8 +1,9 @@
 package com.sulsul.feature.calendar.drink
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sulsul.core.data.local.repository.RecordRepository
+import com.sulsul.core.data.local.repository.RecordLocalRepository
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.enums.DrinkTheme
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
-    private val repository: RecordRepository
+    private val localRepository: RecordLocalRepository,
+    private val remoteRepository: com.sulsul.core.data.remote.repository.RecordRemoteRepository
 ) : ViewModel() {
 
     val drinkThemeList = listOf(
@@ -30,23 +32,51 @@ class DrinkViewModel @Inject constructor(
     )
 
     var drinks = mutableListOf<DrinkInfo>()
-    var recordId = 0
+    var recordId = 0L
 
-    fun insertDrinkRecord(record: DrinkRecord) {
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("DrinkViewModel", "onCleared")
+    }
+
+    /**
+     * Local DB
+     */
+    fun insertLocalDrinkRecord(record: DrinkRecord) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertRecord(record)
+            localRepository.insertRecord(record)
         }
     }
 
-    fun deleteDrinkRecord(date: LocalDate) {
+    fun updateLocalDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteRecord(date)
+            localRepository.updateDrinks(recordId, drinks)
         }
     }
 
-    fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+    fun deleteLocalDrinkRecord(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateDrinks(recordId, drinks)
+            localRepository.deleteRecord(date)
         }
     }
+
+    /**
+     * Remote Server
+     */
+    fun postDrinkRecord(record: DrinkRecord) {
+        viewModelScope.launch(Dispatchers.IO) {
+            remoteRepository.postDrinkRecord(record)
+                .collect {
+                    Log.d("###", "code : $it")
+                }
+        }
+    }
+//
+//    // 수정
+//
+//    fun deleteDrinkRecord(date: LocalDate) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            remoteRepository.deleteRecord(date)
+//        }
+//    }
 }

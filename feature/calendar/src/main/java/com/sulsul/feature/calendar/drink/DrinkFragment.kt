@@ -37,10 +37,35 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         return FragmentDrinkBinding.inflate(inflater, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initDrinkList()
+        Log.d("DrinkFragment", "onCreate")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("DrinkFragment", "onResume")
+    }
+    override fun onStart() {
+        super.onStart()
+        Log.d("DrinkFragment", "onStart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("DrinkFragment", "onDestroty")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("DrinkFragment", "onDestroyView")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initDrinkList()
         initDrinkRecordId()
         initDrinkAdapter()
         initListener()
@@ -52,6 +77,8 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     @SuppressLint("NotifyDataSetChanged")
     private fun initDrinkAdapter() {
         val drinkThemeList = viewModel.drinkThemeList
+        Log.d("검사", "${viewModel.drinks}")
+        Log.d("검사", "${args.drinkRecord.drinks}")
 
         drinkAdapter = DrinkAdapter(drinkThemeList) { theme, bottles, glasses ->
             val dialog = DrinkDialog(
@@ -71,6 +98,9 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                         )
 
                         viewModel.drinks.add(drink)
+
+                        // id를 활용해서 로컬 데이터 저장
+                        // args.drinkRecord.id
                     }
 
                     drinkAdapter.setDrinks(viewModel.drinks)
@@ -82,7 +112,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
             dialog.show(childFragmentManager, "DIALOG_DRINK")
         }
 
-        drinkAdapter.setDrinks(args.drinkRecord.drinks)
+        drinkAdapter.setDrinks(viewModel.drinks)
 
         binding.rvDrink.apply {
             this.adapter = drinkAdapter
@@ -108,15 +138,23 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         }
         binding.tvDrinkNext.setOnClickListener {
             if (args.drinkRecord.drinks.isEmpty()) {
-                // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다
-                viewModel.insertDrinkRecord(
+                // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다, onDestroyed 떄 저장한다
+                viewModel.insertLocalDrinkRecord(
+                    DrinkRecord(
+                        recordedAt = args.drinkRecord.recordedAt,
+                        drinks = viewModel.drinks
+                    )
+                )
+
+                // 서버로 데이터 전송
+                viewModel.postDrinkRecord(
                     DrinkRecord(
                         recordedAt = args.drinkRecord.recordedAt,
                         drinks = viewModel.drinks
                     )
                 )
             } else {
-                viewModel.updateDrinks(
+                viewModel.updateLocalDrinks(
                     viewModel.drinks[0].recordId,
                     viewModel.drinks
                 )
@@ -134,8 +172,11 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 rightButton = "삭제",
                 onLeftButtonClicked = {},
                 onRightButtonClicked = {
-                    viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
+                    viewModel.deleteLocalDrinkRecord(args.drinkRecord.recordedAt)
                     Navigation.findNavController(it).navigateUp()
+
+//                    viewModel.deleteDrinkRecord(args.drinkRecord.recordedAt)
+//                    Navigation.findNavController(it).navigateUp()
                 }
             )
             dialog.show(childFragmentManager, "DELETE_DIALOG")

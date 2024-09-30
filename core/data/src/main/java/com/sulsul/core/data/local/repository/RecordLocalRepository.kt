@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
-class RecordRepository @Inject constructor(
+class RecordLocalRepository @Inject constructor(
     private val recordDao: DrinkRecordDao,
     private val drinkInfoDao: DrinkInfoDao,
 ) {
@@ -26,12 +26,18 @@ class RecordRepository @Inject constructor(
         }
     }
 
+    fun getRecord(): Flow<List<DrinkRecord>> = recordDao.getRecordAll().map { records ->
+        records.map { record ->
+            record.asExternalModel()
+        }
+    }
+
     suspend fun insertRecord(record: DrinkRecord) {
         val recordId = recordDao.insertRecord(record = record.asEntity()) // 외래키 id 생성
         insertDrinks(recordId, record.drinks)
     }
 
-    suspend fun updateDrinks(recordId: Int, drinks: List<DrinkInfo>) {
+    suspend fun updateDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         drinkInfoDao.deleteDrinkInfoByRecordId(recordId)
         drinks.forEach { drinkInfo ->
             val drinkInfoEntity = drinkInfo.asEntity(drinkInfo.recordId)
@@ -49,13 +55,13 @@ class RecordRepository @Inject constructor(
 
     private suspend fun insertDrinks(recordId: Long, drinks: List<DrinkInfo>) {
         drinks.forEach { drink ->
-            val drinkInfoEntity = drink.asEntity(recordId = recordId.toInt())
+            val drinkInfoEntity = drink.asEntity(recordId = recordId)
             drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity)
             Log.d("술 데이터 저장", "$recordId, $drinkInfoEntity")
         }
     }
 
-    private fun getDrinkInfoList(recordId: Int): Flow<List<DrinkInfo>> =
+    fun getDrinkInfoList(recordId: Long): Flow<List<DrinkInfo>> =
         drinkInfoDao.getDrinkInfoListByRecordId(recordId).map { infoList ->
             infoList.map {
                 it.asExternalModel()
