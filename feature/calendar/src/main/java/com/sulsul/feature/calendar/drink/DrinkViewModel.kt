@@ -63,14 +63,14 @@ class DrinkViewModel @Inject constructor(
     /**
      * Remote Server
      */
-//    fun postDrinkRecord(record: DrinkRecord) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            remoteRepository.postDrinkRecord(record)
-//                .collect {
-//                    Log.d("###", "code : $it")
-//                }
-//        }
-//    }
+    fun postDrinkRecord(record: DrinkRecord) {
+        viewModelScope.launch(Dispatchers.IO) {
+            remoteRepository.postDrinkRecord(record)
+                .collect {
+                    Log.d("###", "code : $it")
+                }
+        }
+    }
 //
 //    // 수정
 //

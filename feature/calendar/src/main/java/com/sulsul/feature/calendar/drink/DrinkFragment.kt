@@ -152,13 +152,12 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                 )
 
                 // 서버로 데이터 전송
-                // 서버로 데이터를 전송할 때 이전 기록과 동일한지 검증 후 전송할까?
-//                viewModel.postDrinkRecord(
-//                    DrinkRecord(
-//                        recordedAt = args.drinkRecord.recordedAt,
-//                        drinks = viewModel.drinks
-//                    )
-//                )
+                viewModel.postDrinkRecord(
+                    DrinkRecord(
+                        recordedAt = args.drinkRecord.recordedAt,
+                        drinks = viewModel.drinks
+                    )
+                )
             } else {
                 viewModel.updateLocalDrinks(
                     viewModel.drinks[0].recordId,
