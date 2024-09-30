@@ -42,7 +42,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.recordList.collect { records ->
                 calendarAdapter.updateDrinkRecordList(records)
-                //calendarAdapter.selectedDate(viewModel.position)
+                // calendarAdapter.selectedDate(viewModel.position)
             }
         }
     }

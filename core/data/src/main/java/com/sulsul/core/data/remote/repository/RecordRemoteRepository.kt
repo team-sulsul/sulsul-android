@@ -33,9 +33,11 @@ class RecordRemoteRepository @Inject constructor(
     }
 
     suspend fun postTotalRecord(totalRecord: List<DrinkRecord>) = flow {
-        val response = recordApi.postTotalRecord(totalRecord.map {
-            it.toRemoteTotalRequestModel()
-        })
+        val response = recordApi.postTotalRecord(
+            totalRecord.map {
+                it.toRemoteTotalRequestModel()
+            }
+        )
         emit(response)
     }
 

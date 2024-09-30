@@ -44,7 +44,6 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         Log.d("DrinkFragment", "onCreate")
     }
 
-
     override fun onResume() {
         super.onResume()
         Log.d("DrinkFragment", "onResume")
@@ -62,13 +61,10 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("DrinkFragment", "onDestroyView")
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         initDrinkRecordId()
         initDrinkAdapter()
@@ -104,7 +100,7 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
                         viewModel.drinks.add(drink)
 
                         // id를 활용해서 로컬 데이터 저장
-                        //args.drinkRecord.id
+                        // args.drinkRecord.id
                     }
 
                     drinkAdapter.setDrinks(viewModel.drinks)
@@ -142,7 +138,6 @@ class DrinkFragment : BaseFragment<FragmentDrinkBinding>() {
         }
         binding.tvDrinkNext.setOnClickListener {
             if (args.drinkRecord.drinks.isEmpty()) {
-
                 // 상태 선택 화면으로 넘어걸 때 한 번에 저장한다, onDestroyed 떄 저장한다
                 viewModel.insertLocalDrinkRecord(
                     DrinkRecord(

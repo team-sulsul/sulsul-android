@@ -70,7 +70,7 @@ class CalenderViewModel @Inject constructor(
 //                getDrinkInfoById(records.last().id)
 //                _isLoaded.value = true
 //            }
-            repository.getRecord().collect {records ->
+            repository.getRecord().collect { records ->
                 _recordList.value = records
                 Log.d("###", "$records")
 
@@ -81,7 +81,8 @@ class CalenderViewModel @Inject constructor(
 
     fun getDrinkInfoById(id: Long) {
         viewModelScope.launch {
-            repository.getDrinkInfoList(id).collect {drinkRecord
+            repository.getDrinkInfoList(id).collect {
+                drinkRecord
                 _drinkInfoList.value = it
 
                 // 넘길 기록 세팅해주어야 함!

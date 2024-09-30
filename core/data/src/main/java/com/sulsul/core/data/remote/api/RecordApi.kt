@@ -49,5 +49,4 @@ interface RecordApi {
     // 전체 기록 조회
     @GET("/records")
     suspend fun getTotalRecord(): ApiResponse<List<TotalRecordResponse>>
-
 }

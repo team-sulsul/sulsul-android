@@ -8,9 +8,7 @@ import com.sulsul.core.data.remote.model.response.TotalRecordResponse
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 
-fun DrinkRecordRequest.toData(): DrinkRecord = DrinkRecord(
-
-)
+fun DrinkRecordRequest.toData(): DrinkRecord = DrinkRecord()
 
 // 석주에게 수정도 요걸로 통일 부탁
 fun DrinkRecord.toRemoteDrinkModel(): DrinkRecordRequest =
@@ -50,4 +48,3 @@ private fun DrinkInfo.toRemoteModel(): BeverageInfo =
         drinkType = this.drinkType,
         quantity = this.quantity,
     )
-

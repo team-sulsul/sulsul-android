@@ -27,7 +27,7 @@ class RecordLocalRepository @Inject constructor(
     }
 
     fun getRecord(): Flow<List<DrinkRecord>> = recordDao.getRecordAll().map { records ->
-        records.map {record ->
+        records.map { record ->
             record.asExternalModel()
         }
     }
