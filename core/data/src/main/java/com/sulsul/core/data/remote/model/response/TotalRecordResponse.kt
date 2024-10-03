@@ -10,6 +10,6 @@ data class TotalRecordResponse(
     val recordedAt: String,
     @SerialName("drunkenLevel")
     val drunkennessLevel: String,
-    @SerialName("beverage")
+    @SerialName("beverages")
     val drinks: List<BeverageInfo>,
 )

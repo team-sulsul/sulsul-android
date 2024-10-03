@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sulsul.core.data.local.repository.RecordLocalRepository
+import com.sulsul.core.data.remote.repository.RecordRemoteRepository
 import com.sulsul.core.model.DrinkInfo
 import com.sulsul.core.model.DrinkRecord
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -18,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalenderViewModel @Inject constructor(
     private val repository: RecordLocalRepository,
+    private val remoteRepository: RecordRemoteRepository
 ) : ViewModel() {
 
     private val calendarDate = LocalDate.now()
@@ -87,6 +90,14 @@ class CalenderViewModel @Inject constructor(
 
                 // 넘길 기록 세팅해주어야 함!
                 _drinkRecord.value.drinks = it
+            }
+        }
+    }
+
+    fun getTotalDrinkRecords() {
+        viewModelScope.launch {
+            remoteRepository.getTotalRecord().collect() {
+                Log.d("####", "서버 전체 기록: ${it.resultData}")
             }
         }
     }

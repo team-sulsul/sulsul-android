@@ -24,9 +24,22 @@ class DrunkenStateViewModel @Inject constructor(
         }
     }
 
-    fun postStateRecord(drinkRecord: DrinkRecord) {
-        viewModelScope.launch {
-            remoteRepository.postStateRecord(drinkRecord)
+    fun postStateRecord(drinkRecord: DrinkRecord, callback: () -> Unit) {
+        try {
+            viewModelScope.launch {
+                remoteRepository.postStateRecord(drinkRecord).collect {
+//                    if (it.resultCode == 200) {
+//                        Log.d("###", "code: ${it.resultData}")
+//                        callback()
+//                    } else {
+//                        callback()
+//                    }
+                    callback()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            callback()
         }
     }
 }
