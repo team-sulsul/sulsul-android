@@ -77,10 +77,12 @@ class DrunkenStateFragment : BaseFragment<FragmentDrunkenStateBinding>() {
 
                 // 서버 데이터 전송
                 val updatedDrinkRecord = args.drinkRecord.copy(drunkennessLevel = viewModel.state)
-                viewModel.postStateRecord(updatedDrinkRecord)
+                viewModel.postStateRecord(updatedDrinkRecord) {
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                }
+            } else {
+                findNavController().popBackStack(R.id.mainFragment, false)
             }
-
-            findNavController().popBackStack(R.id.mainFragment, false)
         }
     }
 

@@ -43,6 +43,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         initDrinkRankView()
         initObserver()
         initListener()
+
+        viewModel.getTotalDrinkRecords()
     }
 
     override fun onStart() {
