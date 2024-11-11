@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.data.remote.model.response.MonthlyDrinkAmount
 import com.sulsul.core.data.remote.model.response.MonthlyDrunkenState
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
@@ -116,7 +117,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             )
                             emptyViewVisible(false)
                             dataList.clear()
-                            recentThreeMonthDrinks.forEach { dataList.add(it.times) }
+                            setDataList(recentThreeMonthDrinks)
                             binding.apply {
                                 // 이달의 통계 요약
                                 // Todo : 술, 상태 최댓값 넣기
@@ -131,6 +132,27 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             }
         }
     }
+
+    private fun setDataList(recentThreeMonthDrinks: ArrayList<MonthlyDrinkAmount>) {
+        Timber.d("curMonth : ${curDate.month.value}")
+        val curMonth = curDate.month.value
+        val monthData = mutableMapOf(
+            curMonth - 2 to 0,
+            curMonth - 1 to 0,
+            curMonth to 0
+        )
+
+        recentThreeMonthDrinks.forEach {
+            val month = it.date.substring(5, 7).toInt()
+            if (month in monthData.keys) {
+                monthData[month] = it.times
+            }
+        }
+
+        dataList.addAll(monthData.values)
+        Timber.d("dataList : ${dataList}")
+    }
+
 
     private fun initLineChart() {
         binding.lineChartReport.apply {
