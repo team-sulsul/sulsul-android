@@ -76,8 +76,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
+    private fun isNextMonthValid(date :LocalDate): Boolean{
+        val curMonth = LocalDate.now().monthValue
+        return date.month.value != curMonth
+    }
+
     private fun initLayout(date: LocalDate) {
-        setDateTitleText(date)
+        setDateTitle(date)
         setSummaryText("유저123")
         setDrinkDifferenceText()
     }
@@ -269,12 +274,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         } else {
             curDate.minus(1, ChronoUnit.MONTHS)
         }
-        setDateTitleText(date)
+        setDateTitle(date)
         return date
     }
 
-    private fun setDateTitleText(date: LocalDate) {
+    private fun setDateTitle(date: LocalDate) {
         binding.tvReportTitle.text = getString(R.string.report_title, date.year, Month.valueOf(date.month.toString()).value)
+        binding.ivReportArrowRight.visibility = if (isNextMonthValid(date)) View.VISIBLE else View.INVISIBLE
     }
 
     private fun setSummaryText(userName: String) {
