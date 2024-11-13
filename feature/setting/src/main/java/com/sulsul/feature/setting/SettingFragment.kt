@@ -50,13 +50,13 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         }
 
         binding.containerSettingTermsOfUse.setOnClickListener {
-            val termsOfUseUrl = ""
+            val termsOfUseUrl = "https://thorn-vest-300.notion.site/f7cba50b004143d98c5b165108c8d540"
             val title = getString(R.string.setting_terms_of_use)
             setNavAction(termsOfUseUrl, title)
         }
 
         binding.containerSettingPrivacyPolicy.setOnClickListener {
-            val privacyPolicyUrl = ""
+            val privacyPolicyUrl = "https://thorn-vest-300.notion.site/9c2ffbb51e3249e4bf87e2914cdb1180?pvs=4"
             val title = getString(R.string.setting_privacy_policy)
             setNavAction(privacyPolicyUrl, title)
         }

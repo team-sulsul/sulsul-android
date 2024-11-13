@@ -19,16 +19,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/iv_profile_img"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/img_drunken_whale_default"
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/tv_setting_user_nickname"
         style="@style/Title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:textColor="@color/gray_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_setting_title"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile_img"
         tools:text="유저 123" />
 
     <TextView
@@ -90,13 +98,15 @@
             android:layout_weight="1"
             android:gravity="start"
             android:text="@string/setting_notification"
-            android:textColor="@color/gray_500" />
+            android:textColor="@color/gray_500"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:gravity="end"
             android:src="@drawable/ic_small_black_arrow_right"
+            android:visibility="gone"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
@@ -161,36 +171,36 @@
         style="@style/Title2"
         android:layout_width="367dp"
         android:layout_height="48dp"
-        android:layout_marginTop="23dp"
         android:background="@drawable/bg_gray400_border_r10"
         android:gravity="center"
+        android:layout_marginBottom="20dp"
         android:text="@string/setting_logout"
         android:textColor="@color/gray_400"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_setting_privacy_policy" />
+        app:layout_constraintBottom_toTopOf="@id/tv_setting_delete_account" />
 
     <TextView
         android:id="@+id/tv_setting_delete_account"
         style="@style/Body4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="55dp"
         android:text="@string/setting_delete_account"
         android:textColor="@color/gray_400"
-        app:layout_constraintStart_toStartOf="@id/btn_setting_logout"
-        app:layout_constraintTop_toBottomOf="@id/btn_setting_logout" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/btn_setting_logout" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
+        android:layout_marginBottom="14dp"
         android:fontFamily="@font/pretendard_medium"
         android:text="@string/setting_copyrights"
         android:textColor="@color/gray_300"
         android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_setting_delete_account" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
