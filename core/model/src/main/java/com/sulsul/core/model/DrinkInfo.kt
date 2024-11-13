@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DrinkInfo(
-    val recordId: Int = 0,
+    val recordId: Long = 0L,
     val drinkType: String,
     val quantity: Int
 ) : Parcelable

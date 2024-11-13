@@ -1,6 +1,8 @@
 package com.sulsul.core.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sulsul.core.data.TokenManager
+import com.sulsul.core.data.remote.api.RecordApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,12 +54,28 @@ object ApiModule {
         }
     }.apply { level = HttpLoggingInterceptor.Level.BODY }
 
+    @Singleton
+    @Provides
+    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
+        return AuthInterceptor(tokenManager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager)
+    }
+
     @Provides
     @Singleton
     fun providesOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        authAuthenticator: AuthAuthenticator
     ): OkHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authInterceptor)
+        .authenticator(authAuthenticator)
         .connectTimeout(5, TimeUnit.SECONDS) // 서버 연결 대기 최대 5초
         .readTimeout(5, TimeUnit.SECONDS) // 데이터 읽기 대기 최대 5초
         .writeTimeout(5, TimeUnit.SECONDS) // 데이터 쓰기 대기 최대 5초
@@ -81,6 +99,12 @@ object ApiModule {
         .client(okHttpClient)
         .addConverterFactory(converterFactory)
         .build()
+
+    // RecordApi
+    @Provides
+    @Singleton
+    fun provideRecordApi(retrofit: Retrofit): RecordApi =
+        retrofit.create(RecordApi::class.java)
 }
 fun String.isJsonObject(): Boolean = runCatching { JSONObject(this) }.isSuccess
 fun String.isJsonArray(): Boolean = runCatching { JSONArray(this) }.isSuccess

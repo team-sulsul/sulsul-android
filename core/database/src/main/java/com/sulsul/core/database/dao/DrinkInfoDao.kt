@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DrinkInfoDao {
     @Query("SELECT * FROM record_drink WHERE recordId = :recordId")
-    fun getDrinkInfoListByRecordId(recordId: Int): Flow<List<DrinkInfoEntity>>
+    fun getDrinkInfoListByRecordId(recordId: Long): Flow<List<DrinkInfoEntity>>
 
     @Insert
     suspend fun insertDrinkInfo(drinkInfo: DrinkInfoEntity)
 
     @Query("DELETE FROM record_drink WHERE recordId = :recordId")
-    suspend fun deleteDrinkInfoByRecordId(recordId: Int) // recordId가 동일한 모든 drinkInfo 삭제
+    suspend fun deleteDrinkInfoByRecordId(recordId: Long) // recordId가 동일한 모든 drinkInfo 삭제
 }

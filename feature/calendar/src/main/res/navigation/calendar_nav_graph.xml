@@ -13,6 +13,8 @@
         <action
             android:id="@+id/action_mainFragment_to_drinkFragment"
             app:destination="@id/drinkFragment" />
+        <deepLink
+            app:uri="android-app://com.teamsulsul.sulsul/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/drinkFragment"

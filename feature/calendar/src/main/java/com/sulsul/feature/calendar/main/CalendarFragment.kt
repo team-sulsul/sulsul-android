@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sulsul.core.common.base.BaseFragment
-import com.sulsul.core.model.DrinkRecord
 import com.sulsul.feature.calendar.R
 import com.sulsul.feature.calendar.databinding.FragmentCalendarBinding
 import com.sulsul.feature.calendar.main.adapter.CalendarAdapter
@@ -35,25 +34,40 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeData()
+        initCalendar()
+        initObserver()
     }
 
-    private fun observeData() {
+    private fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.drinkRecordList.collect { records ->
-                initCalendar(records)
+            viewModel.recordList.collect { records ->
+                calendarAdapter.updateDrinkRecordList(records)
+                // calendarAdapter.selectedDate(viewModel.position)
             }
         }
     }
 
-    private fun initCalendar(data: List<DrinkRecord>) {
+    private fun initCalendar() {
         val dayOfWeeks = resources.getStringArray(R.array.calendar_day_of_weeks).toList()
         viewModel.pageIndex -= (Int.MAX_VALUE / 2)
-        calendarAdapter = CalendarAdapter(dayOfWeeks, data) { date, record ->
+        calendarAdapter = CalendarAdapter(dayOfWeeks) { position, date, record ->
             viewModel.setDate(date)
             viewModel.setRecord(record)
+            viewModel.getDrinkInfoById(record.id)
+            viewModel.position = position
         }
         calendarAdapter.calendarManager.setSelectedMonth(viewModel.pageIndex)
+
+        // TODO: 기록 작성 후 술 랭크 불러올 시 초기화 이슈 존재
+        if (viewModel.position == -1) {
+            if (viewModel.pageIndex == 0) {
+                // TODO : set selectedItem By Today
+            } else {
+                viewModel.position = calendarAdapter.calendarManager.getFirstDayPosition()
+            }
+        }
+
+        calendarAdapter.selectedDate(viewModel.position)
 
         binding.rvCalendar.apply {
             this.adapter = calendarAdapter

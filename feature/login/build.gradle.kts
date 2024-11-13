@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.core.datastore)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

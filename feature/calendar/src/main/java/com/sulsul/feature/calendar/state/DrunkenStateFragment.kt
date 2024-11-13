@@ -74,9 +74,15 @@ class DrunkenStateFragment : BaseFragment<FragmentDrunkenStateBinding>() {
         binding.tvDrunkenStateSave.setOnClickListener {
             if (args.drinkRecord.drunkennessLevel != viewModel.state) {
                 viewModel.updateStatus(args.drinkRecord.recordedAt, viewModel.state)
-            }
 
-            findNavController().popBackStack(R.id.mainFragment, false)
+                // 서버 데이터 전송
+                val updatedDrinkRecord = args.drinkRecord.copy(drunkennessLevel = viewModel.state)
+                viewModel.postStateRecord(updatedDrinkRecord) {
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                }
+            } else {
+                findNavController().popBackStack(R.id.mainFragment, false)
+            }
         }
     }
 
