@@ -244,12 +244,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun getDrunkenStatePercentage(drunkenData: MonthlyDrunkenState, stateValue: Int): Int {
-        val totalDrunkenState = drunkenData.apply {
-            drunkenLevel1Count + drunkenLevel2Count + drunkenLevel3Count + drunkenLevel4Count + drunkenLevel5Count
-        }.toString().toInt()
-        return stateValue / totalDrunkenState
-    }
+    private fun getDrunkenStatePercentage(totalDrunkenState: Int, drunkenData: MonthlyDrunkenState, stateValue: Int): Int = stateValue / totalDrunkenState
 
     private fun setDrinkDifferenceText() {
         val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
@@ -271,16 +266,19 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
             layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
 
-            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+            val totalDrunkenState = monthlyDrunkenState.drunkenLevel1Count + monthlyDrunkenState.drunkenLevel2Count + monthlyDrunkenState.drunkenLevel3Count + monthlyDrunkenState.drunkenLevel4Count + monthlyDrunkenState.drunkenLevel5Count
+            if (totalDrunkenState != 0) {
+                layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState2.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState3.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState4.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+            }
         }
     }
 

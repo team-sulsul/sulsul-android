@@ -18,5 +18,5 @@
     <string name="report_drunken_state_title">이달의 컨디션</string>
     <string name="report_summary_user">이번달 %s의 고래는?</string>
     <string name="report_add_drink_data">음주 기록을 추가하고\n%s의 고래를 확인하세요!</string>
-    <string name="report_summary_drink_data">%s를 좋아하는\n%s한 고래</string>
+    <string name="report_summary_drink_data">%s를 좋아하는\n%s 고래</string>
 </resources>
