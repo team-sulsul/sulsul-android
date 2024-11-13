@@ -100,6 +100,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/view_report_summary" />
 
             <ImageView
+                android:id="@+id/iv_report_drunken_whale"
                 android:layout_width="match_parent"
                 android:layout_height="212dp"
                 android:layout_marginTop="12dp"

@@ -52,11 +52,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         val localDate = LocalDate.now().withDayOfMonth(1) // 29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
         getReport(localDate)
         observeReportInfo()
-
         initLayout(localDate)
         initClickListener()
-        initLineChart()
-        initLineChartMarker()
     }
 
     private fun initClickListener() {
@@ -88,6 +85,24 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         setDrinkDifferenceText()
     }
 
+    private fun setWhale(state: String): Int {
+        return if (state.contains("멀")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_1
+        } else if ( state.contains("알")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_2
+        } else if ( state.contains("힘")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_3
+        } else if (state.contains("취")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_4
+        } else {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_5
+        }
+    }
+
+    private fun setWhaleImage(whaleImg: Int) {
+        binding.ivReportDrunkenWhale.setImageResource(whaleImg)
+    }
+
     private fun observeReportInfo() {
         lifecycleScope.launch {
             reportViewModel.reportInfo.collect { state ->
@@ -105,6 +120,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         val recentThreeMonthDrinks = state.data.recentThreeMonthDrinks
                         val monthlyDrunkenState = state.data.monthlyDrunkenState
 
+                        setWhaleImage(com.sulsul.core.designsystem.R.drawable.img_drunken_whale_default)
                         setSummaryText(nickname)
                         if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
@@ -115,17 +131,17 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                                 monthlyDrinkData.maxBeverage,
                                 monthlyDrunkenState.maxDrunkenStatus
                             )
+                            setWhaleImage(setWhale(monthlyDrunkenState.maxDrunkenStatus))
                             emptyViewVisible(false)
                             dataList.clear()
                             setDataList(recentThreeMonthDrinks)
-                            binding.apply {
-                                // 이달의 통계 요약
-                                // Todo : 술, 상태 최댓값 넣기
-                                // 최근 3개월 음주 빈도
-                                setDrinkDifferenceText()
-                                // 이달의 컨디션
-                                setDrunkenState(state.data.monthlyDrunkenState!!)
-                            }
+                            // 이달의 통계 요약
+                            // Todo : 술, 상태 최댓값 넣기
+                            // 최근 3개월 음주 빈도
+                            setDrinkDifferenceText()
+                            initLineChart()
+                            // 이달의 컨디션
+                            setDrunkenState(state.data.monthlyDrunkenState!!)
                         }
                     }
                 }
