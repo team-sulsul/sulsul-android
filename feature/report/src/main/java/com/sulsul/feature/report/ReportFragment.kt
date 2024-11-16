@@ -267,7 +267,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun getDrunkenStatePercentage(totalDrunkenState: Int, drunkenData: MonthlyDrunkenState, stateValue: Int): Int = stateValue / totalDrunkenState
 
     private fun setDrinkDifferenceText() {
-        val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
+        var drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
         if (drinkDifference > 0) {
             binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_more)
             binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
@@ -278,6 +278,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 )
             )
         } else {
+            drinkDifference = kotlin.math.abs(drinkDifference)
             binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_less)
             binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
                 getString(
