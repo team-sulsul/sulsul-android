@@ -264,7 +264,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun getDrunkenStatePercentage(totalDrunkenState: Int, drunkenData: MonthlyDrunkenState, stateValue: Int): Int = stateValue / totalDrunkenState
+    private fun getDrunkenStatePercentage(totalDrunkenState: Int, drunkenData: MonthlyDrunkenState, stateValue: Int): Int {
+        val percent = (stateValue.toFloat() / totalDrunkenState.toFloat()) * 100
+        return percent.toInt()
+    }
 
     private fun setDrinkDifferenceText() {
         var drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
