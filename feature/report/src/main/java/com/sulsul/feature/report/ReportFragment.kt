@@ -123,6 +123,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         setWhaleImage(com.sulsul.core.designsystem.R.drawable.img_drunken_whale_default)
                         setSummaryText(nickname)
                         dataList.clear()
+                        initDrunkenStatePercentage()
+
                         if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
                             dataList = arrayListOf(0, 0, 0)
@@ -308,6 +310,16 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
                     getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
             }
+        }
+    }
+
+    private fun initDrunkenStatePercentage() {
+        binding.apply {
+            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = 0
         }
     }
 
