@@ -279,6 +279,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                     "더"
                 )
             )
+        } else if (drinkDifference == 0) {
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_same)
+            binding.tvReportRecentMonthSummaryAmount.text = getString(R.string.report_recent_month_amount_same)
         } else {
             drinkDifference = kotlin.math.abs(drinkDifference)
             binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_less)
