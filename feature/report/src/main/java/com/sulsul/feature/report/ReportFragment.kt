@@ -122,8 +122,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
                         setWhaleImage(com.sulsul.core.designsystem.R.drawable.img_drunken_whale_default)
                         setSummaryText(nickname)
+                        dataList.clear()
                         if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
+                            dataList = arrayListOf(0, 0, 0)
                             emptyViewVisible(true)
                         } else {
                             binding.tvReportSummaryDrinkData.text = getString(
@@ -133,16 +135,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             )
                             setWhaleImage(setWhale(monthlyDrunkenState.maxDrunkenStatus))
                             emptyViewVisible(false)
-                            dataList.clear()
                             setDataList(recentThreeMonthDrinks)
-                            // 이달의 통계 요약
-                            // Todo : 술, 상태 최댓값 넣기
-                            // 최근 3개월 음주 빈도
-                            setDrinkDifferenceText()
-                            initLineChart()
                             // 이달의 컨디션
                             setDrunkenState(state.data.monthlyDrunkenState!!)
                         }
+                        // 최근 3개월 음주 빈도
+                        setDrinkDifferenceText()
+                        initLineChart()
                     }
                 }
             }
@@ -212,6 +211,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             extraBottomOffset = 10F
             xAxis.setDrawLabels(true)
 
+            entryList.clear()
             // 데이터 line
             dataList.forEachIndexed { index, d ->
                 entryList.add(Entry(index.toFloat(), d.toFloat()))
@@ -238,6 +238,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             data = LineData(listOf(lineDataSet))
             invalidate()
         }
+        initLineChartMarker()
     }
 
     private fun initLineChartMarker() {
