@@ -141,7 +141,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         }
                         // 최근 3개월 음주 빈도
                         setDrinkDifferenceText()
-                        initLineChart()
+                        setLineChart()
                     }
                 }
             }
@@ -169,7 +169,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
 
-    private fun initLineChart() {
+    private fun setLineChart() {
         binding.lineChartReport.apply {
             // zoom disabled
             setPinchZoom(false)
@@ -196,12 +196,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             xAxis.labelCount = dataList.size - 1
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    var curMonth = LocalDate.now().monthValue
-                    curMonth = 1
+                    val month = curDate.month.value
+                    var curMonth = month
                     var startMonth = curMonth - 2
                     if (curMonth <= 2) startMonth += 12
-                    // Todo : 월 수정 필요
-                    return (startMonth + value).toInt().toString() + "월"
+
+                    val returnMonth = (((startMonth + value) - 1) % 12 + 1).toInt().toString() + "월 "
+                    return returnMonth
                 }
             }
             xAxis.textColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_400)
