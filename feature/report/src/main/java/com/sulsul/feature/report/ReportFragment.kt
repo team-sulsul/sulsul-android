@@ -74,7 +74,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun isNextMonthValid(date :LocalDate): Boolean{
+    private fun isNextMonthValid(date: LocalDate): Boolean {
         val curMonth = LocalDate.now().monthValue
         return date.month.value != curMonth
     }
@@ -88,9 +88,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private fun setWhale(state: String): Int {
         return if (state.contains("멀")) {
             com.sulsul.core.designsystem.R.drawable.img_drunken_whale_1
-        } else if ( state.contains("알")) {
+        } else if (state.contains("알")) {
             com.sulsul.core.designsystem.R.drawable.img_drunken_whale_2
-        } else if ( state.contains("힘")) {
+        } else if (state.contains("힘")) {
             com.sulsul.core.designsystem.R.drawable.img_drunken_whale_3
         } else if (state.contains("취")) {
             com.sulsul.core.designsystem.R.drawable.img_drunken_whale_4
@@ -167,9 +167,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
 
         dataList.addAll(monthData.values)
-        Timber.d("dataList : ${dataList}")
+        Timber.d("dataList : $dataList")
     }
-
 
     private fun setLineChart() {
         binding.lineChartReport.apply {
@@ -301,7 +300,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
             layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
 
-            val totalDrunkenState = monthlyDrunkenState.drunkenLevel1Count + monthlyDrunkenState.drunkenLevel2Count + monthlyDrunkenState.drunkenLevel3Count + monthlyDrunkenState.drunkenLevel4Count + monthlyDrunkenState.drunkenLevel5Count
+            val totalDrunkenState =
+                monthlyDrunkenState.drunkenLevel1Count +
+                    monthlyDrunkenState.drunkenLevel2Count +
+                    monthlyDrunkenState.drunkenLevel3Count +
+                    monthlyDrunkenState.drunkenLevel4Count +
+                    monthlyDrunkenState.drunkenLevel5Count
             if (totalDrunkenState != 0) {
                 layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
                     getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
