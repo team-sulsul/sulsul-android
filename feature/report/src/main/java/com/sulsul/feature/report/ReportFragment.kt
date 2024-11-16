@@ -265,14 +265,25 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private fun setDrinkDifferenceText() {
         val drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
-        val differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
-        binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
-            getString(
-                R.string.report_recent_month_amount,
-                drinkDifference,
-                differenceString
+        if (drinkDifference > 0) {
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_more)
+            binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
+                getString(
+                    R.string.report_recent_month_amount,
+                    drinkDifference,
+                    "더"
+                )
             )
-        )
+        } else {
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_less)
+            binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
+                getString(
+                    R.string.report_recent_month_amount,
+                    drinkDifference,
+                    "덜"
+                )
+            )
+        }
     }
 
     private fun setDrunkenState(monthlyDrunkenState: MonthlyDrunkenState) {
