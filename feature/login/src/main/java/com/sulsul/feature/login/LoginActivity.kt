@@ -10,10 +10,14 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.sulsul.core.common.base.BaseActivity
+import com.sulsul.core.designsystem.R
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
 import com.sulsul.feature.login.viewModel.LoginViewModel
 import com.sulsul.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -24,12 +28,23 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private val loginViewModel: LoginViewModel by viewModels()
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
+    private var updateJob: Job? = null
+    private var whaleCurrentIndex = 0
+
+    val whaleDataSet = listOf(
+        Pair(R.drawable.img_drunken_whale_1, com.sulsul.feature.login.R.drawable.img_wave_1),
+        Pair(R.drawable.img_drunken_whale_2, com.sulsul.feature.login.R.drawable.img_wave_2),
+        Pair(R.drawable.img_drunken_whale_3, com.sulsul.feature.login.R.drawable.img_wave_3),
+        Pair(R.drawable.img_drunken_whale_4, com.sulsul.feature.login.R.drawable.img_wave_4),
+        Pair(R.drawable.img_drunken_whale_5, com.sulsul.feature.login.R.drawable.img_wave_5)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         callback()
         kakaoLogin()
+        changeWhale()
     }
 
     private fun callback() {
@@ -106,5 +121,27 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 }
             }
         }
+    }
+
+    private fun changeWhale() {
+        updateJob = lifecycleScope.launch {
+            while (isActive) {
+                updateUI()
+                delay(1500L)
+            }
+        }
+    }
+
+    private fun updateUI() {
+        val (imgWhale, imgWave) = whaleDataSet[whaleCurrentIndex]
+        binding.ivLoginLogo.setImageResource(imgWhale)
+        binding.ivWaveImg.setImageResource(imgWave)
+
+        whaleCurrentIndex = (whaleCurrentIndex + 1) % whaleDataSet.size
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        updateJob?.cancel()
     }
 }

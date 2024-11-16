@@ -7,6 +7,14 @@
     android:background="@color/white"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/iv_wave_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_wave_1"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <TextView
         android:id="@+id/tv_login_intro_title"
         style="@style/Headline1"
@@ -35,7 +43,7 @@
         android:id="@+id/iv_login_logo"
         android:layout_width="334dp"
         android:layout_height="350dp"
-        android:src="@drawable/img_logo"
+        android:src="@drawable/img_drunken_whale_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
