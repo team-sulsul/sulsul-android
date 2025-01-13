@@ -20,4 +20,9 @@ class TokenManager @Inject constructor(
         preferencesDataStore.updateTokenData(accessToken = accessToken)
         Timber.tag("updateToken").d("token updated")
     }
+
+    suspend fun clearTokenData() {
+        preferencesDataStore.clearTokenData()
+        Timber.tag("clearToken").d("token cleared")
+    }
 }

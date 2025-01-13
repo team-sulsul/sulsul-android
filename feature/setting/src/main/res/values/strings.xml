@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="setting_label">설정</string>
+    <string name="setting_total_drink_amount">지금까지 마신 술 %d병 %d잔</string>
     <string name="setting_version_info">버전 정보</string>
     <string name="setting_notification">공지사항</string>
     <string name="setting_terms_of_use">이용약관</string>

@@ -2,6 +2,7 @@ package com.sulsul.feature.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sulsul.core.data.TokenManager
 import com.sulsul.core.data.remote.model.response.UserInfoResponse
 import com.sulsul.core.data.remote.repository.SettingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,29 +13,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val settingRepository: SettingRepository
-)  : ViewModel() {
+    private val settingRepository: SettingRepository,
+    private val tokenManager: TokenManager
+) : ViewModel() {
 
-    private val _userInfo = MutableStateFlow<UserInfoResponse>(UserInfoResponse(nickname = "", drink = 0))
+    private val _userInfo = MutableStateFlow<UserInfoResponse>(UserInfoResponse(nickname = "", totalBottle = 0, totalDrink = 0))
     val userInfo: StateFlow<UserInfoResponse> = _userInfo
 
-    fun initialize(id: String) {
-        getUserInfo(id)
+    fun initialize() {
+        getUserInfo()
     }
 
-    fun getUserInfo(id: String) {
+    fun getUserInfo() {
         viewModelScope.launch {
-            settingRepository.getUserInfo(id).collect { data ->
+            settingRepository.getUserInfo().collect { data ->
                 _userInfo.value = data
             }
         }
     }
 
-    fun postDeleteAccount(id: String, onSuccess: () -> Unit) {
+    fun postDeleteAccount(onSuccess: () -> Unit) {
         viewModelScope.launch {
-            settingRepository.postDeleteAccount(id).collect {
+            settingRepository.postDeleteAccount().collect {
                 onSuccess()
             }
+        }
+    }
+
+    fun deleteToken() {
+        viewModelScope.launch {
+            tokenManager.clearTokenData()
         }
     }
 }

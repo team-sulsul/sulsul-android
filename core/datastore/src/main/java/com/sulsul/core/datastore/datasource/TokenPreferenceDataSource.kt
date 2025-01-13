@@ -27,4 +27,10 @@ class TokenPreferenceDataSource @Inject constructor(
             preferences[PreferencesKey.ACCESS_TOKEN] = accessToken
         }
     }
+
+    suspend fun clearTokenData() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKey.ACCESS_TOKEN)
+        }
+    }
 }

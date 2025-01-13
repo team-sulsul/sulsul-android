@@ -1,9 +1,16 @@
 package com.sulsul.feature.setting
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -28,16 +35,38 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingViewModel.initialize("")
+        settingViewModel.initialize()
         observeUserInfo()
         initListener()
+        setAppVersion()
+    }
+
+    private fun setAppVersion() {
+        val versionName = try {
+            requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
+
+        binding.tvSettingAppVersion.text = versionName ?: "0.0"
     }
 
     private fun observeUserInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
             settingViewModel.userInfo.collectLatest {
                 binding.tvSettingUserNickname.text = it.nickname
-                binding.tvSettingTotalAmount.text = it.drink.toString()
+
+                val amountComment = getString(R.string.setting_total_drink_amount, it.totalBottle, it.totalDrink)
+                val highlightColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.blue_300)
+                val startIndex = 10
+                val spannable = SpannableStringBuilder(amountComment)
+                spannable.setSpan(
+                    ForegroundColorSpan(highlightColor),
+                    startIndex,
+                    amountComment.length,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                binding.tvSettingTotalAmount.text = spannable
             }
         }
     }
@@ -69,7 +98,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 rightButton = getString(R.string.dialog_logout_execute),
                 onLeftButtonClicked = {},
                 onRightButtonClicked = {
-                    // 로그아웃 실행, sharedPreference에서 토큰 삭제
+                    settingViewModel.deleteToken()
+                    moveToLoginActivity()
                 }
             )
             logoutDialog.show(childFragmentManager, "LOGOUT_DIALOG")
@@ -81,8 +111,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         }
     }
 
-    private fun setNavAction(termUrl: String, title: String){
+    private fun setNavAction(termUrl: String, title: String) {
         val action = SettingFragmentDirections.actionSettingFragmentToTermsWebViewFragment(termUrl, title)
         findNavController().navigate(action)
+    }
+
+    private fun moveToLoginActivity() {
+        val intent = Intent()
+        intent.setClassName(requireContext(), "com.sulsul.feature.login.LoginActivity")
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        ActivityCompat.finishAffinity(requireActivity())
     }
 }

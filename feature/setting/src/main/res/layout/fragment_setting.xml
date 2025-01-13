@@ -24,9 +24,9 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/img_drunken_whale_default"
-        app:layout_constraintTop_toBottomOf="@id/tv_setting_title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_setting_title" />
 
     <TextView
         android:id="@+id/tv_setting_user_nickname"
@@ -71,6 +71,7 @@
             android:textColor="@color/gray_500" />
 
         <TextView
+            android:id="@+id/tv_setting_app_version"
             style="@style/Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,14 +172,14 @@
         style="@style/Title2"
         android:layout_width="367dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bg_gray400_border_r10"
         android:gravity="center"
-        android:layout_marginBottom="20dp"
         android:text="@string/setting_logout"
         android:textColor="@color/gray_400"
+        app:layout_constraintBottom_toTopOf="@id/tv_setting_delete_account"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_setting_delete_account" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_setting_delete_account"

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.navigation.fragment.navArgs
 import android.webkit.WebViewClient
@@ -49,6 +50,11 @@ class TermsWebViewFragment : BaseFragment<FragmentTermsWebviewBinding>() {
                     super.onReceivedError(view, request, error)
                 }
             }
+
+            this.settings.javaScriptEnabled = true
+            this.settings.domStorageEnabled = true
+            this.settings.mediaPlaybackRequiresUserGesture = false
+            this.settings.cacheMode = WebSettings.LOAD_DEFAULT
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.core.designsystem.view.dialog.OneButtonDialog
-import com.sulsul.core.designsystem.view.dialog.TwoButtonDialog
 import com.sulsul.feature.setting.databinding.FragmentDeleteAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,8 +46,8 @@ class DeleteAccountFragment : BaseFragment<FragmentDeleteAccountBinding>() {
                 subtitle = getString(R.string.dialog_delete_account_subtitle),
                 button = getString(R.string.dialog_delete_account_confirm),
                 onButtonClicked = {
-                    settingViewModel.postDeleteAccount("") {
-                        // sharedPreference에서 토큰 삭제
+                    settingViewModel.postDeleteAccount() {
+                        settingViewModel.deleteToken()
                         moveToLoginActivity()
                     }
                 }
@@ -62,8 +61,10 @@ class DeleteAccountFragment : BaseFragment<FragmentDeleteAccountBinding>() {
     }
 
     private fun moveToLoginActivity() {
-        val intent = Intent("com.example.login.LoginActivity")
-        ActivityCompat.finishAffinity(requireActivity())
+        val intent = Intent()
+        intent.setClassName(requireContext(), "com.sulsul.feature.login.LoginActivity")
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
+        ActivityCompat.finishAffinity(requireActivity())
     }
 }
