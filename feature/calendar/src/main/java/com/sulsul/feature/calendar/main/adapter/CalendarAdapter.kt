@@ -1,5 +1,6 @@
 package com.sulsul.feature.calendar.main.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,10 @@ import java.time.LocalDate
 
 class CalendarAdapter(
     private val dayOfWeeks: List<String>,
-    private val drinkRecordList: List<DrinkRecord>,
-    private val onClicked: (LocalDate, DrinkRecord) -> Unit
+    private val onClicked: (Int, LocalDate, DrinkRecord) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    val calendarManager = CalendarManager()
 
     private val curDate = LocalDate.now()
     private val curYear = curDate.year
@@ -25,7 +27,7 @@ class CalendarAdapter(
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
-    val calendarManager = CalendarManager()
+    private val drinkRecordList = ArrayList<DrinkRecord>()
 
     companion object {
         const val VIEW_TYPE_DAY_OF_WEEKS = 0
@@ -78,7 +80,9 @@ class CalendarAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is DayViewHolder -> holder.bind(dayOfWeeks[position])
-            is DateWithImageViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS], drinkRecordList)
+            is DateWithImageViewHolder -> {
+                holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS], drinkRecordList)
+            }
             is DateViewHolder -> holder.bind(calendarManager.dateList[position - DAY_OF_WEEKS])
         }
     }
@@ -94,15 +98,25 @@ class CalendarAdapter(
     }
 
     inner class DateWithImageViewHolder(private val binding: ItemDateWithImageBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(date: Int, records: List<DrinkRecord>) {
             if (date == 0) {
                 binding.containerCalendarItem.visibility = View.INVISIBLE
                 return
             }
 
+            setSelectedItem()
             bindDate(date)
             bindStateImage(date, records)
             bindItemClickListener(date, records)
+        }
+
+        private fun setSelectedItem() {
+            if (selectedPosition == adapterPosition) {
+                updateSelectedState(true)
+            } else {
+                updateSelectedState(false)
+            }
         }
 
         private fun bindDate(date: Int) {
@@ -110,41 +124,45 @@ class CalendarAdapter(
                 if (isToday(date)) {
                     setBackgroundResource(R.drawable.bg_blue300_circle)
                     setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.white))
+                } else {
+                    setBackgroundResource(0)
+                    setTextColor(context.getColor(com.sulsul.core.designsystem.R.color.gray_300))
                 }
+
                 text = date.toString()
             }
         }
 
         private fun bindStateImage(date: Int, records: List<DrinkRecord>) {
-            if (selectedPosition == adapterPosition) {
-                setSelected(true)
-            } else {
-                setSelected(false)
-            }
+            val matchingRecord = records.firstOrNull { isSameDate(it.recordedAt, date) }
 
-            val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
-            record?.let {
-                val icon = getDrunkenStateTheme(it.drunkennessLevel).icon
+            if (matchingRecord != null) {
+                val icon = getDrunkenStateTheme(matchingRecord.drunkennessLevel).icon
                 binding.ivCalendarItemState.setImageResource(icon)
+            } else {
+                val defaultIcon = com.sulsul.core.designsystem.R.drawable.ic_drunken_state_empty
+                binding.ivCalendarItemState.setImageResource(defaultIcon)
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         private fun bindItemClickListener(date: Int, records: List<DrinkRecord>) {
-            val record = records.firstOrNull { isSameDate(it.recordedAt, date) }
             binding.ivCalendarItemState.setOnClickListener {
+                val matchingRecord = records.firstOrNull { isSameDate(it.recordedAt, date) }
+                val selectedDate = calendarManager.getSelectedDate(date)
+
                 selectedPosition = adapterPosition
                 notifyDataSetChanged()
 
-                val selectedDate = calendarManager.getSelectedDate(date)
-
                 onClicked(
+                    selectedPosition,
                     selectedDate,
-                    record ?: DrinkRecord(recordedAt = selectedDate)
+                    matchingRecord ?: DrinkRecord(recordedAt = selectedDate)
                 )
             }
         }
 
-        private fun setSelected(isSelected: Boolean) {
+        private fun updateSelectedState(isSelected: Boolean) {
             if (isSelected) {
                 binding.ivCalendarItemState.setBackgroundResource(R.drawable.bg_blue300_circle)
             } else {
@@ -173,5 +191,15 @@ class CalendarAdapter(
         return (curYear == calendarManager.getSelectedYear()) &&
             (curMonth == calendarManager.getSelectedMonth()) &&
             (curDate.dayOfMonth == date)
+    }
+
+    fun updateDrinkRecordList(list: List<DrinkRecord>) {
+        drinkRecordList.clear()
+        drinkRecordList.addAll(list)
+    }
+
+    fun selectedDate(date: Int) {
+        selectedPosition = date
+        notifyItemChanged(selectedPosition)
     }
 }

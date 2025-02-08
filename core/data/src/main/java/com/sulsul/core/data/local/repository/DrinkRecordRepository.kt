@@ -25,7 +25,7 @@ class DrinkRecordRepository @Inject constructor(
         }
     }
 
-    private fun getDrinkInfoList(recordId: Int): Flow<List<DrinkInfo>> =
+    private fun getDrinkInfoList(recordId: Long): Flow<List<DrinkInfo>> =
         drinkInfoDao.getDrinkInfoListByRecordId(recordId).map { infoList ->
             infoList.map {
                 it.asExternalModel()
@@ -39,7 +39,7 @@ class DrinkRecordRepository @Inject constructor(
 
     private suspend fun addDrinkInfo(recordId: Long, drinkInfoList: List<DrinkInfo>) {
         drinkInfoList.forEach { info ->
-            val drinkInfoEntity = info.asEntity(recordId.toInt()) // 외래키 설정하여 DrinkInfoEntity 반환
+            val drinkInfoEntity = info.asEntity(recordId) // 외래키 설정하여 DrinkInfoEntity 반환
             drinkInfoDao.insertDrinkInfo(drinkInfo = drinkInfoEntity) // DrinkInfoEntity 삽입
             Log.d("술 데이터 저장", "$recordId, $drinkInfoEntity")
         }

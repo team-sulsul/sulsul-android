@@ -8,12 +8,13 @@ import java.time.LocalDate
 @Entity(tableName = "record")
 data class DrinkRecordEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0L,
     val recordedAt: LocalDate,
     var drunkennessLevel: String
 )
 
 fun DrinkRecordEntity.asExternalModel() = DrinkRecord(
+    id = id,
     recordedAt = recordedAt,
     drunkennessLevel = drunkennessLevel,
     drinks = emptyList()

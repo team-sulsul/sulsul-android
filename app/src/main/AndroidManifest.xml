@@ -18,7 +18,7 @@
         tools:targetApi="34" >
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_native_app_key"/>
+            android:value="${KAKAO_NATIVE_APP_KEY}"/>
     </application>
 
 </manifest>

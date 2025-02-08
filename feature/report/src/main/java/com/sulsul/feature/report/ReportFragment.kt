@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.data.remote.model.response.MonthlyDrinkAmount
 import com.sulsul.core.data.remote.model.response.MonthlyDrunkenState
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
@@ -36,7 +37,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
     private val reportViewModel: ReportViewModel by viewModels()
 
-    private var threeMonthDrinksDataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
+    private var dataList = arrayListOf(3, 5, 10) // 통신 실패를 위해 디폴트 데이터 설정
     private val entryList = arrayListOf<Entry>()
     private lateinit var curDate: LocalDate
     override fun getFragmentBinding(
@@ -52,11 +53,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         val localDate = LocalDate.now().withDayOfMonth(1) // 29일 이후로 없는 달도 있기 때문에 이번 달의 1일로 설정
         getReport(localDate)
         observeReportInfo()
-
         initLayout(localDate)
         initClickListener()
         initPieChart()
-        initLineChart()
         initLineChartMarker()
     }
 
@@ -78,11 +77,34 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
+    private fun isNextMonthValid(date: LocalDate): Boolean {
+        val curMonth = LocalDate.now().monthValue
+        return date.month.value != curMonth
+    }
+
     private fun initLayout(date: LocalDate) {
-        setDateTitleText(date)
+        setDateTitle(date)
         setSummaryText("유저123")
         setThisMonthDrinks()
         setDrinkDifferenceText()
+    }
+
+    private fun setWhale(state: String): Int {
+        return if (state.contains("멀")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_1
+        } else if (state.contains("알")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_2
+        } else if (state.contains("힘")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_3
+        } else if (state.contains("취")) {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_4
+        } else {
+            com.sulsul.core.designsystem.R.drawable.img_drunken_whale_5
+        }
+    }
+
+    private fun setWhaleImage(whaleImg: Int) {
+        binding.ivReportDrunkenWhale.setImageResource(whaleImg)
     }
 
     private fun observeReportInfo() {
@@ -102,9 +124,14 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         val recentThreeMonthDrinks = state.data.recentThreeMonthDrinks
                         val monthlyDrunkenState = state.data.monthlyDrunkenState
 
+                        setWhaleImage(com.sulsul.core.designsystem.R.drawable.img_drunken_whale_default)
                         setSummaryText(nickname)
+                        dataList.clear()
+                        initDrunkenStatePercentage()
+
                         if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
+                            dataList = arrayListOf(0, 0, 0)
                             emptyViewVisible(true)
                         } else {
                             binding.tvReportSummaryDrinkData.text = getString(
@@ -112,22 +139,39 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                                 monthlyDrinkData.maxBeverage,
                                 monthlyDrunkenState.maxDrunkenStatus
                             )
+                            setWhaleImage(setWhale(monthlyDrunkenState.maxDrunkenStatus))
                             emptyViewVisible(false)
-                            threeMonthDrinksDataList.clear()
-                            recentThreeMonthDrinks.forEach { threeMonthDrinksDataList.add(it.times) }
-                            binding.apply {
-                                // 이달의 통계 요약
-                                // Todo : 술, 상태 최댓값 넣기
-                                // 최근 3개월 음주 빈도
-                                setDrinkDifferenceText()
-                                // 이달의 컨디션
-                                setDrunkenState(state.data.monthlyDrunkenState!!)
-                            }
+                            setDataList(recentThreeMonthDrinks)
+                            // 이달의 컨디션
+                            setDrunkenState(state.data.monthlyDrunkenState!!)
                         }
+                        // 최근 3개월 음주 빈도
+                        setDrinkDifferenceText()
+                        setLineChart()
                     }
                 }
             }
         }
+    }
+
+    private fun setDataList(recentThreeMonthDrinks: ArrayList<MonthlyDrinkAmount>) {
+        Timber.d("curMonth : ${curDate.month.value}")
+        val curMonth = curDate.month.value
+        val monthData = mutableMapOf(
+            curMonth - 2 to 0,
+            curMonth - 1 to 0,
+            curMonth to 0
+        )
+
+        recentThreeMonthDrinks.forEach {
+            val month = it.date.substring(5, 7).toInt()
+            if (month in monthData.keys) {
+                monthData[month] = it.times
+            }
+        }
+
+        dataList.addAll(monthData.values)
+        Timber.d("dataList : $dataList")
     }
 
     private fun initPieChart() {
@@ -137,50 +181,59 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         binding.layoutReportThisMonthDrinks.itemReportPiechartview.setData(data, colors)
     }
 
-    private fun initLineChart() {
+    private fun setLineChart() {
         binding.lineChartReport.apply {
             // zoom disabled
             setPinchZoom(false)
             setScaleEnabled(false)
             isDoubleTapToZoomEnabled = false
 
-            axisRight.isEnabled = false
-            axisLeft.isEnabled = false
             legend.isEnabled = false
-            xAxis.isEnabled = true
-            extraTopOffset = 10F
             description.isEnabled = false
+            extraTopOffset = 10F
 
-            axisLeft.axisMinimum = 0F // y값 최솟값
-            axisLeft.axisMaximum = threeMonthDrinksDataList.max().toFloat() + 3.0F // 값 최댓값
-
-            // x값 grid 설정
-            xAxis.setDrawGridLines(true)
-            xAxis.gridLineWidth = 0.7F
-            xAxis.gridColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
-
-            // x축 설정
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.labelCount = threeMonthDrinksDataList.size - 1
-            xAxis.valueFormatter = object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    var curMonth = LocalDate.now().monthValue
-                    curMonth = 1
-                    var startMonth = curMonth - 2
-                    if (curMonth <= 2) startMonth += 12
-                    // Todo : 월 수정 필요
-                    return (startMonth + value).toInt().toString() + "월"
-                }
+            axisRight.isEnabled = false
+            axisLeft.let {
+                it.isEnabled = false
+                it.axisMinimum = 0F // y값 최솟값
+                it.axisMaximum = dataList.max().toFloat() + 3.0F // 값 최댓값
             }
-            xAxis.textColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_400)
-            xAxis.textSize = 11.0F
-            xAxis.axisLineColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
-            xAxis.axisLineWidth = 1.2F
+
+            xAxis.let {
+                it.isEnabled = true
+
+                // x값 grid 설정
+                it.setDrawGridLines(true)
+                it.gridLineWidth = 0.7F
+                it.gridColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
+
+                // x축 설정
+                it.position = XAxis.XAxisPosition.BOTTOM
+                it.labelCount = dataList.size - 1
+
+                it.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        val month = curDate.month.value
+                        var curMonth = month
+                        var startMonth = curMonth - 2
+                        if (curMonth <= 2) startMonth += 12
+
+                        val returnMonth = (((startMonth + value) - 1) % 12 + 1).toInt().toString() + "월 "
+                        return returnMonth
+                    }
+                }
+                it.textColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_400)
+                it.textSize = 11.0F
+                it.axisLineColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
+                it.axisLineWidth = 1.2F
+                it.setDrawLabels(true)
+            }
+            this.xAxis.yOffset = 10f // x축과 그래프 사이 띄우기
             extraBottomOffset = 10F
-            xAxis.setDrawLabels(true)
 
             // 데이터 line
-            threeMonthDrinksDataList.forEachIndexed { index, d ->
+            entryList.clear()
+            dataList.forEachIndexed { index, d ->
                 entryList.add(Entry(index.toFloat(), d.toFloat()))
             }
             val lineDataSet = LineDataSet(entryList, "data").apply {
@@ -205,6 +258,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             data = LineData(listOf(lineDataSet))
             invalidate()
         }
+        initLineChartMarker()
     }
 
     private fun initLineChartMarker() {
@@ -227,11 +281,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
-    private fun getDrunkenStatePercentage(drunkenData: MonthlyDrunkenState, stateValue: Int): Int {
-        val totalDrunkenState = drunkenData.apply {
-            drunkenLevel1Count + drunkenLevel2Count + drunkenLevel3Count + drunkenLevel4Count + drunkenLevel5Count
-        }.toString().toInt()
-        return stateValue / totalDrunkenState
+    private fun getDrunkenStatePercentage(totalDrunkenState: Int, drunkenData: MonthlyDrunkenState, stateValue: Int): Int {
+        val percent = (stateValue.toFloat() / totalDrunkenState.toFloat()) * 100
+        return percent.toInt()
     }
 
     private fun setThisMonthDrinks() {
@@ -275,15 +327,30 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
 
 
     private fun setDrinkDifferenceText() {
-        val drinkDifference = threeMonthDrinksDataList[threeMonthDrinksDataList.size - 1] - threeMonthDrinksDataList[threeMonthDrinksDataList.size - 2]
-        val differenceString = if (drinkDifference > 0) { "더" } else { "덜" }
-        binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
-            getString(
-                R.string.report_recent_month_amount,
-                drinkDifference,
-                differenceString
+        var drinkDifference = dataList[dataList.size - 1] - dataList[dataList.size - 2]
+        if (drinkDifference > 0) {
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_more)
+            binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
+                getString(
+                    R.string.report_recent_month_amount,
+                    drinkDifference,
+                    "더"
+                )
             )
-        )
+        } else if (drinkDifference == 0) {
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_same)
+            binding.tvReportRecentMonthSummaryAmount.text = getString(R.string.report_recent_month_amount_same)
+        } else {
+            drinkDifference = kotlin.math.abs(drinkDifference)
+            binding.tvReportRecentMonthSummary.text = getString(R.string.report_recent_month_summary_less)
+            binding.tvReportRecentMonthSummaryAmount.text = Html.fromHtml(
+                getString(
+                    R.string.report_recent_month_amount,
+                    drinkDifference,
+                    "덜"
+                )
+            )
+        }
     }
 
     private fun setDrunkenState(monthlyDrunkenState: MonthlyDrunkenState) {
@@ -294,16 +361,34 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             layoutReportDrunkenStateBar.tvReportDrunkenState4Value.text = monthlyDrunkenState.drunkenLevel4Count.toString()
             layoutReportDrunkenStateBar.tvReportDrunkenState5Value.text = monthlyDrunkenState.drunkenLevel5Count.toString()
 
-            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
-            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
-                getDrunkenStatePercentage(monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+            val totalDrunkenState =
+                monthlyDrunkenState.drunkenLevel1Count +
+                    monthlyDrunkenState.drunkenLevel2Count +
+                    monthlyDrunkenState.drunkenLevel3Count +
+                    monthlyDrunkenState.drunkenLevel4Count +
+                    monthlyDrunkenState.drunkenLevel5Count
+            if (totalDrunkenState != 0) {
+                layoutReportDrunkenStateBar.pbReportDrunkenState1.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel1Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState2.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel2Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState3.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel3Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState4.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel4Count)
+                layoutReportDrunkenStateBar.pbReportDrunkenState5.progress =
+                    getDrunkenStatePercentage(totalDrunkenState, monthlyDrunkenState, monthlyDrunkenState.drunkenLevel5Count)
+            }
+        }
+    }
+
+    private fun initDrunkenStatePercentage() {
+        binding.apply {
+            layoutReportDrunkenStateBar.pbReportDrunkenState1.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState2.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState3.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState4.progress = 0
+            layoutReportDrunkenStateBar.pbReportDrunkenState5.progress = 0
         }
     }
 
@@ -319,12 +404,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         } else {
             curDate.minus(1, ChronoUnit.MONTHS)
         }
-        setDateTitleText(date)
+        setDateTitle(date)
         return date
     }
 
-    private fun setDateTitleText(date: LocalDate) {
+    private fun setDateTitle(date: LocalDate) {
         binding.tvReportTitle.text = getString(R.string.report_title, date.year, Month.valueOf(date.month.toString()).value)
+        binding.ivReportArrowRight.visibility = if (isNextMonthValid(date)) View.VISIBLE else View.INVISIBLE
     }
 
     private fun setSummaryText(userName: String) {
