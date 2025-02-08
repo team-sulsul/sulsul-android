@@ -75,8 +75,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                style="@style/Headline2"
                 android:id="@+id/tv_report_summary_drink_data"
+                style="@style/Headline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -118,14 +118,14 @@
 
             <View
                 android:id="@+id/divider_report_1"
-                android:layout_width="372dp"
+                android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="18dp"
                 android:background="@color/gray_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_report_no_data" />
+                app:layout_constraintTop_toBottomOf="@id/layout_report_no_data"
+                app:layout_constraintWidth_percent="0.9" />
 
             <TextView
                 android:id="@+id/tv_report_recent_month_title"
@@ -173,14 +173,14 @@
 
             <View
                 android:id="@+id/divider_report_2"
-                android:layout_width="372dp"
+                android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="36dp"
                 android:background="@color/gray_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineChart_report" />
+                app:layout_constraintTop_toBottomOf="@id/lineChart_report"
+                app:layout_constraintWidth_percent="0.9" />
 
 
             <TextView
@@ -192,7 +192,7 @@
                 android:layout_marginTop="40dp"
                 android:text="@string/report_drunken_state_title"
                 android:textColor="@color/gray_500"
-                app:layout_constraintStart_toStartOf="@id/divider_report_2"
+                app:layout_constraintStart_toStartOf="@id/tv_report_recent_month_title"
                 app:layout_constraintTop_toBottomOf="@id/divider_report_2" />
 
             <include

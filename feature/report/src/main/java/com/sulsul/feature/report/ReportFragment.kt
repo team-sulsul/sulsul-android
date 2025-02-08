@@ -177,44 +177,51 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             setScaleEnabled(false)
             isDoubleTapToZoomEnabled = false
 
-            axisRight.isEnabled = false
-            axisLeft.isEnabled = false
             legend.isEnabled = false
-            xAxis.isEnabled = true
-            extraTopOffset = 10F
             description.isEnabled = false
+            extraTopOffset = 10F
 
-            axisLeft.axisMinimum = 0F // y값 최솟값
-            axisLeft.axisMaximum = dataList.max().toFloat() + 3.0F // 값 최댓값
-
-            // x값 grid 설정
-            xAxis.setDrawGridLines(true)
-            xAxis.gridLineWidth = 0.7F
-            xAxis.gridColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
-
-            // x축 설정
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.labelCount = dataList.size - 1
-            xAxis.valueFormatter = object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    val month = curDate.month.value
-                    var curMonth = month
-                    var startMonth = curMonth - 2
-                    if (curMonth <= 2) startMonth += 12
-
-                    val returnMonth = (((startMonth + value) - 1) % 12 + 1).toInt().toString() + "월 "
-                    return returnMonth
-                }
+            axisRight.isEnabled = false
+            axisLeft.let {
+                it.isEnabled = false
+                it.axisMinimum = 0F // y값 최솟값
+                it.axisMaximum = dataList.max().toFloat() + 3.0F // 값 최댓값
             }
-            xAxis.textColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_400)
-            xAxis.textSize = 11.0F
-            xAxis.axisLineColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
-            xAxis.axisLineWidth = 1.2F
-            extraBottomOffset = 10F
-            xAxis.setDrawLabels(true)
 
-            entryList.clear()
+            xAxis.let {
+                it.isEnabled = true
+
+                // x값 grid 설정
+                it.setDrawGridLines(true)
+                it.gridLineWidth = 0.7F
+                it.gridColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
+
+                // x축 설정
+                it.position = XAxis.XAxisPosition.BOTTOM
+                it.labelCount = dataList.size - 1
+
+                it.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        val month = curDate.month.value
+                        var curMonth = month
+                        var startMonth = curMonth - 2
+                        if (curMonth <= 2) startMonth += 12
+
+                        val returnMonth = (((startMonth + value) - 1) % 12 + 1).toInt().toString() + "월 "
+                        return returnMonth
+                    }
+                }
+                it.textColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_400)
+                it.textSize = 11.0F
+                it.axisLineColor = ContextCompat.getColor(requireContext(), com.sulsul.core.designsystem.R.color.gray_100)
+                it.axisLineWidth = 1.2F
+                it.setDrawLabels(true)
+            }
+            this.xAxis.yOffset = 10f // x축과 그래프 사이 띄우기
+            extraBottomOffset = 10F
+
             // 데이터 line
+            entryList.clear()
             dataList.forEachIndexed { index, d ->
                 entryList.add(Entry(index.toFloat(), d.toFloat()))
             }
