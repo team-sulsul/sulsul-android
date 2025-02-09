@@ -56,7 +56,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         initLayout(localDate)
         initClickListener()
         initPieChart()
-        initLineChartMarker()
     }
 
     private fun initClickListener() {
