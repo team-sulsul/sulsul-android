@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:paddingHorizontal="26dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -36,21 +35,28 @@
                 android:text="@string/report_drunken_state_1"
                 android:textColor="@color/gray_500" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ProgressBar
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/pb_report_drunken_state_1"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="262dp"
+                    android:layout_width="0dp"
+                    app:layout_constraintWidth_percent="0.63"
                     android:layout_height="12dp"
                     android:progress="0"
+                    app:layout_constraintEnd_toStartOf="@id/tv_report_drunken_state_1_value"
                     android:progressDrawable="@drawable/progress_drunken_state_1" />
 
                 <TextView
+                    app:layout_constraintStart_toEndOf="@id/pb_report_drunken_state_1"
+                    app:layout_constraintTop_toTopOf="@id/pb_report_drunken_state_1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:id="@+id/tv_report_drunken_state_1_value"
                     style="@style/Title3"
                     android:layout_width="wrap_content"
@@ -59,7 +65,7 @@
                     android:text="5"
                     android:textColor="@color/gray_500" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </LinearLayout>
 
