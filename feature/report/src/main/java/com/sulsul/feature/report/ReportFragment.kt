@@ -22,6 +22,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.sulsul.core.common.base.BaseFragment
 import com.sulsul.core.data.remote.model.response.MonthlyDrinkAmount
+import com.sulsul.core.data.remote.model.response.MonthlyDrinkData
 import com.sulsul.core.data.remote.model.response.MonthlyDrunkenState
 import com.sulsul.feature.report.databinding.FragmentReportBinding
 import com.sulsul.feature.report.viewModel.ReportViewModel
@@ -55,7 +56,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         observeReportInfo()
         initLayout(localDate)
         initClickListener()
-        initPieChart()
     }
 
     private fun initClickListener() {
@@ -86,6 +86,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         setSummaryText("유저123")
         setThisMonthDrinks()
         setDrinkDifferenceText()
+        initPieChart()
+        initDrunkenStatePercentage()
     }
 
     private fun setWhale(state: String): Int {
@@ -126,7 +128,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                         setWhaleImage(com.sulsul.core.designsystem.R.drawable.img_drunken_whale_default)
                         setSummaryText(nickname)
                         dataList.clear()
-                        initDrunkenStatePercentage()
 
                         if (monthlyDrinkData == null || monthlyDrunkenState == null) { // 기록된 술 데이터 없음
                             binding.tvReportSummaryDrinkData.text = getString(R.string.report_add_drink_data, nickname)
@@ -140,10 +141,16 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             )
                             setWhaleImage(setWhale(monthlyDrunkenState.maxDrunkenStatus))
                             emptyViewVisible(false)
+                            // 가장 많이 마신 술, 가장 적게 마신 술
+                            setMaxMinDrinks(monthlyDrinkData!!)
+//                            // 술 비율 원 그래프
+//                            setPieChart(monthlyDrinkData)
+                            // 최근 3개월 음주 데이터
                             setDataList(recentThreeMonthDrinks)
                             // 이달의 컨디션
                             setDrunkenState(state.data.monthlyDrunkenState!!)
                         }
+
                         // 최근 3개월 음주 빈도
                         setDrinkDifferenceText()
                         setLineChart()
@@ -178,6 +185,27 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         val colors = listOf(Color.RED, Color.GREEN, Color.BLUE)
 
         binding.layoutReportThisMonthDrinks.itemReportPiechartview.setData(data, colors)
+    }
+
+//    private fun setPieChart() {
+//        binding.layoutReportThisMonthDrinks.itemReportPiechartview.setData(data, colors)
+//    }
+
+    private fun setMaxMinDrinks(drink: MonthlyDrinkData) {
+        binding.layoutReportThisMonthDrinks.tvItemPiechartMostDrinkName.text = drink.maxBeverage
+        binding.layoutReportThisMonthDrinks.tvItemPiechartMostDrinkAmount.text= Html.fromHtml(
+            getString(
+                R.string.item_report_piechartview_summary,
+                drink.maxBeverageBottle.toString(),
+                drink.maxBeverageDrink.toString()
+            ))
+        binding.layoutReportThisMonthDrinks.tvItemPiechartLeastDrinkName.text = drink.minBeverage
+        binding.layoutReportThisMonthDrinks.tvItemPiechartLeastDrinkAmount.text = Html.fromHtml(
+            getString(
+                R.string.item_report_piechartview_summary,
+                drink.minBeverageBottle.toString(),
+                drink.minBeverageDrink.toString()
+            ))
     }
 
     private fun setLineChart() {
