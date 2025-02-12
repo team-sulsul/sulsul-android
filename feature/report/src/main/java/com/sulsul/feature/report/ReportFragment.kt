@@ -142,7 +142,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                             setWhaleImage(setWhale(monthlyDrunkenState.maxDrunkenStatus))
                             emptyViewVisible(false)
                             // 가장 많이 마신 술, 가장 적게 마신 술
-                            setMaxMinDrinks(monthlyDrinkData!!)
+                            setMaxMinDrinks(monthlyDrinkData)
 //                            // 술 비율 원 그래프
 //                            setPieChart(monthlyDrinkData)
                             // 최근 3개월 음주 데이터
