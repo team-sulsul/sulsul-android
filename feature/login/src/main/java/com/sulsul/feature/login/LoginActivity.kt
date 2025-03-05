@@ -10,6 +10,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.sulsul.core.common.base.BaseActivity
+import com.sulsul.core.common.base.Constants
 import com.sulsul.core.designsystem.R
 import com.sulsul.feature.login.databinding.ActivityLoginBinding
 import com.sulsul.feature.login.viewModel.LoginViewModel
@@ -42,8 +43,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val memberState = intent.getStringExtra(Constants.MEMBER_STATE)
+        if (memberState != null) {
+            Timber.d("memberState : $memberState")
+            if (memberState == Constants.SIGN_OUT) {
+                unlinkKakao()
+            }
+        }
+
         callback()
-        kakaoLogin()
+        initKakaoLogin()
         changeWhale()
     }
 
@@ -57,7 +66,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         }
     }
 
-    private fun kakaoLogin() {
+    private fun initKakaoLogin() {
         binding.ivLoginKakao.setOnClickListener {
             // kakao 실행 가능 여부
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
@@ -80,6 +89,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
+        }
+    }
+
+    private fun unlinkKakao() {
+        UserApiClient.instance.unlink { error ->
+            if (error != null) {
+                Timber.tag(TAG).d("[KakaoLogin] 연결 해제 실패 $error")
+            } else {
+                Timber.tag(TAG).d("[KakaoLogin] 카카오 계정 연결 해제 완료 (토큰 완전 삭제)")
             }
         }
     }
@@ -113,7 +132,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                     }
                     is LoginState.Success -> {
                         Timber.tag(TAG).d("[sulsul login] sulsul login success")
-                        Toast.makeText(this@LoginActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@LoginActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()

@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.common.base.Constants
 import com.sulsul.core.designsystem.view.dialog.TwoButtonDialog
 import com.sulsul.feature.setting.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,6 +121,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         val intent = Intent()
         intent.setClassName(requireContext(), "com.sulsul.feature.login.LoginActivity")
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra(Constants.MEMBER_STATE, Constants.LOG_OUT)
         startActivity(intent)
         ActivityCompat.finishAffinity(requireActivity())
     }
