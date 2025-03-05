@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -45,7 +44,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                         content.viewTreeObserver.removeOnPreDrawListener(this) // splash screen 제거
                         if (isLoginAvailable) {
                             Timber.d("[sulsul login] sulsul autoLogin success.")
-                            Toast.makeText(this@SplashActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this@SplashActivity, "술술 로그인 성공", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                         } else {
                             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
@@ -89,6 +88,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                     is TokenState.Success -> {
                         observeTokenValidState()
                     }
+                    else -> {}
                 }
             }
         }

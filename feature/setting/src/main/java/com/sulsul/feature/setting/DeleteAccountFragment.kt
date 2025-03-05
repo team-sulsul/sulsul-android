@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.sulsul.core.common.base.BaseFragment
+import com.sulsul.core.common.base.Constants
 import com.sulsul.core.designsystem.view.dialog.OneButtonDialog
 import com.sulsul.feature.setting.databinding.FragmentDeleteAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,7 @@ class DeleteAccountFragment : BaseFragment<FragmentDeleteAccountBinding>() {
         val intent = Intent()
         intent.setClassName(requireContext(), "com.sulsul.feature.login.LoginActivity")
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra(Constants.MEMBER_STATE, Constants.SIGN_OUT)
         startActivity(intent)
         ActivityCompat.finishAffinity(requireActivity())
     }
